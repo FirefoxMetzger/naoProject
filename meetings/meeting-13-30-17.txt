@@ -1,0 +1,39 @@
+# Agenda (Maybe some to next week):
+	- weekly meetings with
+		- code revision and merge into master
+		- progress of each member (brief)
+		- discussion of next steps -- tasks for coming week
+		- this meeting log
+	- git workflow - development branch and contribution
+	- general framework
+		- How catch attention and get person to interact
+		- How start a game
+		- How to finish up afterwards
+	- character of robot
+		- name, age, interests, curiosity -> how relate to game
+		- memnotic responses, 'slang', 'commonly used words'
+	- Testing of the robot
+		- Big research question
+		- questionaire for test with gameing society
+			- which goal with those questions
+		- profile for test with elderly people
+			- which goal with those questions
+	- first game: 20 questions
+		- how feedback on what was understood
+		- options for answers? http://www.20q.net/	
+		- learning new words
+		- which categories
+		- which classification algorithm works best
+		Deadline:
+	- assign tasks to each person for this week
+	- setup of coreography on all machines as well as python SDK for naoqi
+	- fill out specification
+
+# Session notes:
+
+# Tasks:
+
+Mike:
+Sam:
+Seb:
+Talha:

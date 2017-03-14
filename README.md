@@ -19,12 +19,13 @@ New versions are created by merging all features from development into master.
 ## Adding new Features using a feature branch:
 
 1) Create a feature branch (assuming your remote is called origin):
-
-    git checkout master
-    git pull origin
-    git checkout -b <feature-name>
-    git push -u origin <feature-name>
-    
+```
+git checkout master
+git pull origin
+git checkout -b <feature-name>
+git push -u origin <feature-name>
+```
+   
 Explaination: the first command checks out the master branch and the second one updates it. Then we create a new branch ('-b') named after the feature to be implemented and switch to that branch. Next we create the branch on the remote repository and tell get we wish to keep it 'in sync' ('-u') with ours.
     
 2) Write your changes and do what you have to do. Remember to commit regulary!

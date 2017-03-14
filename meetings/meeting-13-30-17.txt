@@ -33,6 +33,16 @@
 		- link milestones to issues
 
 # Session notes:
+	- we will use a centralized gitflow with development, patch, feature and master branch
+	- smalltalk in the beginning
+	- robot trys to control dialog
+	- general block diagram of interaction has been layed out
+	
+	personality:
+		- age: 10 
+		- gender: male
+		- curious (reacts to sudden movement or sound; amount of time it looks at one thing)
+		- competitiveness (how does it react to win/loss / challenge)
 
 # Tasks:
 

@@ -34,12 +34,12 @@ Explaination: the first command checks out the master branch and the second one 
 ## Adding a bugfix using a patch branch:
 
 1) Create a bugfix/patch branch (assuming your remote is called origin):
-
-    git checkout master
-    git pull origin
-    git checkout -b <bug-name>-<issue-number>
-    git push -u origin <bug-name>-<issue-number>
-    
+```
+git checkout master
+git pull origin
+git checkout -b <bug-name>-<issue-number>
+git push -u origin <bug-name>-<issue-number>
+```    
     For explaination of the commands, see above
     
 2) Write the fix.

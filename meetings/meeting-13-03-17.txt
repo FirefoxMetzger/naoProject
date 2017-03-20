@@ -46,7 +46,7 @@
 
 # Tasks:
 
-Mike:
-Sam:
-Seb:
-Talha:
+Mike: Write introduction / explaination for 20Q game and make robot say it
+Sam: create animations for winning and loosing
+Seb: create basic framework for interation of the pieces ; getTime and getDate
+Talha: get the openCV framework to run on the NAO

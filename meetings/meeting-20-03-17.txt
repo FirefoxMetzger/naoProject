@@ -16,7 +16,6 @@
 		- which classification algorithm works best
 		Deadline:
 	- assign tasks to each person for this week
-	- setup of coreography on all machines as well as python SDK for naoqi
 	- fill out specification
 		- create git milestones
 		- create git issues

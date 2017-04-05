@@ -4,7 +4,7 @@ import sys
 from time import sleep
 from math import radians
 from naoqi import ALProxy
-from lib.groups import *
+from groups import *
 from multiprocessing import Process
 
 

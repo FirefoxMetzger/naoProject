@@ -1,9 +1,0 @@
-
-Requirements:
-- Tell the time
-- Tell the date
-
-- Play 3 Games
-	- Play 20 questions game
-	- play categories
-	- play i spy

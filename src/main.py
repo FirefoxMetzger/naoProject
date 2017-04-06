@@ -9,6 +9,7 @@
 
 import sys
 import os.path
+from optparse import OptionParser
 
 from naoqi import ALBroker
 from naoqi import ALProxy
@@ -51,11 +52,15 @@ def main():
 if __name__ == "__main__":
     MAIN_BROKER = "127.0.0.1"#"10.42.0.208"
     MAIN_BROKER_PORT = 45441
-    previous_argument = ""
-    for arg in sys.argv:
-        if previous_argument == "--ip":
-            MAIN_BROKER = int(arg)
-        elif previous_argument == "--port":
-            MAIN_BROKER_PORT = int(arg)
-        previous_argument = arg
+
+    parser = OptionParser()
+    parser.add_option("--IP",type="string",dest="MAIN_BROKER")
+    parser.add_option("-p","--PORT",type="int",dest="MAIN_BROKER_PORT")
+    (options, args) = parser.parse_args()
+
+    if options.MAIN_BROKER:
+        MAIN_BROKER = options.MAIN_BROKER
+    if options.MAIN_BROKER_PORT:
+        MAIN_BROKER_PORT = options.MAIN_BROKER_PORT
+
     main()

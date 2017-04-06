@@ -25,10 +25,6 @@ class GameModule(ALModule):
         
         self.name = name
         self.game = Game(self.config, self.tts)
-        self.game.loop()
-        self.game.loop()
-        self.game.loop()
-        self.game.loop()
         
         # Subscribe to the FaceDetected event:
         global memory

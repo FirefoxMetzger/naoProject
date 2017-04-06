@@ -16,14 +16,15 @@ from naoqi import ALProxy
 from naoqi import ALModule
 
 from core.GameModule import GameModule
+from timer.timerModule import TimerModule
 
 def main():
     # get .ini file
     ini_filepath = ""
     ini_filename = "GameModule.conf"
     if not os.path.isfile(ini_filepath+ini_filename):
-            print("could not find default .ini, please select")
-            raise Exception("fileexception","The specified initialization file does not exist")
+        print("could not find default .ini, please select")
+        raise Exception("fileexception","The specified initialization file does not exist")
 
     # initialize brooker
     naoProject = ALBroker("naoProject",
@@ -36,8 +37,11 @@ def main():
 	
 
     #define global variables for all modules -- ugly but necessary (see naoqi documentation)
-    global question_game
-    question_game = GameModule("question_game",ini_filepath,ini_filename)
+    global question_module
+    question_module = GameModule("question_module",ini_filepath,ini_filename)
+
+    global timer_module
+    timer_module = TimerModule("timer_module")
 
     # keep brooker alive
     try:

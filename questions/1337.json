@@ -1,0 +1,5 @@
+{
+	"say_string":"Does it go on a leash?",
+	"labels":[{"name":"yes"},{"name":"no"}],
+	"qid":1337
+}

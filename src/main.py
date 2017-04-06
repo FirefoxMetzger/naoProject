@@ -51,7 +51,7 @@ def main():
                     
 if __name__ == "__main__":
     MAIN_BROKER = "127.0.0.1"#"10.42.0.208"
-    MAIN_BROKER_PORT = 45441
+    MAIN_BROKER_PORT = 9559
 
     parser = OptionParser()
     parser.add_option("--IP",type="string",dest="MAIN_BROKER")

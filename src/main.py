@@ -13,10 +13,10 @@ from optparse import OptionParser
 
 from naoqi import ALBroker
 from naoqi import ALProxy
-from naoqi import ALModule
 
 from core.GameModule import GameModule
 from timer.timerModule import TimerModule
+from speechRecognition.speechModule import SpeechModule
 
 def main():
     # get .ini file
@@ -34,7 +34,8 @@ def main():
        MAIN_BROKER_PORT)
 
     # load framework classes
-	
+    global speech_module
+    speech_module = SpeechModule("speech_module")
 
     #define global variables for all modules -- ugly but necessary (see naoqi documentation)
     global question_module

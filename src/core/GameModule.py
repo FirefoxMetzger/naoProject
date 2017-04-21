@@ -28,10 +28,6 @@ class GameModule(ALModule):
         
         # Subscribe to the FaceDetected event:
         global memory
-        memory = ALProxy("ALMemory")
-        memory.subscribeToEvent("FaceDetected",
-            self.name,
-            "onFaceDetected")
 			
         memory.subscribeToEvent("MiddleTactilTouched",
             self.name,
@@ -71,20 +67,3 @@ class GameModule(ALModule):
         #self.tts.say("I will remember your animal.")
         self.tts.say("If you want to play again, simply touch my head.")
         self.game = Game(self.config, self.tts)
-
-    def onFaceDetected(self, value, subscriberIdentifier):
-        """ This will be called each time a face is
-        detected.
-
-        """
-        # Unsubscribe to the event when talking,
-        # to avoid repetitions
-        memory.unsubscribeToEvent("FaceDetected",
-            self.name)
-
-        self.tts.say("You there. Fuck off! You are blocking my view.")
-
-        # Subscribe again to the event
-        memory.subscribeToEvent("FaceDetected",
-            self.name,
-            "onFaceDetected")

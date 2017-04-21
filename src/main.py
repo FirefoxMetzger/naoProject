@@ -32,27 +32,33 @@ def main():
        0,           # find free port
        MAIN_BROKER,
        MAIN_BROKER_PORT)
-
+    
     # load framework classes
+<<<<<<< HEAD
+=======
     global speech_module
     speech_module = SpeechModule("speech_module")
 
+>>>>>>> master
     #define global variables for all modules -- ugly but necessary (see naoqi documentation)
-    global question_module
-    question_module = GameModule("question_module",ini_filepath,ini_filename)
-
+    global speech_module
     global timer_module
-    timer_module = TimerModule("timer_module")
+    global question_module
+    
+    with SpeechModule("speech_module") as speech_module,\
+         TimerModule("timer_module") as timer_module:
 
-    # keep brooker alive
-    try:
-        while True:
-            continue
-    except KeyboardInterrupt:
-        print
-        print "interrupted -- shutting down"
-        naoproject.shutdown()
-        sys.exit(0)
+    #question_module = GameModule("question_module",ini_filepath,ini_filename)
+
+        # keep brooker alive
+        try:
+            while True:
+                continue
+        except KeyboardInterrupt:
+            print
+            print "interrupted -- shutting down"
+    naoProject.shutdown()
+    sys.exit(0)
                     
 if __name__ == "__main__":
     MAIN_BROKER = "127.0.0.1"#"10.42.0.208"

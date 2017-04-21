@@ -9,7 +9,7 @@ import time, sys, random
 
 def dateAndTime(time_opt=True, date_opt=True):
 
-    hour_name = ["midnight", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten", "eleven", "noon", "thirteen", "fourteen", "fifteen", "sixteen", "seventeen", "eighteen", "nineteen", "twenty", "twenty-one", "twenty-two", "twenty-three", "midnight"]
+    hour_name = ["midnight", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten", "eleven", "noon", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten", "eleven", "midnight"]
 
     date_name = ["ZEEROTH","First", "Second", "Third", "Fourth", "Fifth", "Sixth", "Seventh", "Eighth", "Ninth", "Tenth", "Eleventh", "Twelfth", "Thirteenth", "Fourteenth", "Fifteenth", "Sixteenth", "Seventeenth", "Eighteenth", "Nineteenth", "Twentieth", "Twenty-first", "Twenty-second", "Twenty-third", "Twenty-fourth", "Twenty-fifth", "Twenty-sixth", "Twenty-seventh", "Twenty-eighth", "Twenty-ninth", "Thirtieth", "Thirty-first"]
 
@@ -18,19 +18,13 @@ def dateAndTime(time_opt=True, date_opt=True):
             datenum = time.localtime(time.time() + 150)
     date = {"year": datenum[0], "month": datenum[1], "mday": datenum[2], "hour": datenum[3], "min": datenum[4], "sec": datenum[5], "wday": datenum[6], "yday": datenum[7], "isdst": datenum[8]}
 
-    random_seed = ""
-    for x in datenum[0:3]:
-            random_seed += str(x)
-    random.seed(random_seed)
 
     timestring = ""
 
     if (date_opt == True):
 
             timestring += time.strftime("%A, ", datenum)
-
             timestring += "the " + date_name[date["mday"]] + " of "
-
             timestring += time.strftime("%B, %Y", datenum)
 
     if (date_opt and time_opt == True):
@@ -85,7 +79,11 @@ def dateAndTime(time_opt=True, date_opt=True):
                     choices = ["Just shy of " + hour_name[date["hour"] + 1] , "Almost " + hour_name[date["hour"] + 1]]
                     if not date["hour"] % 12 == 0:
                             choices += ["About " + hour_name[date["hour"]] + " fifty-five"]
+
+
                     
             timestring += random.choice(choices)
+            if date["hour"] > 12:
+                timestring += " PM."
     
     return timestring

@@ -21,8 +21,13 @@ class SpeechModule(ALModule):
         self.memory.subscribeToEvent("HandRightBackTouched",self.name,"touchCallback")
         self.dialog.subscribe(self.name)
 
-    def __del__(self):
+    def __enter__(self):
+        return self
+
+    def __exit__(self, exec_type, exec_value, traceback):
         self.dialog.unsubscribe(self.name)
+        for topic in self.menu_topics:
+            self.dialog.unloadTopic(topic)
 
     def speechCallback(self, eventName, value, subscriberIdentifier):
         """ Comment needed to bind method
@@ -43,11 +48,22 @@ class SpeechModule(ALModule):
         self.memory.subscribeToEvent("HandRightBackTouched",self.name,"touchCallback")
 
     def addMenuTopic(self, topic_path):
-        name = self.dialog.loadTopic(topic_path)
-        self.menu_topics.append(name)
-        self.activateMenu()
+        """
+
+
+        """
+        try:
+            name = self.dialog.loadTopic(topic_path)
+        except RuntimeError:
+            print("Topic already loaded.")
+        else:
+            self.menu_topics.append(name)
+            self.activateMenu()
 
     def removeMenuTopic(self, name):
+        """
+
+        """
         try:
             self.menu_topics.remove(name)
         except ValueError:

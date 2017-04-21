@@ -34,12 +34,6 @@ def main():
        MAIN_BROKER_PORT)
     
     # load framework classes
-<<<<<<< HEAD
-=======
-    global speech_module
-    speech_module = SpeechModule("speech_module")
-
->>>>>>> master
     #define global variables for all modules -- ugly but necessary (see naoqi documentation)
     global speech_module
     global timer_module

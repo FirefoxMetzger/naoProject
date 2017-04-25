@@ -16,6 +16,7 @@ from naoqi import ALProxy
 
 from core.GameModule import GameModule
 from timer.timerModule import TimerModule
+from parameter_server.naoParameterServer import naoParameterServer
 from speechRecognition.speechModule import SpeechModule
 
 def main():
@@ -34,6 +35,10 @@ def main():
        MAIN_BROKER_PORT)
     
     # load framework classes
+    global parameter_server
+    parameter_server = naoParameterServer("parameter_server",\
+                                          "D:/Repos/naoProject/config/naoConfigServer.yaml")
+
     #define global variables for all modules -- ugly but necessary (see naoqi documentation)
     global speech_module
     global timer_module

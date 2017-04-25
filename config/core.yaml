@@ -1,0 +1,6 @@
+animal_path: animals/
+confidence_for_certain: 0.95
+confidence_for_discard: 0.05
+max_questions: 20
+panic_questions: 3
+question_path: questions/

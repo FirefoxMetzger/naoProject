@@ -1,2 +1,6 @@
-core: D:\Repos\naoProject\config\core.yaml
-naoParameterServer: D:\Repos\naoProject\config\naoConfigServer.yaml
+core:
+- config
+- core.yaml
+naoParameterServer:
+- config
+- naoConfigServer.yaml

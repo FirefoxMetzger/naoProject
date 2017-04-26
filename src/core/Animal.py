@@ -1,44 +1,57 @@
+import utility as util
+import logging
 
 from Answer import Answer
 
 class Animal:
-    def __init__(self, animal_dict, questions=list()):
+    def __init__(self, path, questions):
+        logging.basicConfig()
+        self.logger = logging.getLogger(__name__)
+        self.logger.info("Logging enabled for: " + __name__)
+        
+        animal_dict = util.loadYAML(self, path)
+
         try:
-            self.name = animal_dict["name"]
+            self.name = str(animal_dict["name"])
         except (KeyError):
             raise AssertionError("The Dictionary needs a field called name specifying the animal's name")
         except (TypeError):
             raise AssertionError("The field 'name' is supposed to be a string.")
-        
+       
+        self.text = str(animal_dict["text"])
+
         self.answers = dict()
         try:
             assert "answers" in animal_dict
         except (AssertionError):
             animal_dict["answers"] = dict()
-        
+
         for question in questions:
-            self.answers[str(question.qid)] = question.getEmptyAnswer()
+            self.answers[question.qid] = question.getEmptyAnswer()
+            self.logger.debug("Answer distribution: " +\
+                str(animal_dict["answers"][question.qid]))
             try:
-                frequency = animal_dict["answers"][str(question.qid)]
-                self.answers[str(question.qid)].setLabelFrequency(frequency)
+                frequencies = animal_dict["answers"][question.qid]
+                self.answers[question.qid].setLabelFrequency(frequencies)
             except (KeyError):
                 #the animal has no answer to this question 
                 #- stick with the default values
                 pass
             except (ValueError):
                 #the animal's answer is malformated -- log it
-                print("The stored answer to the question with QID "+str(question.qid)+" seems malformated.")
-                print("It is omitted.")
+                self.logger.warn(\
+                "The stored answer to the question with QID "+\
+                str(question.qid) + " seems malformated." + \
+                "It is omitted.")
             except (TypeError):
-                print("There is something wrong with the format"+
+                self.logger.error("There is something wrong with the format"+
                 " of question: "+str(question.qid))
         
         # the game engine uses these to track if the user thinks of this animal
         self.propability = 1.0
-        self.normalized_answer_distribution = dict()
 		
     def getAnswerDistribution(self,qid):
-        return self.answers[str(qid)].getDistribution()
+        return self.answers[qid].getDistribution()
             
     def getLabelPropability(self,qid,label_idx):
-        return self.answers[str(qid)].getLabelPropability(label_idx)
+        return self.answers[qid].getLabelPropability(label_idx)

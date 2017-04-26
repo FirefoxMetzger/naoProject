@@ -1,0 +1,7 @@
+text: "Does it go on a leash?"
+labels: ['yes', 'no']
+topic: 
+- questions
+- 1337.top
+topic_name: "1337"
+QID: 1337

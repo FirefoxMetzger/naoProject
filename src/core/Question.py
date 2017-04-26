@@ -1,41 +1,46 @@
-
 import random
+import logging
+from naoqi import ALProxy
 
 from Answer import Answer
-from Label import Label
+import utility as util
 
 class Question:
-    def __init__(self,question_dict):
-        try:
-            self.say_string = question_dict["say_string"]
-        except (KeyError):
-            raise AssertionError("A question must supply a string for the NAO to say")
-            
-        try:
-            self.qid = question_dict["qid"]
-        except (KeyError):
-            raise AssertionError("A question must supply a (unique) QID")       
-		
-        try:
-            assert "labels" in question_dict
-        except (AssertionError):
-            raise AssertionError("A question must supply answer categories -- no 'labels' provided")
-        
-        self.labels = list()
-        for label_dict in question_dict["labels"]:
-            self.labels.append(Label(label_dict))
+    def __init__(self,path):
+        logging.basicConfig()
+        self.logger = logging.getLogger(__name__)
+        self.logger.info("Logging enabled for: " + __name__)
+
+        self.memory = ALProxy("ALMemory")
+        self.speech = ALProxy("speech_module")
+        self.tts = ALProxy("ALTextToSpeech")
+
+        question_dict = util.loadYAML(self, path)
+
+        self.text = str(question_dict["text"])
+        self.labels = question_dict["labels"]
+        self.topic = question_dict["topic"]
+        self.qid = int(question_dict["QID"])
+        self.topic_name = str(question_dict["topic_name"])
+
         self.score = 0
-        
-        #TODO add fields needed for speech recognition
-		
+
+    def activate(self):
+        for label in self.labels:
+            self.memory.subscribeToEvent(str(label), "core", "AskedQuestionCallback")
+
+    def deactivate(self):
+        for label in self.labels:
+            self.memory.unsubscribeToEvent(str(label), "core")
+
     def updateScore(self, animals):
         avg_propability = 1.0 / len(self.labels)
-        answers = [animal.answers[str(self.qid)] for animal in animals]
+        answers = [animal.answers[self.qid] for animal in animals]
 
         seperation_score = 0.0
         total_dist = dict()
         for label in self.labels:
-            total_dist[label.name] = 0.0
+            total_dist[label] = 0.0
 
         for answer in answers:
             for label in answer.labelPropability:
@@ -59,11 +64,11 @@ class Question:
     def getEmptyAnswer(self):
         label_names = list()
         for label in self.labels:
-            label_names.append(label.name)
+            label_names.append(label)
         answer = Answer(label_names)
         return answer
 
-    def ask(self, tts):
-        print(str(self.say_string))
-        tts.say(str(self.say_string))
-        return self.labels[1].name
+    def ask(self):
+        self.tts.say(self.text)
+        print(self.text)
+        

@@ -1,15 +1,33 @@
-
-
 class Answer:
+    # a answer is a distribution over labels for a question and animal
+    # @frequency - how often has a label been observed
+    # @propability - label_freq / sum (all freq)
+    
     def __init__(self,label_names):
         self.labelPropability = dict()
         self.frequency = dict()
+        self.relativeLabelPropability = dict()
+        
         for name in label_names:
             self.labelPropability[name] = 0.0
             self.frequency[name] = 0
+            self.relativeLabelPropability[name] = 0.0
             
         self.normalize()
-			
+    
+    def reset(self):
+        for label in self.relativeLabelPropability.keys():
+            self.relativeLabelPropability[label] = \
+                    self.labelPropability[label]
+
+    def setRelativePropability(self, sumLabels):
+        for label in self.relativeLabelPropability.keys():
+            if sumLabels[label] == 0:
+                self.relativeLabelPropability[label] = 1.0
+            else:
+                self.relativeLabelPropability[label] = \
+                    self.labelPropability[label] / sumLabels[label]
+
     def getDistribution(self):
         return self.labelPropability
 		

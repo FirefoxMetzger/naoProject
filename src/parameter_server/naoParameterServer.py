@@ -2,8 +2,13 @@ import yaml
 import logging
 import os
 import copy
-
 from naoqi import ALModule
+
+def getAbsPath(base_path, chunks):
+    abs_path = base_path
+    for chunk in chunks:
+        abs_path = os.path.join(abs_path,chunk)
+    return abs_path
 
 class naoParameterServer(ALModule):
     def __init__(self, name, top_level_config):
@@ -12,17 +17,16 @@ class naoParameterServer(ALModule):
         
         logging.basicConfig()
         self.logger = logging.getLogger(__name__)
-        self.logger.info(" Initializing Configuration Server.")
-
+        self.logger.info("Initializing Configuration Server.")
+        
+        self.base_path = os.path.dirname(__file__)
+        self.base_path = os.path.join(self.base_path,'..','..')
+        self.base_path = os.path.abspath(self.base_path)
+        self.logger.debug("Base Path: " + str(self.base_path))
+        
         self.modules = dict()
 
-        full_path = os.path.abspath(top_level_config)
         self.loadModule("naoParameterServer", top_level_config)
-
-        for module_name in self.getParamNames():
-            path = self.getParam(module_name)
-            full_path = os.path.abspath(path)
-            self.setParam(module_name,full_path)
 
         for module_name in self.getParamNames():
             path = self.getParam(module_name)
@@ -31,6 +35,14 @@ class naoParameterServer(ALModule):
                          + " modules.")
             
         self.logger.info("Done initializing Configuration Server.")
+        
+    def __enter__(self):
+        return self
+
+    def __exit__(self, exec_type, exec_value, traceback):
+        for module in self.modules:
+            self.saveModule(module)
+        return
 
     # lambdas for the propper getters and setters for this module
     def getParam(self, param):
@@ -66,8 +78,6 @@ class naoParameterServer(ALModule):
             return value
 
     def setParameter(self, module_name, parameter_name, value):
-        """
-        """
         self.logger.debug(" In "+ module_name +
                           " changeing value " + parameter_name)
 
@@ -93,17 +103,18 @@ class naoParameterServer(ALModule):
     def saveModule(self, module_name):
         self.logger.debug(" Saving Config file for " + module_name)
 
-        location = self.getParam(module_name)
         config = self.getModuleConfig(module_name)
         
-        with open(location, 'w') as output:
+        location_parts = self.getParam(module_name)
+        abs_path = getAbsPath(self.base_path, location_parts)
+        with open(abs_path, 'w') as output:
             yaml.dump(config, output, default_flow_style=False)
-        
 
     def loadModule(self, module_name, module_path):
         self.logger.info(" Loading Config for module: " + module_name)
-
-        config = self.loadYAML(module_path)
+        
+        abs_path = getAbsPath(self.base_path, module_path)
+        config = self.loadYAML(abs_path)
 
         if len(config) == 0:
             self.logger.warning(" Ignoring module: '" + module_name +"'\n"+

@@ -8,7 +8,7 @@
 # any part of the program.
 
 import sys
-import os.path
+import os
 from optparse import OptionParser
 
 from naoqi import ALBroker
@@ -20,13 +20,6 @@ from parameter_server.naoParameterServer import naoParameterServer
 from speechRecognition.speechModule import SpeechModule
 
 def main():
-    # get .ini file
-    ini_filepath = ""
-    ini_filename = "GameModule.conf"
-    if not os.path.isfile(ini_filepath+ini_filename):
-        print("could not find default .ini, please select")
-        raise Exception("fileexception","The specified initialization file does not exist")
-
     # initialize brooker
     naoProject = ALBroker("naoProject",
        "0.0.0.0",
@@ -35,19 +28,22 @@ def main():
        MAIN_BROKER_PORT)
     
     # load framework classes
-    global parameter_server
-    parameter_server = naoParameterServer("parameter_server",\
-                                          "D:/Repos/naoProject/config/naoConfigServer.yaml")
-
+    
     #define global variables for all modules -- ugly but necessary (see naoqi documentation)
     global speech_module
     global timer_module
-    global question_module
-    
-    with SpeechModule("speech_module") as speech_module,\
-         TimerModule("timer_module") as timer_module:
+    global core
+    global parameter_server
 
-    #question_module = GameModule("question_module",ini_filepath,ini_filename)
+    base_path = os.path.dirname(__file__)
+    base_path = os.path.join(base_path , "..")
+
+    rel_path = ["config","naoConfigServer.yaml"]
+    
+    with naoParameterServer("parameter_server", rel_path) as parameter_server,\
+         SpeechModule("speech_module") as speech_module,\
+         TimerModule("timer_module") as timer_module,\
+         GameModule("core") as core:
 
         # keep brooker alive
         try:
@@ -60,7 +56,7 @@ def main():
     sys.exit(0)
                     
 if __name__ == "__main__":
-    MAIN_BROKER = "127.0.0.1"#"10.42.0.208"
+    MAIN_BROKER = "127.0.0.1"
     MAIN_BROKER_PORT = 9559
 
     parser = OptionParser()

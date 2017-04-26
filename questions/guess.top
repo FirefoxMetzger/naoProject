@@ -1,0 +1,5 @@
+topic: ~guess ()
+language:enu
+
+u:(Yes) $yes=1
+u:(no) $no=1

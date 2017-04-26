@@ -20,7 +20,7 @@ class Question:
         self.text = str(question_dict["text"])
         self.labels = question_dict["labels"]
         self.topic = question_dict["topic"]
-        self.qid = int(question_dict["QID"])
+        self.qid = question_dict["QID"]
         self.topic_name = str(question_dict["topic_name"])
 
         self.score = 0

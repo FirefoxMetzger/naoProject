@@ -28,9 +28,9 @@ class Animal:
 
         for question in questions:
             self.answers[question.qid] = question.getEmptyAnswer()
-            self.logger.debug("Answer distribution: " +\
-                str(animal_dict["answers"][question.qid]))
             try:
+                self.logger.debug("Answer distribution: " +\
+                    str(animal_dict["answers"][question.qid]))
                 frequencies = animal_dict["answers"][question.qid]
                 self.answers[question.qid].setLabelFrequency(frequencies)
             except (KeyError):

@@ -17,85 +17,107 @@ class GameModule(ALModule):
         self.logger = logging.getLogger(__name__)
         self.logger.info("Logging enabled for: " + self.name)
 
-        # init text to speach proxy
+        # get all the proxies used by this module
         self.tts = ALProxy("ALTextToSpeech")
         self.memory = ALProxy("ALMemory")
         self.dialog = ALProxy("ALDialog")
         self.speech = ALProxy("speech_module")
         self.params = ALProxy("parameter_server")
 
-        modules = self.params.getModuleList()
-        if self.name in modules:
-            self.logger.debug("Found my configuration parameters.")
-
-        self.registered_topics = list()
-        self.active_questions = list()
-        self.active_animals = list()
-
+        # pesky base path again -- should refactor this
         base_dir = os.path.dirname(__file__)
         base_dir = os.path.join(base_dir, "..", "..")
         self.base_dir = os.path.abspath(base_dir)
         self.logger.debug("Base path:" + self.base_dir)
+          
+        # initialize class attributes
+        self.text = ""
+        self.is_guess = False
+        self.current_question_wrapper = dict()
+        self.asked_questions = list()
+        self.active_questions = list()
+        self.active_animals = list()
+        self.registered_topics = list()
+        self.num_asked = 0
+        self.game_in_progress = False
 
-        # load questions
+        # load question topics
         question_list = self.params.getParameter(self.name,'questions')
         for rel_path in question_list:
             abs_path = util.getAbsPath(self.base_dir , rel_path)
             question = Question(abs_path)
-            self.active_questions.append(question)
-            
             question_path = util.getAbsPath(self.base_dir , question.topic)
             name = self.dialog.loadTopic(question_path)
             self.registered_topics.append(name)
-            
+
+        # load guess question    
         guess_path_relative = self.params.getParameter(self.name,"guess")
         abs_path = util.getAbsPath(base_dir , guess_path_relative)
         self.guess_question = Question(abs_path)
-        
+
+        # load guess' topic
         abs_path = util.getAbsPath(base_dir , self.guess_question.topic)
         name = self.dialog.loadTopic(abs_path)
         self.registered_topics.append(name)
 
-        # load animals
-        animal_list = self.params.getParameter(self.name,"animals")
-        for animal_path in animal_list:
-            abs_path = util.getAbsPath(base_dir , animal_path)
-            animal = Animal(abs_path, self.active_questions)
-            self.active_animals.append(animal)
-        
-        self.text = ""
-        self.is_guess = False
-
-        self.current_question_wrapper = dict()
-        self.asked_questions = list()
-
+        # register menu callbacks
+        self.memory.subscribeToEvent("NewGame", self.name, "NewGameCallback")
         self.dialog.subscribe(self.name)
-        self.num_asked = 0
 
+        # register menu topic (aka activate the game)
         rel_path = self.params.getParameter(self.name, "menu")
         abs_path = util.getAbsPath(base_dir , rel_path)
         self.speech.addMenuTopic(abs_path)
-        self.memory.subscribeToEvent("nextMove", self.name, "nextMoveCallback")
 
     def __enter__(self):
         return self
 
     def __exit__(self, exec_type, exec_value, traceback):
+        # unload question topics
         self.dialog.unsubscribe(self.name)
         for topic in self.registered_topics:
             self.dialog.unloadTopic(topic)
         return
 
+    def NewGameCallback(self, eventName, value):
+        self.logger.info("Setting up a new game.")
+
+        if self.game_in_progress:
+            system.info("Overwriting a game in progress.")
+        
+        # load questions
+        self.active_questions = list()
+        question_list = self.params.getParameter(self.name,'questions')
+        for rel_path in question_list:
+            abs_path = util.getAbsPath(self.base_dir , rel_path)
+            question = Question(abs_path)
+            self.active_questions.append(question)
+
+        # load animals
+        self.animal_list = list()
+        animal_list = self.params.getParameter(self.name,"animals")
+        for animal_path in animal_list:
+            abs_path = util.getAbsPath(self.base_dir , animal_path)
+            animal = Animal(abs_path, self.active_questions)
+            self.active_animals.append(animal)
+
+        # reset the number of questions asked
+        self.num_asked = 0
+        self.game_in_progress = True
+
+        # allow next move to start a new game
+        self.memory.subscribeToEvent("nextMove", self.name, "nextMoveCallback")
+
     def nextMoveCallback(self, eventName, value):
         self.memory.unsubscribeToEvent("nextMove", self.name)
-        self.gameTurn()
 
-    def gameTurn(self):
         self.logger.debug("Active Questions: " + str(len(self.active_questions)))
         self.logger.debug("Active Animals: " + str(len(self.active_animals)))
 
         if (len(self.active_animals) <= 0):
-            self.tts.say("I don't have any more animals to guess.")
+            self.tts.say("I concede, I don't know the animal.")
+            self.tts.say("If you want to play again, say new game")
+            self.game_in_progress = False
             return
 
         # choose between question or guess
@@ -133,19 +155,23 @@ class GameModule(ALModule):
                 
         self.normalizeAnimalPropability()
         self.removeUnlikelyAnimals()
+        self.num_asked += 1
 
         # if guess check if correct
         if self.is_guess and label == "yes":
-            self.tts.say("I have won. You thought of " + self.animal.name)
+            self.tts.say("I win! You thought of " + self.animal.name)
             self.active_animals = dict()
+            self.game_in_progress = False
             self.logger.info("Question Traceback: ")
             for question_wrapper in self.asked_questions:
                 self.logger.info(str(question_wrapper["QID"]) + " with answer: " + question_wrapper["label"] )
+            return
 
         # if maximum amount of questions asked loose
-        self.num_asked += 1
         if self.params.getParameter(self.name,"max_questions") <= self.num_asked:
-            self.tts.say("Okay, I don't know the animal. Please tell me.")
+            self.tts.say("Okay, I don't know the animal. You Win!")
+            self.game_in_progress = False
+            return
 
         self.memory.subscribeToEvent("nextMove",self.name, "nextMoveCallback")
 

@@ -18,6 +18,7 @@ from core.GameModule import GameModule
 from timer.timerModule import TimerModule
 from parameter_server.naoParameterServer import naoParameterServer
 from speechRecognition.speechModule import SpeechModule
+from experimentLogger.ExperimentLogger import ExperimentLogger
 
 def main():
     # initialize brooker
@@ -34,6 +35,7 @@ def main():
     global timer_module
     global core
     global parameter_server
+    global experiment_logger
 
     base_path = os.path.dirname(__file__)
     base_path = os.path.join(base_path , "..")
@@ -43,7 +45,8 @@ def main():
     with naoParameterServer("parameter_server", rel_path) as parameter_server,\
          SpeechModule("speech_module") as speech_module,\
          TimerModule("timer_module") as timer_module,\
-         GameModule("core") as core:
+         GameModule("core") as core, \
+         ExperimentLogger("experiment_logger") as experiment_logger:
 
         # keep brooker alive
         try:

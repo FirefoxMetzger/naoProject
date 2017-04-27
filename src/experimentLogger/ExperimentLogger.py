@@ -26,14 +26,6 @@ class ExperimentLogger(ALModule):
         else:
             self.has_speechDetection = True
             self.logger.info("Speech detection engine found.")
-            
-        self.memory.subscribeToEvent("WordRecognized", self.name,\
-                                  "WordRecognizedCallback")
-
-        self.memory.declareEvent("NewGame")
-        self.memory.subscribeToEvent("NewGame", self.name,\
-                                     "NewGameCallback")
-        self.logger.debug("Logger subscribed.")
 
         base_path = os.path.dirname(__file__)
         base_path = os.path.join(base_path, "..", "..")
@@ -43,11 +35,16 @@ class ExperimentLogger(ALModule):
         self.previous_games = 0
         self.game_running = False
 
-        #user data        
-        self.experiment_data = dict()
-        self.experiment_data["user"] = self.current_user
-        self.experiment_data["previous_games"] = 0
-        self.experiment_data["recognized"] = list()
+        #user data
+        self.resetExperiment()
+
+        self.memory.subscribeToEvent("WordRecognized", self.name,\
+                "WordRecognizedCallback")
+        self.memory.subscribeToEvent("GameEvent", self.name, \
+                "GameEventCallback")
+        self.memory.subscribeToEvent("NewGame", self.name,\
+                "NewGameCallback")
+        self.logger.debug("Logger subscribed.")
 
     def __enter__(self):
         return self
@@ -55,6 +52,14 @@ class ExperimentLogger(ALModule):
     def __exit__(self, exec_type, exec_value, traceback):
         self.memory.unsubscribeToEvent("WordRecognized",self.name)
         return
+
+    def GameEventCallback(self, eventName, value):
+        game_event = dict()
+        game_event["question"] = value[0]
+        game_event["answer"] = value[1]
+        game_event["timestamp"] = time.time()
+
+        self.experiment_data["game_event"].append(game_event)
 
     def WordRecognizedCallback(self, eventName, value):
         detection = dict()
@@ -70,13 +75,11 @@ class ExperimentLogger(ALModule):
         #save old log
         path = ["experimentData"]
         abs_path = self.getAbsPath(path)
-
         if self.previous_games == 0:
             file_name = self.current_user
         else:
             file_name = self.current_user + ('_'+str(self.previous_games))
         file_name = file_name + ('.log')
-        
         file_path = os.path.join(abs_path,file_name)
 
         with open(file_path, 'w') as output:
@@ -89,11 +92,15 @@ class ExperimentLogger(ALModule):
             self.previous_games = 0
         else:
             self.previous_games += 1
-            
+
+        self.resetExperiment()
+        
+    def resetExperiment(self):
         self.experiment_data = dict()
         self.experiment_data["user"] = self.current_user
         self.experiment_data["previous_games"] = self.previous_games
         self.experiment_data["recognized"] = list()
+        self.experiment_data["game_event"] = list()
 
     def generateName(self):
         path = ["experimentData"]

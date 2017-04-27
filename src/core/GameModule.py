@@ -144,6 +144,11 @@ class GameModule(ALModule):
         self.question.deactivate()
         self.dialog.deactivateTopic(self.question.topic_name)
 
+        game_event = list()
+        game_event.append(self.text)
+        game_event.append(label)
+        self.memory.raiseEvent("GameEvent", game_event)
+
         # if question update animals based on label
         if not self.is_guess:
             self.current_question_wrapper["label"] = label

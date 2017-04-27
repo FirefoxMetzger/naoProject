@@ -1,0 +1,7 @@
+text: "Does it have legs?"
+labels: ['yes', 'no']
+topic: 
+- questions
+- legs.top
+topic_name: "legs"
+QID: legs

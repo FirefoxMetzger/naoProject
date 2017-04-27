@@ -1,0 +1,7 @@
+topic: ~fur()
+language: enu
+#include possible answers topic
+include:answers.top
+
+u:(~yes) it has  fur $yes=1
+u:(~no) it does not have fur $no=1

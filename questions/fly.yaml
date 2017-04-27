@@ -1,0 +1,7 @@
+text: "Does it fly?"
+labels: ['yes', 'no']
+topic: 
+- questions
+- fly.top
+topic_name: "fly"
+QID: fly

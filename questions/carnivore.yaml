@@ -1,0 +1,7 @@
+text: "Does it eat other animals?"
+labels: ['yes', 'no']
+topic: 
+- questions
+- carnivore.top
+topic_name: "carnivore"
+QID: carnivore

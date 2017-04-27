@@ -1,0 +1,8 @@
+topic: ~fly()
+language: enu
+#include possible answers topic
+include:answers.top
+
+u:(~yes) it can fly $yes=1
+u:(~no) it cannot fly $no=1
+

@@ -1,0 +1,7 @@
+topic: ~legs()
+language: enu
+#include possible answers topic
+include:answers.top
+
+u:(~yes) it has legs $yes=1
+u:(~no) it does not have legs $no=1

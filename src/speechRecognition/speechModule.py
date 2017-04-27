@@ -18,7 +18,7 @@ class SpeechModule(ALModule):
         self.touch = ALProxy("ALTouch")
     
         self.dialog = ALProxy("ALDialog")
-        self.dialog.setLanguage("English")
+        self.dialog.setLanguage("enu")
 
         self.menu_topics = list()
 

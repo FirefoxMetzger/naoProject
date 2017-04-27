@@ -1,0 +1,7 @@
+text: "Does it have scales?"
+labels: ['yes', 'no']
+topic: 
+- questions
+- scales.top
+topic_name: "scales"
+QID: scales

@@ -1,0 +1,7 @@
+topic: ~live_in_house ()
+language: enu
+#include possible answers topic
+include:answers.top
+
+u:(~yes) It is living in a house. $yes=1
+u:(~no) It does not live in a house $no=1

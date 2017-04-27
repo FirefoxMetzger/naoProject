@@ -1,0 +1,21 @@
+animals:
+- - animals
+  - dog.yaml
+- - animals
+  - sheep.yaml
+confidence_for_certain: 0.95
+discard_propability: 0.05
+guess:
+- questions
+- guess.yaml
+max_questions: 20
+menu:
+- src
+- core
+- game_menu.top
+panic_questions: 3
+questions:
+- - questions
+  - 1337.yaml
+- - questions
+  - 2.yaml

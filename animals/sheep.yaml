@@ -1,0 +1,5 @@
+name: "sheep"
+text: "Is it a sheep?"
+answers:
+    leash:   {"yes":0, "no":10}
+    2:      {"yes":10, "no":0}

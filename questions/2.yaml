@@ -1,0 +1,7 @@
+text: "Does it live in a house?"
+labels: ['yes', 'no']
+topic: 
+- questions
+- 2.top
+topic_name: "2"
+QID: 2

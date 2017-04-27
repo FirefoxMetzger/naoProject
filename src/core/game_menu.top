@@ -1,0 +1,8 @@
+topic: ~Game ()
+language: enu
+
+u:(next) Next Move coming up ... $nextMove=1
+
+u:(New Game) Okay. Let's play a new game. Are you a new user?
+    u1:(Yes) Okay. I will go easy on you. $NewGame=1
+    u1:(No)  The game is on! $NewGame=0

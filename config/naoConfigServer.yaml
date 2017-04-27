@@ -1,0 +1,6 @@
+core:
+- config
+- core.yaml
+naoParameterServer:
+- config
+- naoConfigServer.yaml

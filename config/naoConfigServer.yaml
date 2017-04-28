@@ -1,6 +1,9 @@
 core:
 - config
 - core.yaml
+leds:
+- config
+- leds.yaml
 naoParameterServer:
 - config
 - naoConfigServer.yaml

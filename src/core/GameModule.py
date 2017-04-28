@@ -8,6 +8,7 @@ from Question import Question
 from Animal import Animal
 import utility as util
 
+
 class GameModule(ALModule):
     def __init__(self, name, on_robot):
         ALModule.__init__(self, name)
@@ -18,7 +19,7 @@ class GameModule(ALModule):
         self.logger.info("Logging enabled for: " + self.name)
 
         # get all the proxies used by this module
-        self.tts = ALProxy("ALTextToSpeech")
+        self.tts = ALProxy("mood")
         self.memory = ALProxy("ALMemory")
         self.dialog = ALProxy("ALDialog")
         self.speech = ALProxy("speech_module")
@@ -42,7 +43,7 @@ class GameModule(ALModule):
         self.game_in_progress = False
 
         # load question topics
-        question_list = self.params.getParameter(self.name,'questions')
+        question_list = self.params.getParameter(self.name, 'questions')
         for rel_path in question_list:
             self.logger.debug("Trying to load path: %s" % rel_path)
             abs_path = util.getAbsPath(self.base_dir , rel_path)
@@ -180,7 +181,7 @@ class GameModule(ALModule):
             self.game_in_progress = False
             self.logger.info("Question Traceback: ")
             for question_wrapper in self.asked_questions:
-                self.logger.info(str(question_wrapper["QID"]) + " with answer: " + question_wrapper["label"] )
+                self.logger.info(str(question_wrapper["QID"]) + " with answer: " + question_wrapper["label"])
             return
 
         # if maximum amount of questions asked loose

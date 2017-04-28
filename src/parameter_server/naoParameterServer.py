@@ -4,11 +4,13 @@ import os
 import copy
 from naoqi import ALModule
 
+
 def getAbsPath(base_path, chunks):
     abs_path = base_path
     for chunk in chunks:
         abs_path = os.path.join(abs_path,chunk)
     return abs_path
+
 
 class naoParameterServer(ALModule):
     def __init__(self, name, top_level_config):
@@ -46,9 +48,11 @@ class naoParameterServer(ALModule):
 
     # lambdas for the propper getters and setters for this module
     def getParam(self, param):
-        return self.getParameter("naoParameterServer",param)
+        return self.getParameter("naoParameterServer", param)
+
     def setParam(self, param, value):
-        return self.setParameter("naoParameterServer",param, value)
+        return self.setParameter("naoParameterServer", param, value)
+
     def getParamNames(self):
         return self.getParameterList("naoParameterServer")
 

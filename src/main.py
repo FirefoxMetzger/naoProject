@@ -20,7 +20,7 @@ from parameter_server.naoParameterServer import naoParameterServer
 from speechRecognition.speechModule import SpeechModule
 from experimentLogger.ExperimentLogger import ExperimentLogger
 
-def main():
+def main(is_on_robot):
     # initialize brooker
     naoProject = ALBroker("naoProject",
        "0.0.0.0",
@@ -44,8 +44,8 @@ def main():
     
     with naoParameterServer("parameter_server", rel_path) as parameter_server,\
          SpeechModule("speech_module") as speech_module,\
-         TimerModule("timer_module") as timer_module,\
-         GameModule("core") as core, \
+         TimerModule("timer_module", is_on_robot) as timer_module,\
+         GameModule("core", is_on_robot) as core, \
          ExperimentLogger("experiment_logger") as experiment_logger:
 
         # keep brooker alive
@@ -65,6 +65,7 @@ if __name__ == "__main__":
     parser = OptionParser()
     parser.add_option("--IP",type="string",dest="MAIN_BROKER")
     parser.add_option("-p","--PORT",type="int",dest="MAIN_BROKER_PORT")
+    parser.add_option("--on-robot", action="store_true", dest="IS_ON_ROBOT", default=False)
     (options, args) = parser.parse_args()
 
     if options.MAIN_BROKER:
@@ -72,4 +73,4 @@ if __name__ == "__main__":
     if options.MAIN_BROKER_PORT:
         MAIN_BROKER_PORT = options.MAIN_BROKER_PORT
 
-    main()
+    main(options.IS_ON_ROBOT)

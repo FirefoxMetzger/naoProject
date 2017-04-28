@@ -9,9 +9,10 @@ class TimerModule(ALModule):
     """ A class to fullfill basic requirements for AINT512
 
     """
-    def __init__(self,name):
+    def __init__(self,name, is_on_robot):
         ALModule.__init__(self, name)
         self.name = name
+        self.on_robot = is_on_robot
 
         self.memory = ALProxy("ALMemory")
         self.tts = ALProxy("ALTextToSpeech")
@@ -71,9 +72,12 @@ class TimerModule(ALModule):
         print(say_string)
 
     def getAbsPath(self, rel_path):
-        base = os.path.dirname(__file__)
-        base = os.path.join(base, "..", "..")
-        base = os.path.abspath(base)
+        if self.on_robot:
+            base = "/home/nao/naoProject"
+        else:
+            base = os.path.dirname(__file__)
+            base = os.path.join(base, "..", "..")
+            base = os.path.abspath(base)
 
         path = base
         for chunk in rel_path:

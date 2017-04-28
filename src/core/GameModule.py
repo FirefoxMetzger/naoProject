@@ -9,7 +9,7 @@ from Animal import Animal
 import utility as util
 
 class GameModule(ALModule):
-    def __init__(self, name):
+    def __init__(self, name, on_robot):
         ALModule.__init__(self, name)
         self.name = name
 
@@ -47,17 +47,24 @@ class GameModule(ALModule):
             self.logger.debug("Trying to load path: %s" % rel_path)
             abs_path = util.getAbsPath(self.base_dir , rel_path)
             question = Question(abs_path)
-            question_path = util.getAbsPath(self.base_dir , question.topic)
-            name = self.dialog.loadTopic(question_path)
+
+            if on_robot:
+                topic_path = util.getAbsPath("/home/nao/naoProject", question.topic)
+            else:
+                topic_path = util.getAbsPath(self.base_dir , question.topic)
+            name = self.dialog.loadTopic(topic_path)
             self.registered_topics.append(name)
 
         # load guess question    
         guess_path_relative = self.params.getParameter(self.name,"guess")
-        abs_path = util.getAbsPath(base_dir , guess_path_relative)
+        abs_path = util.getAbsPath(self.base_dir , guess_path_relative)
         self.guess_question = Question(abs_path)
 
         # load guess' topic
-        abs_path = util.getAbsPath(base_dir , self.guess_question.topic)
+        if on_robot:
+            abs_path = util.getAbsPath("/home/nao/naoProject", self.guess_question.topic)
+        else:
+            abs_path = util.getAbsPath(self.base_dir , self.guess_question.topic)
         name = self.dialog.loadTopic(abs_path)
         self.registered_topics.append(name)
 
@@ -67,7 +74,10 @@ class GameModule(ALModule):
 
         # register menu topic (aka activate the game)
         rel_path = self.params.getParameter(self.name, "menu")
-        abs_path = util.getAbsPath(base_dir , rel_path)
+        if on_robot:
+            abs_path = util.getAbsPath("/home/nao/naoProject", rel_path)
+        else:
+            abs_path = util.getAbsPath(base_dir , rel_path)
         self.speech.addMenuTopic(abs_path)
 
     def __enter__(self):

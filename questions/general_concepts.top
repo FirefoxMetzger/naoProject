@@ -7,6 +7,10 @@ concept:(I)[I we]
 concept:(it)[he she they it]
 concept:(anyone)[~I ~it]
 
+#---------------------------------------------------------------------------------------------------
+#concept for "~pronoun will"
+concept:(Iwill)[I'll we'll he'll she'll they'll "~anyone will"]
+
 #----------------------------------------------------------------------------------------------------
 #this concept is for verb objects
 concept:(it)[that this it]
@@ -43,3 +47,8 @@ concept:(mostoftime)["[most some] of the time"]
 #-----------------------------------------------------------------------------------------------------
 #believe synonyms
 concept:(think)[think thinks believe believes]
+
+#-----------------------------------------------------------------------------------------------------
+#this concept is for desire
+concept:(want)[wants wants desire desires need needs]
+

@@ -5,8 +5,8 @@ include:general_concepts.top
 
 #-------------------------------------------------------------------------------------------------------------------
 #certain and uncertain answers are grouped, if non-binary answers can be returned, then return separately
-concept:(possibly)["~maybe {~anyone} {~can} !~not" "~definitely {~anyone} {~can}" "~anyone ~think so" ~mostoftime]
-concept:(possiblynot)["~anyone ~think * ~not " "~anyone ~not ~think so"]
+concept:(possibly)["~maybe {~anyone} {~can} !~not" "~definitely {~anyone} {~can}" "{~anyone ~think} ~anyone ~can" ~mostoftime]
+concept:(possiblynot)["~anyone ~think {~anyone} ~not " "~anyone ~not ~think so"]
 
 #-----------------------------------------------------------------------------------------------------
 #concepts for answers

@@ -75,7 +75,8 @@ class TimerModule(ALModule):
         base = os.path.join(base, "..", "..")
         base = os.path.abspath(base)
 
+        path = base
         for chunk in rel_path:
-            path = os.path.join(base , chunk)
+            path = os.path.join(path , chunk)
 
         return os.path.abspath(path)

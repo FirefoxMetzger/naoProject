@@ -1,6 +1,7 @@
-topic: ~unique_timer_menu ()
+topic: ~timer_menu ()
 language: enu
 
 u:(["What's the time" time]) time $sayTime=1
-u:(What's the date) date $sayDate=1
+u:(["What's the date" date]) date $sayDate=1
 u:(Set a timer for _[1 2 3 4 5 6] seconds) $1 seconds $setTimer=$1
+u:(test) This is a test sentence.

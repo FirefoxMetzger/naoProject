@@ -47,7 +47,8 @@ class GameModule(ALModule):
         # load question topics
         question_list = self.params.getParameter(self.name, 'questions')
         for rel_path in question_list:
-            abs_path = util.getAbsPath(self.base_dir, rel_path)
+            self.logger.debug("Trying to load path: %s" % rel_path)
+            abs_path = util.getAbsPath(self.base_dir , rel_path)
             question = Question(abs_path)
             question_path = util.getAbsPath(self.base_dir, question.topic)
             name = self.dialog.loadTopic(question_path)

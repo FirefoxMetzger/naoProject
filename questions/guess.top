@@ -1,5 +1,7 @@
 topic: ~guess ()
 language:enu
+#include possible answers topic
+include:answers.top
 
-u:(Yes) $yes=1
-u:(no) $no=1
+u:(~yes) yeaaaa baby $yes=1
+u:(~no) damn $no=1

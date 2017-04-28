@@ -19,9 +19,7 @@ class SpeechModule(ALModule):
         self.asr = ALProxy("ALSpeechRecognition")
         self.touch = ALProxy("ALTouch")
         self.dialog = ALProxy("ALDialog")
-
-        self.dialog.setLanguage("English")
-
+        self.dialog.setLanguage("enu")
         self.asr.setVisualExpression(False)
         self.asr.setAudioExpression(False)
 

@@ -1,5 +1,10 @@
 topic: ~leash ()
 language: enu
+#include possible answers topic
+include:answers.top
 
-u:([yes correct]) WoW $yes=1
-u:(no) Nope $no=1
+u:(~yes) it goes on a leash $yes=1
+u:(~no) it does not go on a leash $no=1
+#if yes or no was not recognised, then return repeat=1
+#u:($yes==0) $repeat=1
+#u:($no==0) $repeat=1

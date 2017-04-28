@@ -3,6 +3,8 @@ animals:
   - dog.yaml
 - - animals
   - sheep.yaml
+- - animals
+  - cat.yaml
 confidence_for_certain: 0.95
 discard_propability: 0.05
 guess:
@@ -10,12 +12,25 @@ guess:
 - guess.yaml
 max_questions: 20
 menu:
-- src
-- core
+- questions
 - game_menu.top
 panic_questions: 3
 questions:
 - - questions
-  - 1337.yaml
+  - leash.yaml
 - - questions
-  - 2.yaml
+  - live_in_house.yaml
+- - questions
+  - legs.yaml
+- - questions
+  - fly.yaml
+- - questions
+  - fur.yaml
+- - questions
+  - scales.yaml
+- - questions
+  - bigger_than_horse.yaml
+- - questions
+  - eggs_or_babies.yaml
+- - questions
+  - carnivore.yaml

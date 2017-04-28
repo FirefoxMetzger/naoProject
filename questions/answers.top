@@ -1,0 +1,19 @@
+topic: ~answers()
+language: enu
+#include general concepts
+include:general_concepts.top
+
+#-------------------------------------------------------------------------------------------------------------------
+#certain and uncertain answers are grouped, if non-binary answers can be returned, then return separately
+concept:(possibly)["~maybe {~anyone} {~can} !~not" "~definitely {~anyone} {~can}" "{~anyone ~think} ~anyone ~can" ~mostoftime]
+concept:(possiblynot)["~anyone ~think {~anyone} ~not " "~anyone ~not ~think so"]
+
+#-----------------------------------------------------------------------------------------------------
+#concepts for answers
+concept:(correct)[correct true positive ~ye ~maybe ~definitely ~possibly "{~ye} {thatis} !~not right" "{ye} {~whenit} {*} ~anyone ~can"]
+concept:(incorrect)[~na never incorrect ~possiblynot "~definitely ~not" "{~thatis} ~not ~correct"]
+
+#------------------------------------------------------------------------------------------------------
+#ensures that user's last decision is taken as the answer
+concept:(yes)["{* * * * *} ~correct"]
+concept:(no)["{* * * * *} ~incorrect"]

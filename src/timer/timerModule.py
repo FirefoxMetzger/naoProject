@@ -1,4 +1,4 @@
-
+import os
 import fuzzy_time as date
 import time
 
@@ -17,11 +17,12 @@ class TimerModule(ALModule):
         self.tts = ALProxy("ALTextToSpeech")
         self.speech = ALProxy("speech_module")
 
-        self.speech.addMenuTopic("/home/firefoxmetzger/Documents/naoProject/src/timer/timer_menu.top")
-
         self.memory.subscribeToEvent("sayDate", self.name, "sayDateCallback")
         self.memory.subscribeToEvent("sayTime", self.name, "sayTimeCallback")
         self.memory.subscribeToEvent("setTimer", self.name, "setTimerCallback")
+
+        path = self.getAbsPath(['src', 'timer', 'timer_menu.top'])
+        self.speech.addMenuTopic(path)
 
     def __enter__(self):
         return self
@@ -68,3 +69,14 @@ class TimerModule(ALModule):
         say_string = ("It is " + str(now))
         self.tts.say(str(say_string))
         print(say_string)
+
+    def getAbsPath(self, rel_path):
+        base = os.path.dirname(__file__)
+        base = os.path.join(base, "..", "..")
+        base = os.path.abspath(base)
+
+        path = base
+        for chunk in rel_path:
+            path = os.path.join(path , chunk)
+
+        return os.path.abspath(path)

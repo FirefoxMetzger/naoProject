@@ -1,0 +1,54 @@
+topic: ~general_concept ()
+language: enu
+
+#----------------------------------------------------------------------------------------------------
+#concepts for pronouns
+concept:(I)[I we]
+concept:(it)[he she they it]
+concept:(anyone)[~I ~it]
+
+#---------------------------------------------------------------------------------------------------
+#concept for "~pronoun will"
+concept:(Iwill)[I'll we'll he'll she'll they'll "~anyone will"]
+
+#----------------------------------------------------------------------------------------------------
+#this concept is for verb objects
+concept:(it)[that this it]
+
+#-----------------------------------------------------------------------------------------------------
+#negation of ideas, "no" has not been included to avoid problems with "no...it DOES swim"
+concept:(not)[not "does not" "doesn't" "will not" "won't" cannot "can't"]
+
+#-----------------------------------------------------------------------------------------------------
+concept:(ye)[ye yes yeh ya yup yep]
+concept:(na)[no na nah neh nuh nope]
+
+#-----------------------------------------------------------------------------------------------------
+#what happened was...
+concept:(thatis)["you got" "that is" "you got that"]
+
+#-----------------------------------------------------------------------------------------------------
+#conditional concept
+concept:(whenit)["when ~anyone" "if ~anyone"]
+
+#-----------------------------------------------------------------------------------------------------
+#ability concept
+concept:(can)[can does would did]
+
+#-----------------------------------------------------------------------------------------------------
+#words of uncertainty
+concept:(maybe)[maybe possibly might surely sometimes probably]
+
+#-----------------------------------------------------------------------------------------------------
+#concept for degree of certainty, this can be used to provide additional input to animal probability.
+concept:(definitely)[absolutely definitely undoubtedly certainly "sure does" always]
+concept:(mostoftime)["[most some] of the time"]
+
+#-----------------------------------------------------------------------------------------------------
+#believe synonyms
+concept:(think)[think thinks believe believes]
+
+#-----------------------------------------------------------------------------------------------------
+#this concept is for desire
+concept:(want)[wants wants desire desires need needs]
+

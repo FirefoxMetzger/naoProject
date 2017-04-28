@@ -1,0 +1,7 @@
+topic: ~carnivore()
+language: enu
+#include possible answers topic
+include:answers.top
+
+u:(~yes) it is a carnivore $yes=1
+u:(~no) it is not a carnivore $no=1

@@ -1,11 +1,11 @@
-name: "dog"
-text: "Is it a dog?"
+name: "cat"
+text: "Is it a cat?"
 answers:
-    live_in_house:  {"yes":10, "no":1}
+    live_in_house:  {"yes":2, "no":1}
     carnivore:      {"yes":5, "no":1}
     eggs_or_babies:  {"eggs":0, "babies":1}
     fur:    {"yes":10, "no":1}
     scales: {"yes":0, "no":1}
-    leash:  {"yes":10, "no":1}
-    horse:  {"yes":1, "no":10}
+    leash:  {"yes":1, "no":10}
+    horse:  {"yes":0, "no":1}
     legs:  {"yes":10, "no":1}

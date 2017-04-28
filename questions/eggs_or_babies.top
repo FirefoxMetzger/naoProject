@@ -1,0 +1,11 @@
+topic: ~eggs_or_babies()
+language: enu
+#include possible answers topic
+include:answers.top
+
+#uses ~not concept from general_concepts
+concept:(eggs)["!"~not" eggs" "first one" "~not * babies"]
+concept:(babies)["!"~not" babies" "~not eggs" "second one"]
+
+u:(~eggs) it has eggs $eggs=1
+u:(~babies) it has babies $babies=1

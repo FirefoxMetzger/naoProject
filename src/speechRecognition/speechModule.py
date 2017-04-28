@@ -16,9 +16,12 @@ class SpeechModule(ALModule):
 
         self.memory = ALProxy("ALMemory")
         self.tts = ALProxy("ALTextToSpeech")
+        self.asr = ALProxy("ALSpeechRecognition")
         self.touch = ALProxy("ALTouch")
         self.dialog = ALProxy("ALDialog")
         self.dialog.setLanguage("enu")
+        self.asr.setVisualExpression(False)
+        self.asr.setAudioExpression(False)
 
         self.menu_topics = list()
 

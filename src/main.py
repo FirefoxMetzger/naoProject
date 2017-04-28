@@ -19,6 +19,8 @@ from timer.timerModule import TimerModule
 from parameter_server.naoParameterServer import naoParameterServer
 from speechRecognition.speechModule import SpeechModule
 from experimentLogger.ExperimentLogger import ExperimentLogger
+from animation.animations import Animations
+from animation.LEDs import LEDs
 
 def main():
     # initialize brooker
@@ -36,17 +38,21 @@ def main():
     global core
     global parameter_server
     global experiment_logger
+    global leds
+    global animations
 
     base_path = os.path.dirname(__file__)
     base_path = os.path.join(base_path , "..")
 
-    rel_path = ["config","naoConfigServer.yaml"]
+    rel_path = ["config", "naoConfigServer.yaml"]
     
     with naoParameterServer("parameter_server", rel_path) as parameter_server,\
          SpeechModule("speech_module") as speech_module,\
          TimerModule("timer_module") as timer_module,\
-         GameModule("core") as core, \
-         ExperimentLogger("experiment_logger") as experiment_logger:
+         GameModule("core") as core,\
+         ExperimentLogger("experiment_logger") as experiment_logger,\
+         LEDs("leds") as leds,\
+         Animations("animations") as animations:
 
         # keep brooker alive
         try:

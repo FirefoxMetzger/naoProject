@@ -8,8 +8,11 @@ from Question import Question
 from Animal import Animal
 import utility as util
 
+
 class GameModule(ALModule):
+
     def __init__(self, name):
+
         ALModule.__init__(self, name)
         self.name = name
 
@@ -42,11 +45,11 @@ class GameModule(ALModule):
         self.game_in_progress = False
 
         # load question topics
-        question_list = self.params.getParameter(self.name,'questions')
+        question_list = self.params.getParameter(self.name, 'questions')
         for rel_path in question_list:
-            abs_path = util.getAbsPath(self.base_dir , rel_path)
+            abs_path = util.getAbsPath(self.base_dir, rel_path)
             question = Question(abs_path)
-            question_path = util.getAbsPath(self.base_dir , question.topic)
+            question_path = util.getAbsPath(self.base_dir, question.topic)
             name = self.dialog.loadTopic(question_path)
             self.registered_topics.append(name)
 
@@ -169,7 +172,7 @@ class GameModule(ALModule):
             self.game_in_progress = False
             self.logger.info("Question Traceback: ")
             for question_wrapper in self.asked_questions:
-                self.logger.info(str(question_wrapper["QID"]) + " with answer: " + question_wrapper["label"] )
+                self.logger.info(str(question_wrapper["QID"]) + " with answer: " + question_wrapper["label"])
             return
 
         # if maximum amount of questions asked loose

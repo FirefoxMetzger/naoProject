@@ -1,10 +1,11 @@
 import sys
 import logging
-
 from naoqi import ALModule
 from naoqi import ALProxy
 
+
 class SpeechModule(ALModule):
+
     def __init__(self, name):
         ALModule.__init__(self, name)
         self.name = name
@@ -15,14 +16,18 @@ class SpeechModule(ALModule):
 
         self.memory = ALProxy("ALMemory")
         self.tts = ALProxy("ALTextToSpeech")
+        self.asr = ALProxy("ALSpeechRecognition")
         self.touch = ALProxy("ALTouch")
-    
         self.dialog = ALProxy("ALDialog")
+
         self.dialog.setLanguage("English")
+
+        self.asr.setVisualExpression(False)
+        self.asr.setAudioExpression(False)
 
         self.menu_topics = list()
 
-        self.memory.subscribeToEvent("HandRightBackTouched",self.name,"touchCallback")
+        self.memory.subscribeToEvent("HandRightBackTouched", self.name, "touchCallback")
         self.dialog.subscribe(self.name)
    
     def __enter__(self):

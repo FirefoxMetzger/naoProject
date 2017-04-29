@@ -36,7 +36,7 @@ class MoodModule(NaoModule):
             memory.subscribeToEvent("emoBlink", self.name, "blinkingCallback")
             memory.subscribeToEvent("ALSpeechRecognition/Status", self.name,\
                                      "SpeechStatusCallback")
-            memory.subscribeToEvent("WordRecognized", self.name, "WordRecognized")
+            memory.subscribeToEvent("WordRecognized", self.name, "WordRecognizedCallback")
         else:
             self.logger.debug("Not setting up any callbacks")
 
@@ -84,43 +84,43 @@ class MoodModule(NaoModule):
     def WordRecognizedCallback(self, eventName, value):
         """ If a word was recognized either shine green (understood)
             or flash red (not understood)"""
-        self.handles("ALMemory").unsubscribeToEvent("WordRecognized", self.name)
+        self.handles["ALMemory"].unsubscribeToEvent("WordRecognized", self.name)
+        
+        self.logger.debug("Word Recognized Triggered with confidence %s", value[1])
 
-        if value[2] > 0.5:
-            self.leds.set_eyes('g')
-            self.leds.eyes_on()
-        elif value[2] > 0.35:
-            self.leds.set_eyes('r')
-            for idx in range(0,5):
-                self.leds.eyes_on()
-                time.sleep(0.05)
-                self.leds.eyes_off()
+        if float(value[1]) > 0.5:
+            self.handles["leds"].set_eyes('g')
+            self.handles["leds"].eyes_on()
+            self.logger.debug("I have understood.")
+        elif float(value[1]) > 0.20:
+            self.handles["leds"].set_eyes('r')
+            self.handles["leds"].eyes_on()
+                
+            self.logger.debug("Eyes Have flashed.")
 
         time.sleep(0.5)
-        self.leds.set_eyes('w')
-        self.leds.eyes_on()
+        self.handles["leds"].set_eyes('w')
+        self.handles["leds"].eyes_on()
         
-        self.handles("ALMemory").subscribeToEvent("WordRecognized", self.name, "WordRecognized")
+
+        
+        self.handles["ALMemory"].subscribeToEvent("WordRecognized", self.name, "WordRecognizedCallback")
 
     def SpeechStatusCallback(self, eventName, status):
         """ Report speech through ears only """
-        self.handles("ALMemory").unsubscribeToEvent("ALSpeechRecognition/Status", self.name)
 
         if status == "Idle":
             pass
         elif status == "ListenOn":
             pass
         elif status == "SpeechDetected":
-            self.leds.ears_on()
+            self.handles["leds"].ears_on()
         elif status == "EndOfProcess":
-            self.leds.ears_off()
+            self.handles["leds"].ears_off()
         elif status == "ListenOff":
             pass
         elif status == "Stop":
             pass
-        
-        self.handles("ALMemory").subscribeToEvent("ALSpeechRecognition/Status", self.name,\
-                                     "SpeechStatusCallback")
 
     # -------------------------------------
     # Overwritten from NaoModule

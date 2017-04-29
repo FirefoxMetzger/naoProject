@@ -56,6 +56,8 @@ class GameModule(NaoModule):
         rel_path = self.handles["parameter_server"].getParameter(self.name, "menu")
         abs_path = self.getTopicAbsPath(rel_path)
         self.handles["speech_module"].addMenuTopic(abs_path)
+        
+        self.handles["ALDialog"].compileAll()
 
     def getTopicAbsPath(self, rel_path):
         if self.on_robot:
@@ -84,7 +86,7 @@ class GameModule(NaoModule):
         self.logger.info("Setting up a new game.")
 
         if self.game_in_progress:
-            system.info("Overwriting a game in progress.")
+            self.logger.info("Overwriting a game in progress.")
         
         # load questions
         self.active_questions = list()
@@ -95,7 +97,7 @@ class GameModule(NaoModule):
             self.active_questions.append(question)
 
         # load animals
-        self.animal_list = list()
+        self.active_animals = list()
         animal_list = self.handles["parameter_server"].getParameter(self.name, "animals")
         for animal_path in animal_list:
             abs_path = self.getAbsPath(animal_path)
@@ -196,6 +198,10 @@ class GameModule(NaoModule):
         if self.hasHandle("ALDialog"):
             dialog = self.handles["ALDialog"]
             dialog.subscribe(self.name)
+            
+            speech = self.handles["speech_module"]
+            speech.deactivateMenu()
+            speech.activateMenu()
         else:
             self.logger.debug("No Handle to ALMemory")
         

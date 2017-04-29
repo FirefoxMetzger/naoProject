@@ -35,6 +35,7 @@ class TimerModule(NaoModule):
             
         if self.hasHandle("speech_module"):
             self.handles["speech_module"].addMenuTopic(path)
+            pass
         else:
             self.logger.debug("No Speech Topic.")
 

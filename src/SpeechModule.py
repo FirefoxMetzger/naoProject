@@ -33,7 +33,7 @@ class SpeechModule(NaoModule):
 
     def configureSpeechRecognition(self):
         if self.hasHandle("ALSpeechRecognition"):
-            asr = self.handles("ALSpeechRecognition")
+            asr = self.handles["ALSpeechRecognition"]
             asr.setVisualExpression(False)
             asr.setAudioExpression(False)
         else:
@@ -43,22 +43,18 @@ class SpeechModule(NaoModule):
     # Callbacks
     # -------------------------------------
 
-    def simpleMethod(self):
-        """ Test Method """
-        print "I have been bound and executed"
-
     def addMenuTopic(self, topic_path):
         """Try to load the given QiChat topic"""
         self.logger.debug("Adding QiChat topic %s" % topic_path)
         try:
-            name = self.handles["ALDialog"].loadTopic(topic_path)
+            dialog = self.handles["ALDialog"]
+            name = dialog.loadTopic(topic_path)
         except RuntimeError:
             self.logger.warning("Did not add topic from. From: %s" %\
                                 (topic_path))
         else:
             self.menu_topics.append(name)
             self.logger.debug("Added topic %s" % (name))
-            self.activateMenu()
 
     def activateMenu(self):
         """ activate all topics known to this module"""
@@ -71,8 +67,7 @@ class SpeechModule(NaoModule):
     def deactivateMenu(self):
         """ deactivate all topics known to this module"""
         if self.hasHandle("ALDialog"):
-            for topic in self.menu_topics:
-                topic_name = topic["name"]
+            for topic_name in self.menu_topics:
                 self.handles["ALDialog"].deactivateTopic(topic_name)
         else:
             self.logger.debug("Did not deactivate topics. No ALDialog module.")

@@ -1,45 +1,23 @@
 import yaml
-import logging
 import os
 import copy
-from naoqi import ALModule
 
+from NaoModule import NaoModule
 
-def getAbsPath(base_path, chunks):
-    abs_path = base_path
-    for chunk in chunks:
-        abs_path = os.path.join(abs_path,chunk)
-    return abs_path
-
-
-class naoParameterServer(ALModule):
+class ParameterServer(NaoModule):
     def __init__(self, name, top_level_config):
-        ALModule.__init__(self, name)
-        self.name = name
-        
-        logging.basicConfig()
-        self.logger = logging.getLogger(__name__)
-        self.logger.info("Initializing Configuration Server.")
-        
-        self.base_path = os.path.dirname(__file__)
-        self.base_path = os.path.join(self.base_path,'..','..')
-        self.base_path = os.path.abspath(self.base_path)
-        self.logger.debug("Base Path: " + str(self.base_path))
-        
+        NaoModule.__init__(self, name)
+
+        # init attributes
         self.modules = dict()
 
         self.loadModule("naoParameterServer", top_level_config)
-
         for module_name in self.getParamNames():
             path = self.getParam(module_name)
             self.loadModule(module_name, path)
+            
         self.logger.info(" Succesfully loaded " + str(len(self.modules))
                          + " modules.")
-            
-        self.logger.info("Done initializing Configuration Server.")
-        
-    def __enter__(self):
-        return self
 
     def __exit__(self, exec_type, exec_value, traceback):
         for module in self.modules:
@@ -57,6 +35,7 @@ class naoParameterServer(ALModule):
         return self.getParameterList("naoParameterServer")
 
     def getModuleList(self):
+        """return a list of modules for which parameters are present"""
         return self.modules.keys()
 
     # get and set parameters
@@ -82,6 +61,7 @@ class naoParameterServer(ALModule):
             return value
 
     def setParameter(self, module_name, parameter_name, value):
+        """set a parameter in a module"""
         self.logger.debug(" In "+ module_name +
                           " changeing value " + parameter_name)
 
@@ -110,14 +90,14 @@ class naoParameterServer(ALModule):
         config = self.getModuleConfig(module_name)
         
         location_parts = self.getParam(module_name)
-        abs_path = getAbsPath(self.base_path, location_parts)
+        abs_path = self.getAbsPath(location_parts)
         with open(abs_path, 'w') as output:
             yaml.dump(config, output, default_flow_style=False)
 
     def loadModule(self, module_name, module_path):
         self.logger.info(" Loading Config for module: " + module_name)
         
-        abs_path = getAbsPath(self.base_path, module_path)
+        abs_path = self.getAbsPath(module_path)
         config = self.loadYAML(abs_path)
 
         if len(config) == 0:
@@ -155,7 +135,3 @@ class naoParameterServer(ALModule):
                 finally:
                     config = config or dict()
         return config
-
-if __name__ == "__main__":
-    logging.getLogger().setLevel("INFO")
-    a = naoParameterServer("foo", "D:/Repos/naoProject/config/naoConfigServer.yaml")

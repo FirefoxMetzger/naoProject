@@ -4,20 +4,27 @@ import sys
 import math
 from time import sleep
 from naoqi import ALProxy
-from naoqi import ALModule
+
+from NaoModule import NaoModule
 
 
-class LEDs(ALModule):
+class LEDs(NaoModule):
 
     def __init__(self, name):
-        ALModule.__init__(self, name)
-        try:
-            self.leds = ALProxy("ALLeds")
-        except Exception, error:
-            print "Could not create proxy to ALLeds"
-            print "Error was: ", error
-            sys.exit(1)
-        self.params = ALProxy("parameter_server")
+        NaoModule.__init__(self, name)
+
+        self.getHandle("parameter_server", True)
+        self.getHandle("ALLeds", True)
+        
+        #refactor me
+        if self.hasHandle("parameter_server"):
+            self.params = self.handles["parameter_server"]
+
+        if self.hasHandle("ALLeds"):
+            self.leds = self.handles["ALLeds"]
+        else:
+            logger.info("This module will not do anything.")
+        
         self.set_eyes('w')
         self.eyes_on()
 
@@ -106,12 +113,6 @@ class LEDs(ALModule):
         self.leds.off("Lower")
         sleep(time / 2.0)
         self.leds.off("Middle")
-
-    def __enter__(self):
-        return self
-
-    def __exit__(self, exec_type, exec_value, traceback):
-        return
 
 
 def get_color_list(col):

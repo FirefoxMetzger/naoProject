@@ -14,14 +14,15 @@ from optparse import OptionParser
 from naoqi import ALBroker
 from naoqi import ALProxy
 
-from core.GameModule import GameModule
-from timer.timerModule import TimerModule
-from parameter_server.naoParameterServer import naoParameterServer
-from speechRecognition.speechModule import SpeechModule
-from mood.moodModule import MoodModule
-from experimentLogger.ExperimentLogger import ExperimentLogger
-from animation.animations import Animations
-from animation.LEDs import LEDs
+from ParameterServer import ParameterServer
+from LEDs import LEDs
+from Animations import Animations
+from ExperimentLogger import ExperimentLogger
+from MoodModule import MoodModule
+from SpeechModule import SpeechModule
+from TimerModule import TimerModule
+from GameModule import GameModule
+from minimal import Minimal
 
 def main(is_on_robot):
     # initialize brooker
@@ -37,7 +38,7 @@ def main(is_on_robot):
     global mood
     global speech_module
     global timer_module
-    global core
+    global game_module
     global parameter_server
     global experiment_logger
     global leds
@@ -47,15 +48,15 @@ def main(is_on_robot):
     base_path = os.path.join(base_path , "..")
 
     rel_path = ["config", "naoConfigServer.yaml"]
-    
-    with naoParameterServer("parameter_server", rel_path) as parameter_server,\
-         LEDs("leds") as leds,\
-         MoodModule("mood") as mood, \
+
+    with ParameterServer("parameter_server", rel_path) as parameter_server,\
          SpeechModule("speech_module") as speech_module,\
+         LEDs("leds") as leds,\
+         Animations("animations") as animations,\
+         MoodModule("mood") as mood, \
          TimerModule("timer_module", is_on_robot) as timer_module,\
-         GameModule("core", is_on_robot) as core,\
-         ExperimentLogger("experiment_logger") as experiment_logger,\
-         Animations("animations") as animations:
+         GameModule("game_module", is_on_robot) as game_module,\
+         ExperimentLogger("experiment_logger") as experiment_logger:
 
         # keep brooker alive
         try:

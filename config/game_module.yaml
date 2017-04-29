@@ -12,7 +12,7 @@ guess:
 - guess.yaml
 max_questions: 20
 menu:
-- questions
+- topics
 - game_menu.top
 panic_questions: 3
 questions:

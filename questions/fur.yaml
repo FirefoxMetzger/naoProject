@@ -1,7 +1,7 @@
 text: "Does it have fur?"
 labels: ['yes', 'no']
 topic: 
-- questions
+- topics
 - fur.top
 topic_name: "fur"
 QID: fur

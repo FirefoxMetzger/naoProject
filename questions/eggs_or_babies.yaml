@@ -1,7 +1,7 @@
 text: "Does it have eggs or babies?"
 labels: ['eggs', 'babies']
 topic: 
-- questions
+- topics
 - eggs_or_babies.top
 topic_name: "eggs_or_babies"
 QID: eggs_or_babies

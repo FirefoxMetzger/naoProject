@@ -1,7 +1,7 @@
 text: "Does it fly?"
 labels: ['yes', 'no']
 topic: 
-- questions
+- topics
 - fly.top
 topic_name: "fly"
 QID: fly

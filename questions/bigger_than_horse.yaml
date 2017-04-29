@@ -1,7 +1,7 @@
 text: "Is it bigger than a horse?"
 labels: ['yes', 'no']
 topic: 
-- questions
+- topics
 - bigger_than_horse.top
 topic_name: "bigger_than_horse"
 QID: horse

@@ -3,7 +3,9 @@ language: enu
 #include possible answers topic
 include:answers.top
 
+u:(e:QuestionAsked) Does it have fur?
+
 u:(~yes) it has  fur $yes=1
 u:(~no) it does not have fur $no=1
 
-u:(~repeat) $Dialog/Answered
+u:(["What was the question" "Can you repeat the question"]) $QuestionAsked="fur"

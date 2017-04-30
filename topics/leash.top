@@ -3,7 +3,9 @@ language: enu
 #include possible answers topic
 include:answers.top
 
+u:(e:QuestionAsked) Does it go on a leash?
+
 u:(~yes) it goes on a leash $yes=1
 u:(~no) it does not go on a leash $no=1
 
-u:(~repeat) $Dialog/Answered
+u:(["What was the question" "Can you repeat the question"]) $QuestionAsked="leash"

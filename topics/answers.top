@@ -13,10 +13,6 @@ concept:(possiblynot)["~anyone ~think {~anyone} ~not " "~anyone ~not ~think so"]
 concept:(correct)[correct true positive ~ye ~maybe ~definitely ~possibly "{~ye} {thatis} !~not right" "{ye} {~whenit} {*} ~anyone ~can"]
 concept:(incorrect)[~na never incorrect ~possiblynot "~definitely ~not" "{~thatis} ~not ~correct"]
 
-#-------------------------------------------------------------------------------------------------------
-#concept for repeat questions requests
-concept:(repeat)["~again {please}" "{~can you} repeat {~it} {please}" "say ~it ~again {please}"]
-
 #------------------------------------------------------------------------------------------------------
 #ensures that user's last decision is taken as the answer
 concept:(yes)["{* * * * *} ~correct"]

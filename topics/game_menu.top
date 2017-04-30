@@ -3,6 +3,10 @@ language: enu
 #include general concepts
 include:general_concepts.top
 
+#-------------------------------------------------------------------------------------------------------
+#concept for repeat questions requests
+concept:(repeat)["~again {please}" "{~can you} repeat {~it} {please}" "say ~it ~again {please}"]
+
 #catch instances of new game request
 concept:(new_game)["{~anyone} !~not ~want {to} {play} {["a new game" "another one"]}" "new game" "~Iwill {play}"]
 
@@ -11,6 +15,12 @@ u:(next) Next Move coming up ... $nextMove=1
 u:(~new_game) Okay. Let's play a new game. Are you a new user?
     u1:(Yes) Okay. I will go easy on you. $NewGame=1
     u1:(No)  The game is on! $NewGame=0
+    
+u:(help {[me please "me please"]}) Sure.\pau=300\ 
+    Say new game to start a new game.\pau=500\
+    Say next to make me ask the next question \pau=500\
+    Say What's the time or What's the date for the obvious response\pau=500\
+    You can also set timers saying set a timer for and then the amount.
 
 u:(~repeat) $Dialog/Answered
 

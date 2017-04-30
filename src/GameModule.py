@@ -121,6 +121,7 @@ class GameModule(NaoModule):
         if (len(self.active_animals) <= 0):
             self.handles["ALTextToSpeech"].say("I concede, I don't know the animal.")
             self.handles["ALTextToSpeech"].say("If you want to play again, say new game")
+            self.handles("ALMemory").raiseEvent("EndGame", 0)
             self.game_in_progress = False
             return
 
@@ -131,17 +132,13 @@ class GameModule(NaoModule):
         elif self.isAskQuestion():
             self.prepareQuestion()
             self.is_guess = False
-            self.logger.debug("The relative distribution over answers: ")
-            for animal in self.active_animals:
-                self.logger.debug(animal.answers[self.question.qid].relativeLabelPropability)
         else:
             self.prepareGuess()
             self.is_guess = True
 
         self.handles["ALDialog"].activateTopic(self.question.topic_name)
-        self.handles["ALMemory"].raiseEvent("QuestionAsked", self.question.qid)
-        self.handles["ALTextToSpeech"].say(self.text)
-        self.question.activate()    
+        self.question.activate()
+        self.handles["ALMemory"].raiseEvent("QuestionAsked", self.question.qid)  
 
     def AskedQuestionCallback(self, label, value):
         """ A question has been answered. Update propabilities """
@@ -186,6 +183,11 @@ class GameModule(NaoModule):
             return
 
         self.handles["ALMemory"].subscribeToEvent("nextMove",self.name, "nextMoveCallback")
+        
+    def QuestionAskedCallback(self, eventName, value):
+        if value != "guess":
+            return
+        self.handles["ALTextToSpeech"].say(self.text)
 
     # -------------------------------------
     # Overwritten from NaoModule
@@ -195,6 +197,7 @@ class GameModule(NaoModule):
         if self.hasHandle("ALMemory"):
             memory = self.handles["ALMemory"]
             memory.subscribeToEvent("NewGame", self.name, "NewGameCallback")
+            memory.subscribeToEvent("QuestionAsked", self.name, "QuestionAskedCallback")
         else:
             self.logger.debug("No Handle to ALMemory")
 

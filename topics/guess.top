@@ -3,7 +3,7 @@ language:enu
 #include possible answers topic
 include:answers.top
 
-u:(~yes) yeaaaa baby $yes=1
+u:(~yes) $yes=1
 u:(~no) damn $no=1
 
-u:(~repeat) $Dialog/Answered
+u:(["What was the question" "Can you repeat the question"]) $QuestionAsked="guess"

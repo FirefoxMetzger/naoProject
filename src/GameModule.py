@@ -1,5 +1,6 @@
 import random
 import os
+import time
 
 from NaoModule import NaoModule
 from core.Question import Question
@@ -47,7 +48,7 @@ class GameModule(NaoModule):
             self.loadQiChatTopic(question.topic)
 
         # load guess question    
-        guess_rel_dir = self.handles["parameter_server"].getParameter(self.name,"guess")
+        guess_rel_dir = self.handles["parameter_server"].getParameter(self.name, "guess")
         abs_path = self.getAbsPath(guess_rel_dir)
         self.guess_question = Question(abs_path)
         self.loadQiChatTopic(self.guess_question.topic)
@@ -142,7 +143,6 @@ class GameModule(NaoModule):
 
     def AskedQuestionCallback(self, label, value):
         """ A question has been answered. Update propabilities """
-        self.logger.debug("AskedQuestionCallback executed")
         self.question.deactivate()
         self.handles["ALDialog"].deactivateTopic(self.question.topic_name)
 
@@ -183,6 +183,9 @@ class GameModule(NaoModule):
             return
 
         self.handles["ALMemory"].subscribeToEvent("nextMove",self.name, "nextMoveCallback")
+        time.sleep(0.7)
+        if self.game_in_progress:
+            self.handles["ALMemory"].raiseEvent("NextMoveSayText",1)
         
     def QuestionAskedCallback(self, eventName, value):
         if value != "guess":

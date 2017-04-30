@@ -1,6 +1,10 @@
 #! /usr/bin/env python
 
-raise_right_arm = {"joints": ["RShoulderPitch",
+import almath
+import motion
+
+raise_right_arm = {"type": "angleInterpolation",
+                   "joints": ["RShoulderPitch",
                               "RShoulderRoll",
                               "RElbowRoll",
                               "RElbowYaw",
@@ -10,33 +14,43 @@ raise_right_arm = {"joints": ["RShoulderPitch",
                               [50],
                               [110],
                               [-85]],
-                   "intervals": [[1]] * 5}
+                   "intervals": [[1]] * 5,
+                   "is_absolute": True}
 
-lower_right_arm = {"joints": ["RShoulderPitch",
+lower_right_arm = {"type": "angleInterpolation",
+                   "joints": ["RShoulderPitch",
                               "RShoulderRoll",
                               "RElbowRoll",
                               "RElbowYaw",
                               "RWristYaw"],
                    "angles": [[85], [10], [23], [68], [-6]],
-                   "intervals": [[1]] * 5}
+                   "intervals": [[1.2]] * 5,
+                   "is_absolute": True}
 
-shake_head = {"joints": ["HeadYaw"],
+shake_head = {"type": "angleInterpolation",
+              "joints": ["HeadYaw"],
               "angles": [[20, -20, 20, -20, 20, -20, 0]],
-              "intervals": [[0.2, 0.4, 0.4, 0.4, 0.4, 0.4, 0.2]]}
+              "intervals": [[0.2, 0.4, 0.4, 0.4, 0.4, 0.4, 0.2]],
+              "is_absolute": True}
 
-nod_head = {"joints": ["HeadPitch"],
+nod_head = {"type": "angleInterpolation",
+            "joints": ["HeadPitch"],
             "angles": [[-5, 12, -5, 12, -5, 12, 0]],
-            "intervals": [[0.2, 0.4, 0.4, 0.4, 0.4, 0.4, 0.3]]}
+            "intervals": [[0.2, 0.4, 0.4, 0.4, 0.4, 0.4, 0.3]],
+            "is_absolute": True}
 
-wave_right_arm = {"joints": ["RShoulderRoll",
+wave_right_arm = {"type": "angleInterpolation",
+                  "joints": ["RShoulderRoll",
                              "RElbowYaw",
                              "RHand"],
                   "angles": [[20, -20, 20, -20],
                              [70, 110, 70, 110],
                              [1, 1, 1, 0.45]],
-                  "intervals": [[0.7, 0.7, 0.7, 0.7]] * 3}
+                  "intervals": [[0.7, 0.7, 0.7, 0.7]] * 3,
+                  "is_absolute": True}
 
-celebrate = {"joints": ["RShoulderPitch",
+celebrate = {"type": "angleInterpolation",
+             "joints": ["RShoulderPitch",
                         "RShoulderRoll",
                         "RElbowRoll",
                         "RElbowYaw",
@@ -48,9 +62,11 @@ celebrate = {"joints": ["RShoulderPitch",
                         [95, 88, 88, 88, 88, 68],
                         [70, 91, 91, 91, 91, -6],
                         [1, 0, 0, 0, 0, 0.45]],
-             "intervals": [[1, 0.5, 0.5, 0.5, 0.7, 1]] * 6}
+             "intervals": [[1, 0.5, 0.5, 0.5, 0.7, 1]] * 6,
+             "is_absolute": True}
 
-face_palm = {"joints": ["HeadPitch",
+face_palm = {"type": "angleInterpolation",
+             "joints": ["HeadPitch",
                         "HeadYaw",
                         "RShoulderPitch",
                         "RShoulderRoll",
@@ -73,13 +89,17 @@ face_palm = {"joints": ["HeadPitch",
                            [1, 1, 1],
                            [1, 1, 1],
                            [1, 1, 1],
-                           [1, 1, 1]]}
+                           [1, 1, 1]],
+             "is_absolute": True}
 
-scratch_bum = {"joints": ["RHand"],
+scratch_bum = {"type": "angleInterpolation",
+               "joints": ["RHand"],
                "angles": [[0.6, 1, 0, 1, 0, 1, 0.5]],
-               "intervals": [[0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3]]}
+               "intervals": [[0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3]],
+               "is_absolute": True}
 
-scratch_head = {"joints": ["RShoulderPitch",
+scratch_head = {"type": "angleInterpolation",
+                "joints": ["RShoulderPitch",
                            "RShoulderRoll",
                            "RElbowRoll",
                            "RElbowYaw",
@@ -96,16 +116,51 @@ scratch_head = {"joints": ["RShoulderPitch",
                               [1, 1.6],
                               [1, 1.6],
                               [1, 1.6],
-                              [1.1, 0.3, 0.3, 0.3, 0.3, 0.3, 0.6]]}
+                              [1.1, 0.3, 0.3, 0.3, 0.3, 0.3, 0.6]],
+                "is_absolute": True}
 
-thinking_pose = {"joints": [],
-                 "angles": [[]],
-                 "intervals": [[]]}
+thinking_pose = {"type": "angleInterpolation",
+                 "joints": ["RShoulderPitch",
+                            "RShoulderRoll",
+                            "RElbowRoll",
+                            "RElbowYaw",
+                            "RWristYaw",
+                            "RHand"],
+                 "angles": [[40.2, 40.2],
+                            [18, 18],
+                            [88.5, 88.5],
+                            [40, 40],
+                            [88, 88],
+                            [0.35, 0.35, 0.5]],
+                 "intervals": [[1, 2],
+                               [1, 2],
+                               [1, 2],
+                               [1, 2],
+                               [1, 2],
+                               [1, 2.5, 0.5]],
+                 "is_absolute": True}
 
 
-template = {"joints": [],
-            "angles": [[]],
-            "intervals": [[]]}
+tantrum = {"type": "positionInterpolations",
+           "joints": ["LLeg", "RLeg"],
+           "space": motion.FRAME_WORLD,
+           "path": [[[0.0, 0.0, 0.005, 0.0, 0.0, 0.0],
+                     [0.0, 0.0, -0.005, 0.0, 0.0, 0.0],
+                     [0.0, 0.0, 0.005, 0.0, 0.0, 0.0],
+                     [0.0, 0.0, -0.005, 0.0, 0.0, 0.0],
+                     [0.0, 0.0, 0.005, 0.0, 0.0, 0.0],
+                     [0.0, 0.0, -0.005, 0.0, 0.0, 0.0],
+                     [0.0, 0.0, 0.0, 0.0, 0.0, 0.0]],
+                    [[0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
+                     [0.0, 0.0, 0.005, 0.0, 0.0, 0.0],
+                     [0.0, 0.0, -0.005, 0.0, 0.0, 0.0],
+                     [0.0, 0.0, 0.005, 0.0, 0.0, 0.0],
+                     [0.0, 0.0, -0.005, 0.0, 0.0, 0.0],
+                     [0.0, 0.0, 0.005, 0.0, 0.0, 0.0],
+                     [0.0, 0.0, -0.005, 0.0, 0.0, 0.0]]],
+           "axis_mask": [almath.AXIS_MASK_ALL] * 2,
+           "intervals": [[0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1]] * 2,
+           "is_absolute": False}
 
 
 template = {"joints": [],

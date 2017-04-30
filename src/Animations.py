@@ -1,6 +1,8 @@
 # -*- encoding UTF-8 -*-
 
 import math
+import almath
+import motion as almotion
 from NaoModule import NaoModule
 import motions.motion_dict as motion_dict
 
@@ -9,15 +11,17 @@ class Animations(NaoModule):
 
     def __init__(self, name):
         NaoModule.__init__(self, name)
+        self.getHandle("leds")
         self.getHandle("ALMotion")
         self.getHandle("ALMemory")
+        self.getHandle("ALRobotPosture")
         self.motion = self.handles["ALMotion"]
+        self.posture = self.handles["ALRobotPosture"]
+        self.leds = self.handles["leds"]
         self.handles["ALMemory"].subscribeToEvent("QuestionAsked", self.name, "animation_callback")
         self.handles["ALMemory"].subscribeToEvent("NewGame", self.name, "animation_callback")
         self.handles["ALMemory"].subscribeToEvent("EndGame", self.name, "animation_callback")
         self.handles["ALMemory"].subscribeToEvent("GameEvent", self.name, "animation_callback")
-        self.scratch_head()
-        self.scratch_head()
 
     def animation_callback(self, event_name, value):
         """
@@ -45,7 +49,13 @@ class Animations(NaoModule):
         pass
 
     def tantrum(self):
-        pass
+        self.leds.set_eyes('r')
+        self.leds.eyes_on()
+        self.posture.goToPosture("StandInit", 0.5)
+        self.run(motion_dict.tantrum)
+        self.posture.goToPosture("StandInit", 0.5)
+        self.leds.set_eyes('w')
+        self.leds.eyes_on()
 
     def shake_head(self):
         self.run(motion_dict.shake_head)
@@ -84,14 +94,16 @@ class Animations(NaoModule):
 
     def run(self, motion):
         [self.motion.setStiffnesses(joint, 0.9) for joint in motion["joints"]]
-        angle_lists = []
-        for joint, angles in zip(* (motion["joints"], motion["angles"])):
-            if "Hand" in joint:
-                angle_lists.append(angles)
-            else:
-                angle_lists.append([math.radians(angle) for angle in angles])
         time_lists = [intervals2times(intervals) for intervals in motion["intervals"]]
-        self.motion.angleInterpolation(motion["joints"], angle_lists, time_lists, True)
+        # time_lists = motion["intervals"]
+        if motion["type"] == "angleInterpolation":
+            angle_lists = deg2rad(motion["joints"], motion["angles"])
+            self.motion.angleInterpolation(motion["joints"], angle_lists, time_lists, motion["is_absolute"])
+        elif motion["type"] == "positionInterpolations":
+            self.motion.positionInterpolations(motion["joints"], motion["space"], motion["path"],
+                                               motion["axis_mask"], time_lists, motion["is_absolute"])
+        else:
+            print("Warning: unknown motion type: " + motion["type"])
 
 
 # Converts a lists of time intervals into a list of times
@@ -100,3 +112,13 @@ def intervals2times(intervals):
     times = [sum(intervals[0:i + 1]) for i in range(n)]
     return times
 
+
+# Convert lists of angles into radians
+def deg2rad(joints, angles_deg):
+    angle_lists = []
+    for joint, angles in zip(*(joints, angles_deg)):
+        if "Hand" in joint:
+            angle_lists.append(angles)  # Do not convert to radians
+        else:
+            angle_lists.append([math.radians(angle) for angle in angles])  # Convert to radians
+    return angle_lists

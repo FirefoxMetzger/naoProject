@@ -1,7 +1,7 @@
 text: "Does it go on a leash?"
 labels: ['yes', 'no']
 topic: 
-- questions
+- topics
 - leash.top
 topic_name: "leash"
 QID: leash

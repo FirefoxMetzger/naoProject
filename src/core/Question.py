@@ -27,11 +27,11 @@ class Question:
 
     def activate(self):
         for label in self.labels:
-            self.memory.subscribeToEvent(str(label), "core", "AskedQuestionCallback")
+            self.memory.subscribeToEvent(str(label), "game_module", "AskedQuestionCallback")
 
     def deactivate(self):
         for label in self.labels:
-            self.memory.unsubscribeToEvent(str(label), "core")
+            self.memory.unsubscribeToEvent(str(label), "game_module")
 
     def updateScore(self, animals):
         avg_propability = 1.0 / len(self.labels)

@@ -1,7 +1,7 @@
 text: "Does it live in a house?"
 labels: ['yes', 'no']
 topic: 
-- questions
+- topics
 - live_in_house.top
 topic_name: "live_in_house"
 QID: live_in_house

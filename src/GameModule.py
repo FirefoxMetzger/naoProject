@@ -1,37 +1,27 @@
 import random
-from naoqi import ALProxy
-from naoqi import ALModule
 import os
-import logging
 
-from Question import Question
-from Animal import Animal
-import utility as util
+from NaoModule import NaoModule
+from core.Question import Question
+from core.Animal import Animal
 
+class GameModule(NaoModule):
 
-class GameModule(ALModule):
-
-    def __init__(self, name):
-
-        ALModule.__init__(self, name)
-        self.name = name
-
-        logging.basicConfig()
-        self.logger = logging.getLogger(__name__)
-        self.logger.info("Logging enabled for: " + self.name)
+    # -------------------------------------
+    # Setup Module
+    # -------------------------------------
+    
+    def __init__(self, name, on_robot):
+        NaoModule.__init__(self, name)
+        self.on_robot = on_robot
 
         # get all the proxies used by this module
-        self.tts = ALProxy("ALTextToSpeech")
-        self.memory = ALProxy("ALMemory")
-        self.dialog = ALProxy("ALDialog")
-        self.speech = ALProxy("speech_module")
-        self.params = ALProxy("parameter_server")
-
-        # pesky base path again -- should refactor this
-        base_dir = os.path.dirname(__file__)
-        base_dir = os.path.join(base_dir, "..", "..")
-        self.base_dir = os.path.abspath(base_dir)
-        self.logger.debug("Base path:" + self.base_dir)
+        self.getHandle("mood")
+        self.getHandle("ALMemory", True)
+        self.getHandle("ALDialog")
+        self.getHandle("speech_module")
+        self.getHandle("parameter_server", True)
+        self.getHandle("ALTextToSpeech")
           
         # initialize class attributes
         self.text = ""
@@ -44,64 +34,73 @@ class GameModule(ALModule):
         self.num_asked = 0
         self.game_in_progress = False
 
+        # setup Proxy stuff
+        self.setupALDialog()
+        
+
+    def setupALDialog(self):
         # load question topics
-        question_list = self.params.getParameter(self.name, 'questions')
+        question_list = self.handles["parameter_server"].getParameter(self.name, 'questions')
         for rel_path in question_list:
-            self.logger.debug("Trying to load path: %s" % rel_path)
-            abs_path = util.getAbsPath(self.base_dir , rel_path)
+            abs_path = self.getAbsPath(rel_path)
             question = Question(abs_path)
-            question_path = util.getAbsPath(self.base_dir, question.topic)
-            name = self.dialog.loadTopic(question_path)
-            self.registered_topics.append(name)
+            self.loadQiChatTopic(question.topic)
 
         # load guess question    
-        guess_path_relative = self.params.getParameter(self.name,"guess")
-        abs_path = util.getAbsPath(base_dir , guess_path_relative)
+        guess_rel_dir = self.handles["parameter_server"].getParameter(self.name,"guess")
+        abs_path = self.getAbsPath(guess_rel_dir)
         self.guess_question = Question(abs_path)
-
-        # load guess' topic
-        abs_path = util.getAbsPath(base_dir , self.guess_question.topic)
-        name = self.dialog.loadTopic(abs_path)
-        self.registered_topics.append(name)
-
-        # register menu callbacks
-        self.memory.subscribeToEvent("NewGame", self.name, "NewGameCallback")
-        self.dialog.subscribe(self.name)
+        self.loadQiChatTopic(self.guess_question.topic)
 
         # register menu topic (aka activate the game)
-        rel_path = self.params.getParameter(self.name, "menu")
-        abs_path = util.getAbsPath(base_dir , rel_path)
-        self.speech.addMenuTopic(abs_path)
+        rel_path = self.handles["parameter_server"].getParameter(self.name, "menu")
+        abs_path = self.getTopicAbsPath(rel_path)
+        self.handles["speech_module"].addMenuTopic(abs_path)
+        
+        self.handles["ALDialog"].compileAll()
 
-    def __enter__(self):
-        return self
+    def getTopicAbsPath(self, rel_path):
+        if self.on_robot:
+            abs_path = self.getAbsPath(rel_path, "/home/nao/naoProject")   
+        else:
+            abs_path = self.getAbsPath(rel_path)
 
-    def __exit__(self, exec_type, exec_value, traceback):
-        # unload question topics
-        self.dialog.unsubscribe(self.name)
-        for topic in self.registered_topics:
-            self.dialog.unloadTopic(topic)
-        return
+        return abs_path
+
+    def loadQiChatTopic(self, rel_path):
+        abs_path = self.getTopicAbsPath(rel_path)
+        self.logger.debug("Loading QiChat topic from %s" % abs_path)
+
+        if self.hasHandle("ALDialog"):
+            name = self.handles["ALDialog"].loadTopic(abs_path)
+            self.registered_topics.append(name)
+        else:
+            self.logger.debug("No ALDialog. Not loading topic.")
+
+    # -------------------------------------
+    # Callbacks
+    # -------------------------------------
 
     def NewGameCallback(self, eventName, value):
+        """ Reset the Game """
         self.logger.info("Setting up a new game.")
 
         if self.game_in_progress:
-            system.info("Overwriting a game in progress.")
+            self.logger.info("Overwriting a game in progress.")
         
         # load questions
         self.active_questions = list()
-        question_list = self.params.getParameter(self.name,'questions')
+        question_list = self.handles["parameter_server"].getParameter(self.name,'questions')
         for rel_path in question_list:
-            abs_path = util.getAbsPath(self.base_dir , rel_path)
+            abs_path = self.getAbsPath(rel_path)
             question = Question(abs_path)
             self.active_questions.append(question)
 
         # load animals
-        self.animal_list = list()
-        animal_list = self.params.getParameter(self.name,"animals")
+        self.active_animals = list()
+        animal_list = self.handles["parameter_server"].getParameter(self.name, "animals")
         for animal_path in animal_list:
-            abs_path = util.getAbsPath(self.base_dir , animal_path)
+            abs_path = self.getAbsPath(animal_path)
             animal = Animal(abs_path, self.active_questions)
             self.active_animals.append(animal)
 
@@ -110,17 +109,18 @@ class GameModule(ALModule):
         self.game_in_progress = True
 
         # allow next move to start a new game
-        self.memory.subscribeToEvent("nextMove", self.name, "nextMoveCallback")
+        self.handles["ALMemory"].subscribeToEvent("nextMove", self.name, "nextMoveCallback")
 
     def nextMoveCallback(self, eventName, value):
-        self.memory.unsubscribeToEvent("nextMove", self.name)
+        """ Prepare the next move (question or guess) """
+        self.handles["ALMemory"].unsubscribeToEvent("nextMove", self.name)
 
         self.logger.debug("Active Questions: " + str(len(self.active_questions)))
         self.logger.debug("Active Animals: " + str(len(self.active_animals)))
 
         if (len(self.active_animals) <= 0):
-            self.tts.say("I concede, I don't know the animal.")
-            self.tts.say("If you want to play again, say new game")
+            self.handles["ALTextToSpeech"].say("I concede, I don't know the animal.")
+            self.handles["ALTextToSpeech"].say("If you want to play again, say new game")
             self.game_in_progress = False
             return
 
@@ -128,30 +128,30 @@ class GameModule(ALModule):
         if len(self.active_questions) <= 0:
             self.prepareGuess()
             self.is_guess = True
-        elif random.random() > 0.2:
+        elif self.isAskQuestion():
             self.prepareQuestion()
             self.is_guess = False
             self.logger.debug("The relative distribution over answers: ")
             for animal in self.active_animals:
                 self.logger.debug(animal.answers[self.question.qid].relativeLabelPropability)
         else:
-            print("Random guess")
             self.prepareGuess()
             self.is_guess = True
 
-        self.tts.say(self.text)
+        self.handles["ALTextToSpeech"].say(self.text)
         self.question.activate()
-        self.dialog.activateTopic(self.question.topic_name)
+        self.handles["ALDialog"].activateTopic(self.question.topic_name)
 
     def AskedQuestionCallback(self, label, value):
+        """ A question has been answered. Update propabilities """
         self.logger.debug("AskedQuestionCallback executed")
         self.question.deactivate()
-        self.dialog.deactivateTopic(self.question.topic_name)
+        self.handles["ALDialog"].deactivateTopic(self.question.topic_name)
 
         game_event = list()
         game_event.append(self.text)
         game_event.append(label)
-        self.memory.raiseEvent("GameEvent", game_event)
+        self.handles["ALMemory"].raiseEvent("GameEvent", game_event)
 
         # if question update animals based on label
         if not self.is_guess:
@@ -168,7 +168,7 @@ class GameModule(ALModule):
 
         # if guess check if correct
         if self.is_guess and label == "yes":
-            self.tts.say("I win! You thought of " + self.animal.name)
+            self.handles["ALTextToSpeech"].say("I win! You thought of " + self.animal.name)
             self.active_animals = dict()
             self.game_in_progress = False
             self.logger.info("Question Traceback: ")
@@ -177,12 +177,56 @@ class GameModule(ALModule):
             return
 
         # if maximum amount of questions asked loose
-        if self.params.getParameter(self.name,"max_questions") <= self.num_asked:
-            self.tts.say("Okay, I don't know the animal. You Win!")
+        if self.handles["parameter_server"].getParameter(self.name,"max_questions") <= self.num_asked:
+            self.handles["ALTextToSpeech"].say("Okay, I don't know the animal. You Win!")
             self.game_in_progress = False
             return
 
-        self.memory.subscribeToEvent("nextMove",self.name, "nextMoveCallback")
+        self.handles["ALMemory"].subscribeToEvent("nextMove",self.name, "nextMoveCallback")
+
+    # -------------------------------------
+    # Overwritten from NaoModule
+    # -------------------------------------
+
+    def __enter__(self):
+        if self.hasHandle("ALMemory"):
+            memory = self.handles["ALMemory"]
+            memory.subscribeToEvent("NewGame", self.name, "NewGameCallback")
+        else:
+            self.logger.debug("No Handle to ALMemory")
+
+        if self.hasHandle("ALDialog"):
+            dialog = self.handles["ALDialog"]
+            dialog.subscribe(self.name)
+            
+            speech = self.handles["speech_module"]
+            speech.deactivateMenu()
+            speech.activateMenu()
+        else:
+            self.logger.debug("No Handle to ALMemory")
+        
+        return self
+
+    def __exit__(self, exec_type, exec_value, traceback):
+        if self.hasHandle("ALMemory"):
+            memory = self.handles["ALMemory"]
+            memory.unsubscribeToEvent("NewGame", self.name)
+        else:
+            self.logger.debug("No Handle to ALMemory")
+        
+        if self.hasHandle("ALDialog"):
+            dialog = self.handles["ALDialog"]
+            dialog.unsubscribe(self.name)
+            for topic in self.registered_topics:
+                dialog.unloadTopic(topic)
+        else:
+            self.logger.debug("No Handle to ALMemory")
+
+        return
+        
+    # -------------------------------------
+    # Private methods
+    # -------------------------------------
 
     def normalizeAnimalPropability(self):
         propability_sum = 0.0
@@ -195,7 +239,7 @@ class GameModule(ALModule):
     def removeUnlikelyAnimals(self):
         new_active_animals = list()
         for animal in self.active_animals:
-            if animal.propability <= self.params.getParameter(self.name,"discard_propability"):
+            if animal.propability <= self.handles["parameter_server"].getParameter(self.name,"discard_propability"):
                 self.logger.debug( "Low propability (%d), discarding: %s" %\
                                    (animal.propability, animal.name))
             else:
@@ -243,4 +287,9 @@ class GameModule(ALModule):
         
         self.text = best_animal.text
         self.logger.debug("Asking: " + best_animal.text)
+
+    def isAskQuestion(self):
+        #return True if we ask a quesstion, False otherwise
+
+        return random.random() > 0.2
 

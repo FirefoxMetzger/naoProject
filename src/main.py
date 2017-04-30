@@ -14,15 +14,17 @@ from optparse import OptionParser
 from naoqi import ALBroker
 from naoqi import ALProxy
 
-from core.GameModule import GameModule
-from timer.timerModule import TimerModule
-from parameter_server.naoParameterServer import naoParameterServer
-from speechRecognition.speechModule import SpeechModule
-from experimentLogger.ExperimentLogger import ExperimentLogger
-from animation.animations import Animations
-from animation.LEDs import LEDs
+from ParameterServer import ParameterServer
+from LEDs import LEDs
+from Animations import Animations
+from ExperimentLogger import ExperimentLogger
+from MoodModule import MoodModule
+from SpeechModule import SpeechModule
+from TimerModule import TimerModule
+from GameModule import GameModule
+from minimal import Minimal
 
-def main():
+def main(is_on_robot):
     # initialize brooker
     naoProject = ALBroker("naoProject",
        "0.0.0.0",
@@ -33,9 +35,10 @@ def main():
     # load framework classes
     
     #define global variables for all modules -- ugly but necessary (see naoqi documentation)
+    global mood
     global speech_module
     global timer_module
-    global core
+    global game_module
     global parameter_server
     global experiment_logger
     global leds
@@ -45,14 +48,18 @@ def main():
     base_path = os.path.join(base_path , "..")
 
     rel_path = ["config", "naoConfigServer.yaml"]
-    
-    with naoParameterServer("parameter_server", rel_path) as parameter_server,\
+
+    with ParameterServer("parameter_server", rel_path) as parameter_server,\
          SpeechModule("speech_module") as speech_module,\
-         TimerModule("timer_module") as timer_module,\
-         GameModule("core") as core,\
-         ExperimentLogger("experiment_logger") as experiment_logger,\
          LEDs("leds") as leds,\
-         Animations("animations") as animations:
+         Animations("animations") as animations,\
+         MoodModule("mood") as mood, \
+         TimerModule("timer_module", is_on_robot) as timer_module,\
+         GameModule("game_module", is_on_robot) as game_module,\
+         ExperimentLogger("experiment_logger") as experiment_logger:
+         
+        trigger_finger = ALProxy("ALMemory")
+        trigger_finger.raiseEvent("emoBlink", 3000)
 
         # keep brooker alive
         try:
@@ -71,6 +78,7 @@ if __name__ == "__main__":
     parser = OptionParser()
     parser.add_option("--IP",type="string",dest="MAIN_BROKER")
     parser.add_option("-p","--PORT",type="int",dest="MAIN_BROKER_PORT")
+    parser.add_option("--on-robot", action="store_true", dest="IS_ON_ROBOT", default=False)
     (options, args) = parser.parse_args()
 
     if options.MAIN_BROKER:
@@ -78,4 +86,4 @@ if __name__ == "__main__":
     if options.MAIN_BROKER_PORT:
         MAIN_BROKER_PORT = options.MAIN_BROKER_PORT
 
-    main()
+    main(options.IS_ON_ROBOT)

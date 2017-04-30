@@ -1,0 +1,44 @@
+topic: ~timer_menu ()
+language: enu
+
+# extract numbers and fractions
+concept:(numbers_not_1) [0 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 30 40 45 50 60]
+
+concept:(third) ["[1 a] third" "[2 3] thirds"]
+concept:(quarter) ["[1 a] quarter" "[2 3 4] quarters"]
+concept:(number) [1 ~numbers_not_1]
+
+concept:(second_singular) ["1 second" "a second" "half a second" "~quarter of a second" "~third of a second"]
+concept:(seconds) [~second_singular "~number seconds" "~number and a half seconds"]
+
+concept:(minutes_singular) ["1 minute" "a minute" "half a minute" "~quarter of a minute" "~third of a minute"]
+concept:(minutes) [~minutes_singular "~numbers_not_1 minutes" "~number and a half minutes"]
+
+concept:(hours_singular) ["1 hour" "an hour" "half an hour" "~quarter of an hour" "~third of an hour"]
+concept:(hours) [~hours_singular "~numbers_not_1 hours" "~number and a half hours"]
+
+
+# set the timer
+concept:(ok) [Ok "No Problemo" "Understood" "Affirmative" "I am setting a timer"]
+u:(set a timer for ~hours {{and} ~minutes} {{and} ~seconds}) ^rand~ok $setTimer=$Dialog/LastInput
+u:(set a timer for ~minutes {{and} ~seconds}) ^rand~ok $setTimer=$Dialog/LastInput
+u:(set a timer for ~seconds) ^rand~ok $setTimer=$Dialog/LastInput
+
+# timer responses -- pick a random one. Robot sais this be humourous
+u:(e:timerUp) ^rand[    "The timer has finished. It was $timerUp seconds long." 
+                        "Hey! $timerUp seconds are over."
+                        "$timerUp>10 $timerUp seconds are up. Self destruction in 3.. 2.. 1..... I'm joking of course."
+                        "$timerHours hour and $timerMinutes minutes have passed. This is your alarm. $timerHours==1 "
+                        "$timerHours hours and $timerMinutes minutes have passed. This is your alarm. $timerHours>0"
+                        "$timerMinutes Minute and $timerSeconds seconds have passed. This is your alarm. $timerHours==0 $timerMinutes==1"
+                        "$timerMinutes minutes and $timerSeconds seconds have passed. This is your alarm. $timerHours==0 $timerMinutes>0"
+                        "$timerSeconds second has passed. This is your alarm. $timerMinutes==0 $timerHours==0 $timerSeconds==1"
+                        "$timerSeconds seconds have passed. This is your alarm. $timerMinutes==0 $timerHours==0 $timerSeconds>0"
+                        "My subsecond timers are not very accurate, but here you go. The time is up. $timerHours==0 $timerMinutes==0 $timerSeconds<1"]
+
+# basic requirements                        
+u:(What's the time) time $sayTime=1
+u:(What's the date) date $sayDate=1
+
+# easter eggs
+u:(shut up) Come on!.. You humans keep babbling for hours, yet I never complain.

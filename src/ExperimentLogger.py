@@ -4,56 +4,48 @@ import os
 import random
 import yaml
 import string
-from naoqi import ALProxy
-from naoqi import ALModule
 
-class ExperimentLogger(ALModule):
+from NaoModule import NaoModule
+
+class ExperimentLogger(NaoModule):
     def __init__(self, name):
-        ALModule.__init__(self, name)
-        self.name = name
+        NaoModule.__init__(self, name)
 
-        logging.basicConfig()
-        self.logger = logging.getLogger(__name__)
-        self.logger.info("Logging enabled for: " + self.name)
-
-        self.memory = ALProxy("ALMemory")
-        try:
-            self.speechRec = ALProxy("ALSpeechRecognition")
-        except RuntimeError:
-            self.has_speechDetection = False
-            self.logger.warning("Speech detection unaviable.")
-            self.memory.declareEvent("WordRecognized")
-        else:
-            self.has_speechDetection = True
-            self.logger.info("Speech detection engine found.")
-
-        base_path = os.path.dirname(__file__)
-        base_path = os.path.join(base_path, "..", "..")
-        self.base_path = os.path.abspath(base_path)
+        self.getHandle("ALMemory")
 
         self.current_user = self.generateName()
         self.previous_games = 0
         self.game_running = False
 
         #user data
+        self.experiment_data = dict()
         self.resetExperiment()
 
-        self.memory.subscribeToEvent("WordRecognized", self.name,\
-                "WordRecognizedCallback")
-        self.memory.subscribeToEvent("GameEvent", self.name, \
-                "GameEventCallback")
-        self.memory.subscribeToEvent("NewGame", self.name,\
-                "NewGameCallback")
-        self.logger.debug("Logger subscribed.")
-
-    def __enter__(self):
-        return self
+        if self.hasHandle("ALMemory"):
+            self.handles["ALMemory"].subscribeToEvent("WordRecognized", self.name,\
+                    "WordRecognizedCallback")
+            self.handles["ALMemory"].subscribeToEvent("GameEvent", self.name, \
+                    "GameEventCallback")
+            self.handles["ALMemory"].subscribeToEvent("NewGame", self.name,\
+                    "NewGameCallback")
+            self.logger.debug("Logger subscribed.")
+        else:
+            self.logger.error("Unable to subscribe to Events. Experiment logging disabled.")
 
     def __exit__(self, exec_type, exec_value, traceback):
-        self.memory.unsubscribeToEvent("WordRecognized",self.name)
+        if self.hasHandle("ALMemory"):
+            self.handles["ALMemory"].unsubscribeToEvent(\
+                "WordRecognized",self.name)
+            self.handles["ALMemory"].unsubscribeToEvent(\
+                "GameEvent",self.name)
+            self.handles["ALMemory"].unsubscribeToEvent(\
+                "NewGame",self.name)
         return
 
     def GameEventCallback(self, eventName, value):
+        """Add a new question / answer pair to the log"""
+        
+        self.logger.debug("Saving another game event.")
         game_event = dict()
         game_event["question"] = value[0]
         game_event["answer"] = value[1]
@@ -62,6 +54,8 @@ class ExperimentLogger(ALModule):
         self.experiment_data["game_event"].append(game_event)
 
     def WordRecognizedCallback(self, eventName, value):
+        """Add a new word to the log"""
+        
         detection = dict()
         detection["word"] = value[0]
         detection["confidence"] = value[1]
@@ -69,9 +63,12 @@ class ExperimentLogger(ALModule):
 
         self.experiment_data["recognized"].append(detection)
         self.logger.debug("Detected: %s" % value)
-        return
 
     def NewGameCallback(self, eventName, is_new_user):
+        """Start a new log"""
+        
+        self.logger.debug("Saving new game Event.")
+        
         #save old log
         path = ["experimentData"]
         abs_path = self.getAbsPath(path)
@@ -89,6 +86,7 @@ class ExperimentLogger(ALModule):
         #setup new log with increased counter
         if is_new_user == 1:
             self.current_user = self.generateName()
+            self.logger.info("New user with name: %s" % self.current_user)
             self.previous_games = 0
         else:
             self.previous_games += 1
@@ -119,10 +117,3 @@ class ExperimentLogger(ALModule):
             name = randomName()
 
         return name
-
-    def getAbsPath(self,rel_path):
-        path = self.base_path
-        for chunk in rel_path:
-            path = os.path.join(path, chunk)
-
-        return os.path.abspath(path)

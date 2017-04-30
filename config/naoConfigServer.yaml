@@ -1,6 +1,6 @@
-core:
+game_module:
 - config
-- core.yaml
+- game_module.yaml
 leds:
 - config
 - leds.yaml

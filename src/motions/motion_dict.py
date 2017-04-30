@@ -79,9 +79,28 @@ scratch_bum = {"joints": ["RHand"],
                "angles": [[0.6, 1, 0, 1, 0, 1, 0.5]],
                "intervals": [[0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3]]}
 
-tantrum = {"joints": [],
-            "angles": [[]],
-            "intervals": [[]]}
+scratch_head = {"joints": ["RShoulderPitch",
+                           "RShoulderRoll",
+                           "RElbowRoll",
+                           "RElbowYaw",
+                           "RWristYaw",
+                           "RHand"],
+                "angles": [[-24, -24],
+                           [-18.5, -18.5],
+                           [88.5, 88.5],
+                           [45.5, 45.5],
+                           [60, 60],
+                           [0.45, 0.2, 0.7, 0.2, 0.7, 0.2, 0.45]],
+                "intervals": [[1, 1.6],
+                              [1, 1.6],
+                              [1, 1.6],
+                              [1, 1.6],
+                              [1, 1.6],
+                              [1.1, 0.3, 0.3, 0.3, 0.3, 0.3, 0.6]]}
+
+thinking_pose = {"joints": [],
+                 "angles": [[]],
+                 "intervals": [[]]}
 
 
 template = {"joints": [],

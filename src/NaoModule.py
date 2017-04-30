@@ -45,7 +45,6 @@ class NaoModule(ALModule):
         has_all = True
         for module in module_names:
             has_all = ( has_all and self.hasHandle(module) )
-            
         return has_all
 
     def hasHandle(self, module_name):
@@ -72,7 +71,6 @@ class NaoModule(ALModule):
             self.logger.debug("Added handle to %s" % module_name)
 
     
-
     def getAbsPath(self, chunks, alternate_dir=None):
         if alternate_dir is None:
             base_dir = self.root_dir

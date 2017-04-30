@@ -1,32 +1,32 @@
 bottom_eye:
-- "Left/180Deg"
-- "Right/135Deg"
-lower_eye:
-- "Left/135Deg"
-- "Left/225Deg"
-- "Right/180Deg"
-- "Right/90Deg"
-middle_eye:
-- "Left/90Deg"
-- "Left/270Deg"
-- "Right/225Deg"
-- "Right/45Deg"
-top_eye:
-- "Left/0Deg"
-- "Right/315Deg"
-upper_eye:
-- "Left/45Deg"
-- "Left/315Deg"
-- "Right/0Deg"
-- "Right/270Deg"
+- Left/180Deg
+- Right/135Deg
 ears:
-- "0Deg"
-- "36Deg"
-- "72Deg"
-- "108Deg"
-- "144Deg"
-- "180Deg"
-- "216Deg"
-- "252Deg"
-- "288Deg"
-- "324Deg"
+- 0Deg
+- 36Deg
+- 72Deg
+- 108Deg
+- 144Deg
+- 180Deg
+- 216Deg
+- 252Deg
+- 288Deg
+- 324Deg
+lower_eye:
+- Left/135Deg
+- Left/225Deg
+- Right/180Deg
+- Right/90Deg
+middle_eye:
+- Left/90Deg
+- Left/270Deg
+- Right/225Deg
+- Right/45Deg
+top_eye:
+- Left/0Deg
+- Right/315Deg
+upper_eye:
+- Left/45Deg
+- Left/315Deg
+- Right/0Deg
+- Right/270Deg

@@ -35,31 +35,33 @@ class Question:
 
     def updateScore(self, animals):
         avg_propability = 1.0 / len(self.labels)
+            
+        # answer distribution for this question
         answers = [animal.answers[self.qid] for animal in animals]
-
-        seperation_score = 0.0
-        total_dist = dict()
-        for label in self.labels:
-            total_dist[label] = 0.0
-
+                   
+        # distribution over labels
+        label_distribution = dict()
+        prop_sum = dict()
+        for label in answers[0].labelPropability:
+            prop_sum[label] = sum([answer.labelPropability[label] for answer in answers])
+            label_distribution[label] = 1.0 * prop_sum[label] / len(answers)
+            
         for answer in answers:
-            for label in answer.labelPropability:
-                total_dist[label] += answer.labelPropability[label]
-
-        for label in total_dist:
-            seperation_score += abs(total_dist[label] / len(self.labels) - avg_propability)
-
-        seperation_score = 50 - seperation_score
-
-        decided_score = 0.0
-        for answer in answers:
-            for label in answer.labelPropability:
-                decided_score += abs(answer.labelPropability[label] - avg_propability)
-
-        exploration_score = random.random() * 10;
-
-        print(str(seperation_score) + " + " + str(decided_score) + " + " + str(exploration_score))
-        self.score = seperation_score + decided_score + exploration_score;
+            answer.setRelativePropability(prop_sum)
+        
+        discarded_per_label = dict()
+        for label in label_distribution.keys():
+            animals_discarded = list()
+            for animal in animals:
+                if animal.propability * animal.answers[self.qid].relativeLabelPropability[label] <= 0.05:
+                    animals_discarded.append(1)
+            discarded_per_label[label] = sum(animals_discarded)
+            
+        self.score = 0
+        for label in label_distribution.keys():
+            self.score += label_distribution[label] * discarded_per_label[label]
+            
+        print("Average animals discarded for question %s: %f" % (self.qid, self.score))
                 
     def getEmptyAnswer(self):
         label_names = list()

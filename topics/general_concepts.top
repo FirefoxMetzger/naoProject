@@ -13,7 +13,7 @@ concept:(Iwill)[I'll we'll he'll she'll they'll "~anyone will"]
 
 #----------------------------------------------------------------------------------------------------
 #this concept is for verb objects
-concept:(it)[that this it]
+concept:(it)[that this it them]
 
 #-----------------------------------------------------------------------------------------------------
 #negation of ideas, "no" has not been included to avoid problems with "no...it DOES swim"
@@ -33,7 +33,7 @@ concept:(whenit)["when ~anyone" "if ~anyone"]
 
 #-----------------------------------------------------------------------------------------------------
 #ability concept
-concept:(can)[can does would did]
+concept:(can)[can does would did "can do"]
 
 #-----------------------------------------------------------------------------------------------------
 #words of uncertainty
@@ -51,4 +51,16 @@ concept:(think)[think thinks believe believes]
 #-----------------------------------------------------------------------------------------------------
 #this concept is for desire
 concept:(want)[wants wants desire desires need needs]
+
+#-----------------------------------------------------------------------------------------------------
+#concept for both answers
+concept:(both)[both "{~ye} both" "{~ye} ~anyone ~can both"]
+
+#-----------------------------------------------------------------------------------------------------
+#concept for neither answers
+concept:(neither)"neither {of} {them}"
+
+#-----------------------------------------------------------------------------------------------------
+#concept for a repitition
+concept:(again)[again "once more" "another time"]
 

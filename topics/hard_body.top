@@ -1,0 +1,11 @@
+topic: ~hard_body()
+language: enu
+#include possible answers topic
+include:answers.top
+
+u:(e:QuestionAsked) Does it have a hard body like a crab or insect?
+
+u:(~yes) it has a hard body $yes=1
+u:(~no) it does not have a hard body $no=1
+
+u:(["What was the question" "Can you repeat the question"]) $QuestionAsked="hard_body"

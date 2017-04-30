@@ -1,0 +1,11 @@
+topic: ~no_it_does_not()
+language: enu
+#include subjects pronouns "I, he etc." topic
+include:subject_pronouns.top
+#include yes/no variations
+include:yes_no.top
+
+concept:(doNot)[don't "do not"]
+concept:(doesNot)["does not" doesn't]
+
+concept:(noItDoesNot)["{~na} they ~doNot" "{~na} ~it ~doesNot" ~na]

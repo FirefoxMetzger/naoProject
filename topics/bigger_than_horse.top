@@ -3,5 +3,9 @@ language: enu
 #include possible answers topic
 include:answers.top
 
+u:(e:QuestionAsked) Is it bigger than a horse?
+
 u:(~yes) it is bigger than a horse $yes=1
 u:(~no) it is not bigger than a horse $no=1
+
+u:(["What was the question" "Can you repeat the question"]) $QuestionAsked="horse"

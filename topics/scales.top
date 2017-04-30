@@ -3,5 +3,11 @@ language: enu
 #include possible answers topic
 include:answers.top
 
+#ask the question
+u:(e:QuestionAsked) Does it have scales?
+
+# catch the labels
 u:(~yes) it has scales $yes=1
 u:(~no) it does not have scales $no=1
+
+u:(["What was the question" "Can you repeat the question"]) $QuestionAsked="scales"

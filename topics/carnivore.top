@@ -3,5 +3,9 @@ language: enu
 #include possible answers topic
 include:answers.top
 
+u:(e:QuestionAsked) ["Does it eat other animals?" "Does it eat meat?" "Is it a carnivore?"]
+
 u:(~yes) it is a carnivore $yes=1
 u:(~no) it is not a carnivore $no=1
+
+u:(["What was the question" "Can you repeat the question"]) $QuestionAsked="carnivore"

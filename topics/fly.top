@@ -3,6 +3,9 @@ language: enu
 #include possible answers topic
 include:answers.top
 
+u:(e:QuestionAsked) ["Does it fly?" "Can it fly?" "Is it able to fly?"]
+
 u:(~yes) it can fly $yes=1
 u:(~no) it cannot fly $no=1
 
+u:(["What was the question" "Can you repeat the question"]) $QuestionAsked="fly"

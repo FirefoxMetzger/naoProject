@@ -1,0 +1,7 @@
+topic: ~pronouns ()
+language: enu
+
+#concepts for pronouns
+concept:(I)[I we]
+concept:(it)[he she it]
+concept:(anyone)[~I ~it they]

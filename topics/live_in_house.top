@@ -3,5 +3,11 @@ language: enu
 #include possible answers topic
 include:answers.top
 
+#ask the question
+u:(e:QuestionAsked) Does it live in a house?
+
+# catch the labels
 u:(~yes) It is living in a house. $yes=1
 u:(~no) It does not live in a house $no=1
+
+u:(["What was the question" "Can you repeat the question"]) $QuestionAsked="live_in_house"

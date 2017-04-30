@@ -7,5 +7,9 @@ include:answers.top
 concept:(eggs)["!"~not" eggs" "first one" "~not * babies"]
 concept:(babies)["!"~not" babies" "~not eggs" "second one"]
 
-u:(~eggs) it has eggs $eggs=1
-u:(~babies) it has babies $babies=1
+u:(e:QuestionAsked) Does it lay eggs\pau=300\ or does it give birth to living animals?
+
+u:([~eggs ~yes]) it lays eggs $eggs=1
+u:([~babies~no]) it does not lay eggs $babies=1
+
+u:(["What was the question" "Can you repeat the question"]) $QuestionAsked="eggs_or_babies"

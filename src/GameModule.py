@@ -138,9 +138,10 @@ class GameModule(NaoModule):
             self.prepareGuess()
             self.is_guess = True
 
-        self.handles["ALTextToSpeech"].say(self.text)
-        self.question.activate()
         self.handles["ALDialog"].activateTopic(self.question.topic_name)
+        self.handles["ALMemory"].raiseEvent("QuestionAsked", self.question.qid)
+        self.handles["ALTextToSpeech"].say(self.text)
+        self.question.activate()    
 
     def AskedQuestionCallback(self, label, value):
         """ A question has been answered. Update propabilities """
@@ -169,6 +170,7 @@ class GameModule(NaoModule):
         # if guess check if correct
         if self.is_guess and label == "yes":
             self.handles["ALTextToSpeech"].say("I win! You thought of " + self.animal.name)
+            self.handles["ALMemory"].raiseEvent("EndGame", 1)
             self.active_animals = dict()
             self.game_in_progress = False
             self.logger.info("Question Traceback: ")
@@ -179,6 +181,7 @@ class GameModule(NaoModule):
         # if maximum amount of questions asked loose
         if self.handles["parameter_server"].getParameter(self.name,"max_questions") <= self.num_asked:
             self.handles["ALTextToSpeech"].say("Okay, I don't know the animal. You Win!")
+            self.handles["ALMemory"].raiseEvent("EndGame", 0)
             self.game_in_progress = False
             return
 
@@ -235,6 +238,7 @@ class GameModule(NaoModule):
 
         for animal in self.active_animals:
             animal.propability /= propability_sum
+            animal.propability *= len(self.active_animals)
 
     def removeUnlikelyAnimals(self):
         new_active_animals = list()
@@ -248,18 +252,13 @@ class GameModule(NaoModule):
         self.active_animals = new_active_animals
 
     def prepareQuestion(self):
-        best_question = self.active_questions[0]
-        for question in self.active_questions:
-            question.updateScore(self.active_animals)
-            if question.score > best_question.score:
-                best_question = question
-
-        self.question = best_question
+    
+        self.question = self.pickBestQuestion()
         self.active_questions.remove(self.question)
         self.current_question_wrapper["QID"] = self.question.qid
         
         self.text = self.question.text 
-        self.logger.debug("Asking: " + best_question.text)
+        self.logger.debug("Asking: " + self.question.text)
 
         # generate answer distribution for question
         answer_distribution_sum = dict()
@@ -287,9 +286,22 @@ class GameModule(NaoModule):
         
         self.text = best_animal.text
         self.logger.debug("Asking: " + best_animal.text)
+        
+    def pickBestQuestion(self):
+        best_question = self.active_questions[0]
+        for question in self.active_questions:
+            question.updateScore(self.active_animals)
+            if question.score > best_question.score:
+                best_question = question
+        return best_question
 
     def isAskQuestion(self):
         #return True if we ask a quesstion, False otherwise
-
-        return random.random() > 0.2
+        num_animals = len(self.active_animals)
+        remaining_questions = self.handles["parameter_server"].getParameter(self.name,"max_questions") - self.num_asked
+        if num_animals < 3:
+            return False
+        elif remaining_questions <= self.handles["parameter_server"].getParameter(self.name,"panic_questions"):
+            return False
+        return True
 

@@ -27,7 +27,7 @@ u:(set a timer for ~seconds) ^rand~ok $setTimer=$Dialog/LastInput
 # timer responses -- pick a random one. Robot sais this be humourous
 u:(e:timerUp) ^rand[    "The timer has finished. It was $timerUp seconds long." 
                         "Hey! $timerUp seconds are over."
-                        "$timerUp>10 $timerUp seconds are up. Self destruction in 3.. 2.. 1..... I'm joking of course."
+                        "$timerUp>10 $timerUp seconds are up. \emph=2\ Self destruction in \readmode=word\ 3 2 1 \readmode=sent\\pau=700\\emph=0\ I'm joking of course."
                         "$timerHours hour and $timerMinutes minutes have passed. This is your alarm. $timerHours==1 "
                         "$timerHours hours and $timerMinutes minutes have passed. This is your alarm. $timerHours>0"
                         "$timerMinutes Minute and $timerSeconds seconds have passed. This is your alarm. $timerHours==0 $timerMinutes==1"

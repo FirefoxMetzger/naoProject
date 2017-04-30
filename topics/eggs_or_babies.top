@@ -7,5 +7,8 @@ include:answers.top
 concept:(eggs)["!"~not" eggs" "first one" "~not * babies"]
 concept:(babies)["!"~not" babies" "~not eggs" "second one"]
 
-u:(~eggs) it has eggs $eggs=1
-u:(~babies) it has babies $babies=1
+u:([~eggs ~yes]) it lays eggs $eggs=1
+u:([~babies~no]) it does not lay eggs $babies=1
+
+u:(~repeat) $Dialog/Answered
+

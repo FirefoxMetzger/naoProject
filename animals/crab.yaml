@@ -1,0 +1,13 @@
+name: "crab"
+text: "Is it a crab?"
+answers:
+    live_in_house:  {"yes":1, "no":10}
+    carnivore:      {"yes":1, "no":1}
+    eggs_or_babies:  {"eggs":1, "babies":1} #eggs on abdomen, release larvae when hatched, unlikely user will know
+    fur:    {"yes":1, "no":10} #answers likely to be split on this
+    scales: {"yes":1, "no":100}
+    leash:  {"yes":1, "no":100}
+    horse:  {"yes":1, "no":10}
+    legs:  {"yes":10, "no":1}
+    fly:   {"yes":1, "no":10}
+    hard_body: {"yes":10, "no":5} #crabs have soft bodies and hard shells, user answers may be split here

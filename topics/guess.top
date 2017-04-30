@@ -5,3 +5,5 @@ include:answers.top
 
 u:(~yes) yeaaaa baby $yes=1
 u:(~no) damn $no=1
+
+u:(~repeat) $Dialog/Answered

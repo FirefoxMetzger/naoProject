@@ -5,3 +5,5 @@ include:answers.top
 
 u:(~yes) it has scales $yes=1
 u:(~no) it does not have scales $no=1
+
+u:(~repeat) $Dialog/Answered

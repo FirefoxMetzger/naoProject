@@ -1,0 +1,7 @@
+text: "Does it have a hard body like a crab or insect?"
+labels: ['yes', 'no']
+topic: 
+- topics
+- hard_body.top
+topic_name: "hard_body"
+QID: hard_body

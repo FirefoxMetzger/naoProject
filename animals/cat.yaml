@@ -3,9 +3,12 @@ text: "Is it a cat?"
 answers:
     live_in_house:  {"yes":2, "no":1}
     carnivore:      {"yes":5, "no":1}
-    eggs_or_babies:  {"eggs":0, "babies":1}
+    eggs_or_babies:  {"eggs":1, "babies":100}
     fur:    {"yes":10, "no":1}
-    scales: {"yes":0, "no":1}
+    scales: {"yes":1, "no":10}
     leash:  {"yes":1, "no":10}
-    horse:  {"yes":0, "no":1}
+    horse:  {"yes":1, "no":10}
     legs:  {"yes":10, "no":1}
+    fly:   {"yes":1, "no":10}
+    hard_body: {"yes":1, "no":10}
+    

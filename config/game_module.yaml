@@ -5,6 +5,22 @@ animals:
   - sheep.yaml
 - - animals
   - cat.yaml
+- - animals
+  - bird.yaml
+- - animals
+  - cow.yaml
+- - animals
+  - crab.yaml
+- - animals
+  - fish.yaml
+- - animals
+  - fox.yaml
+- - animals
+  - snake.yaml
+- - animals
+  - spider.yaml
+- - animals
+  - squirrel.yaml
 confidence_for_certain: 0.95
 discard_propability: 0.05
 guess:
@@ -34,3 +50,5 @@ questions:
   - eggs_or_babies.yaml
 - - questions
   - carnivore.yaml
+- - questions
+  - hard_body.yaml

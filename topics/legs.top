@@ -1,7 +1,19 @@
 topic: ~legs()
 language: enu
 #include possible answers topic
-include:answers.top
+include:general_concepts.top
+include:yes_it_does.top
+include:no_it_does_not.top
+include:i_think_it_does.top
+include:i_think_it_does_not.top
+
+concept:(hasLegs)["[~yesItDoes ~iThinkItDoes] {have legs}"]
+#concept:(doesNotHaveLegs)["[~noItDoesNot ~iThinkItDoesNot] {"have legs"}"]
+
+#u:(~hasLegs) it has legs $yes=1
+#u:(~doesNotHaveLegs) it does not have legs $no=1
 
 u:(~yes) it has legs $yes=1
 u:(~no) it does not have legs $no=1
+
+u:(~repeat) $Dialog/Answered

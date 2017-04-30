@@ -1,0 +1,8 @@
+topic: ~yes_it_does()
+language: enu
+#include subjects pronouns "I, he etc." topic
+include:subject_pronouns.top
+#include yes/no variations
+include:yes_no.top
+
+concept:(yesItDoes)["{~ye} they do" "{~ye} ~it does" ~ye]

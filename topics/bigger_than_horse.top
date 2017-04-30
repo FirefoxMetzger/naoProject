@@ -5,3 +5,5 @@ include:answers.top
 
 u:(~yes) it is bigger than a horse $yes=1
 u:(~no) it is not bigger than a horse $no=1
+
+u:(~repeat) $Dialog/Answered

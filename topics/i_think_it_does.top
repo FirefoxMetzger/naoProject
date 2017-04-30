@@ -1,0 +1,8 @@
+topic: ~i_think_it_does()
+language: enu
+#include subjects pronouns "I, he etc." topic
+include:subject_pronouns.top
+
+concept:(itDoes)["it does" "they do"]
+
+concept:(iThinkItDoes)["~I think [~itDoes so]" "~it thinks [~itDoes so]"]

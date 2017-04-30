@@ -1,0 +1,9 @@
+topic: ~hard_body()
+language: enu
+#include possible answers topic
+include:answers.top
+
+u:(~yes) it has a hard body $yes=1
+u:(~no) it does not have a hard body $no=1
+
+u:(~repeat) $Dialog/Answered

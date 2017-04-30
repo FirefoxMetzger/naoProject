@@ -45,6 +45,8 @@ class NaoModule(ALModule):
         has_all = True
         for module in module_names:
             has_all = ( has_all and self.hasHandle(module) )
+            
+        return has_all
 
     def hasHandle(self, module_name):
         #Helper function, to see if Proxy is aviable

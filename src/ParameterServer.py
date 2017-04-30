@@ -48,8 +48,6 @@ class ParameterServer(NaoModule):
     def getParameter(self, module_name, param):
         """
         """
-        self.logger.debug(" In module " + module_name +
-            " Handing out parameter: " + param)
         config = self.getModuleConfig(module_name)
         try:
             value = copy.deepcopy(config[param])

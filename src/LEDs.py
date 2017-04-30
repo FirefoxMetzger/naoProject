@@ -29,12 +29,15 @@ class LEDs(NaoModule):
         self.eyes_on()
 
     def ears_on(self):
+        """ turn the ears off """
         self.leds.on("EarLeds")
 
     def ears_off(self):
+        """ turn the ears on """
         self.leds.off("EarLeds")
 
     def spin_ears(self, delay=0.2):
+        """ spin the ears once """
         ears = self.params.getParameter("leds", "ears")
         for pos in ears:
             left = "Ears/Led/Left/" + pos + "/Actuator/Value"
@@ -45,6 +48,7 @@ class LEDs(NaoModule):
             self.leds.off("ear")
 
     def set_eyes(self, col='w'):
+        """ set the eye color """
         colors = get_color_list(col)
         bottom_eye = self.params.getParameter("leds", "bottom_eye")
         lower_eye = self.params.getParameter("leds", "lower_eye")
@@ -85,13 +89,16 @@ class LEDs(NaoModule):
         self.leds.createGroup("Bottom", bottom)
 
     def eyes_on(self):
+        """ turn eyes on """
         self.eyes_off()
         self.leds.on("Eyes")
 
     def eyes_off(self):
+        """ turn eyes off """
         self.leds.off("FaceLeds")
 
     def blink(self, time=0.6):
+        """ Make the robot blink """
         self.close_eyes(2.0 * time / 5.0)
         sleep(time / 5.0)
         self.open_eyes(2.0 * time / 5.0)

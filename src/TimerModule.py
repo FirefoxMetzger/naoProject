@@ -1,6 +1,7 @@
 import os
 import timer.fuzzy_time as date
 import time
+import re
 
 from NaoModule import NaoModule
 
@@ -43,16 +44,78 @@ class TimerModule(NaoModule):
     # Callbacks
     # -------------------------------------
     
-    def setTimerCallback(self, eventName, seconds):
+    def setTimerCallback(self, eventName, time_string):
         """ Set a timer """
-        self.logger.debug("Setting a timer for %s seconds." % seconds)
-        seconds = float(seconds)
-        time.sleep(seconds)
-        
-        say_string = "The time is up. " + str(seconds) + " seconds have passed."
+        self.logger.debug("Setting a timer.")
+        stop_time = 0 # in s
 
-        self.handles["ALTextToSpeech"].say(say_string)
-        print(say_string)
+        time_string = time_string.replace("set a timer for","")
+
+        # get rid of spoken fractions
+        fractions = dict()
+        fractions["half"] = 0.5
+        fractions["halfs"] = 0.5
+        fractions["quarter"] = 0.25
+        fractions["quarters"] = 0.25
+        fractions["third"] = 1/3.0
+        fractions["thirds"] = 1/3.0
+
+        time_indicators = dict()
+        time_indicators["day"] = 24 * 60*60.0
+        time_indicators["days"] = 24 * 60*60.0
+        time_indicators["hour"] = 60*60.0
+        time_indicators["hours"] = 60*60.0
+        time_indicators["minute"] = 60.0
+        time_indicators["minutes"] = 60.0
+        time_indicators["second"] = 1.0
+        time_indicators["seconds"] = 1.0
+
+        unknown_total = 0.0
+        current_value = 0.0
+        current_fraction = 1.0
+        of_flag = False
+        for word in time_string.split():
+            try:
+                current_value += float(word)
+            except ValueError:
+                # not a number
+                if word in ["an", "a"]:
+                    if not of_flag:
+                        current_value += 1
+                elif word == "of":
+                    of_flag = True
+                elif word in fractions.keys():
+                    current_fraction *= fractions[word]
+                elif word in time_indicators.keys():
+                    unknown_total += current_value * current_fraction
+                    stop_time += unknown_total * time_indicators[word]
+
+                    unknown_total = 0
+                    current_value = 0
+                    current_fraction = 1.0
+                    of_flag = False
+                elif word == "and":
+                    unknown_total += current_value * current_fraction
+                    current_value = 0
+                    current_fraction = 1.0
+
+        split = stop_time
+        seconds = stop_time % 60
+        minutes = stop_time // 60 % 60
+        hours = stop_time // (60 ** 2) % 24
+        days = stop_time // (60 ** 2 * 24)
+
+        sec = stop_time % 60
+
+        self.logger.debug("Timer for %f seconds set." % stop_time)
+        time.sleep(stop_time)
+
+        # a bit hacky
+        self.handles["ALMemory"].raiseEvent("timerSeconds", seconds)
+        self.handles["ALMemory"].raiseEvent("timerMinutes", minutes)
+        self.handles["ALMemory"].raiseEvent("timerHours", hours)
+        self.handles["ALMemory"].raiseEvent("timerDays", days)
+        self.handles["ALMemory"].raiseEvent("timerUp", stop_time)
 
     def sayDateCallback(self, unused_value):
         """ Say the date"""

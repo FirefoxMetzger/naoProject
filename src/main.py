@@ -57,6 +57,9 @@ def main(is_on_robot):
          TimerModule("timer_module", is_on_robot) as timer_module,\
          GameModule("game_module", is_on_robot) as game_module,\
          ExperimentLogger("experiment_logger") as experiment_logger:
+         
+        trigger_finger = ALProxy("ALMemory")
+        trigger_finger.raiseEvent("emoBlink", 3000)
 
         # keep brooker alive
         try:

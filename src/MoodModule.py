@@ -1,5 +1,4 @@
-import logging
-import fractions
+import random
 import time
 
 from NaoModule import NaoModule
@@ -43,7 +42,7 @@ class MoodModule(NaoModule):
     def setupBasicAwareness(self):
         if self.hasHandle("ALBasicAwareness"):
             baware = self.handles["ALBasicAwareness"]
-            baware.setEngagementMode("SemiEngaged")
+            baware.setEngagementMode("FullyEngaged")
             baware.setTrackingMode("Head")  
             baware.setStimulusDetectionEnabled("Sound", True)
             baware.setStimulusDetectionEnabled("Movement", True)
@@ -64,22 +63,17 @@ class MoodModule(NaoModule):
     # Callbacks
     # -------------------------------------
 
-    def blinkingCallback(self, event_name, update_frequency):
+    def blinkingCallback(self, event_name, blink_frequency):
         """ Make Nao Blink in whatever color was set"""
-        update_frequency = int(update_frequency)
-        counter = 0
-        cycle_time = fractions.gcd(update_frequency, self.blink_frequency)
-        while self.is_blinking:
-            if (counter * cycle_time) % update_frequency == 0:
-                cycle_time = fractions.gcd(update_frequency,\
-                    self.blink_frequency)
-                counter = 0
-
-            if (counter * cycle_time) % self.blink_frequency == 0:
-                self.getHandle("leds").blink(0.6)
-
-            time.sleep(cycle_time)
-            counter += 1
+        
+        self.blink_frequency = blink_frequency
+        self.handles["leds"].blink(0.2)
+        random_delay = random.random() * blink_frequency / 2.0
+        time.sleep((random_delay + blink_frequency) / 1000.0)
+        
+        if self.is_blinking:
+        	self.handles["ALMemory"].raiseEvent("emoBlink", blink_frequency)
+            
 
     def WordRecognizedCallback(self, eventName, value):
         """ If a word was recognized either shine green (understood)
@@ -128,14 +122,15 @@ class MoodModule(NaoModule):
 
     def __enter__(self):
         if self.hasAllHandles(["ALBasicAwareness", "ALMotion"]):
-            self.getHandle("ALMotion").wakeUp()
-            self.basic_awareness.startAwareness()
+            self.handles["ALMotion"].wakeUp()
+            self.handles["ALBasicAwareness"].startAwareness()
 
-        if self.hasAllHandles(["ALMemory" "leds"]):
-            self.getHandle("ALMemory").raiseEvent("emoBlink", 250)
         return self
 
     def __exit__(self, exec_type, exec_value, traceback):
+    	self.is_blinking = False
+    	time.sleep(1)
+    	self.handles["leds"].eyes_on()
         if self.hasAllHandles(["ALBasicAwareness", "ALMotion"]):
-            self.basic_awareness.stopAwareness()
-            self.motion.sleep()
+            self.handles["ALBasicAwareness"].stopAwareness()
+            self.handles["ALMotion"].rest()

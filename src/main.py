@@ -60,7 +60,6 @@ def main(is_on_robot):
          
         trigger_finger = ALProxy("ALMemory")
         trigger_finger.raiseEvent("emoBlink", 3000)
-        animations.wave()
         # keep brooker alive
         try:
             while True:

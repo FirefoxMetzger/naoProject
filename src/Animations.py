@@ -56,8 +56,8 @@ class Animations(NaoModule):
     def game_event_cb(self, event_name, value):
         """
         """
-        if value != "guess":
-            print value
+        print "VALUE:" + str(value)
+        if value[0] != "guess":
             chance = random.randrange(0, 3)
             if chance == 0:
                 self.thinking_pose()

@@ -235,7 +235,7 @@ arms_up = {"type": "angleInterpolation",
                    [-17.3, -17.3] * 3,
                    [-52.1, -52.1] * 3,
                    [0, 0] * 3],
-        "intervals": [[1, 0.3, 0.3, 0.3, 0.3, 0.3]] * 12,
+        "intervals": [[1.5, 0.3, 0.3, 0.3, 0.3, 0.3]] * 12,
         "is_absolute": True}
 
 this_big = {"type": "angleInterpolation",

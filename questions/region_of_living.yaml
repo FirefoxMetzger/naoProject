@@ -1,0 +1,7 @@
+text: "Would I rather find it in a village, city or the wilds?"
+labels: ['village', 'city', 'wilds']
+topic: 
+- topics
+- region_of_living.top
+topic_name: "region_of_living"
+QID: region_of_living

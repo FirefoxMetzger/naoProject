@@ -11,3 +11,5 @@ answers:
     legs:  {"yes":10, "no":1}
     fly:   {"yes":10, "no":1}
     hard_body: {"yes":1, "no":10}
+    region_of_living: {"village":1,"city":1,"wilds":1}
+    #number_of_legs:{"two":10,"four":1,"eight":1,"none":1}

@@ -1,5 +1,6 @@
 import random
 import os
+import time
 
 from NaoModule import NaoModule
 from core.Question import Question
@@ -22,6 +23,7 @@ class GameModule(NaoModule):
         self.getHandle("speech_module")
         self.getHandle("parameter_server", True)
         self.getHandle("ALTextToSpeech")
+        self.getHandle("ALAnimatedSpeech")
           
         # initialize class attributes
         self.text = ""
@@ -47,7 +49,7 @@ class GameModule(NaoModule):
             self.loadQiChatTopic(question.topic)
 
         # load guess question    
-        guess_rel_dir = self.handles["parameter_server"].getParameter(self.name,"guess")
+        guess_rel_dir = self.handles["parameter_server"].getParameter(self.name, "guess")
         abs_path = self.getAbsPath(guess_rel_dir)
         self.guess_question = Question(abs_path)
         self.loadQiChatTopic(self.guess_question.topic)
@@ -121,7 +123,7 @@ class GameModule(NaoModule):
         if (len(self.active_animals) <= 0):
             self.handles["ALTextToSpeech"].say("I concede, I don't know the animal.")
             self.handles["ALTextToSpeech"].say("If you want to play again, say new game")
-            self.handles("ALMemory").raiseEvent("EndGame", 0)
+            self.handles["ALMemory"].raiseEvent("EndGame", 0)
             self.game_in_progress = False
             return
 
@@ -142,7 +144,6 @@ class GameModule(NaoModule):
 
     def AskedQuestionCallback(self, label, value):
         """ A question has been answered. Update propabilities """
-        self.logger.debug("AskedQuestionCallback executed")
         self.question.deactivate()
         self.handles["ALDialog"].deactivateTopic(self.question.topic_name)
 
@@ -166,8 +167,9 @@ class GameModule(NaoModule):
 
         # if guess check if correct
         if self.is_guess and label == "yes":
-            self.handles["ALTextToSpeech"].say("I win! You thought of " + self.animal.name)
+            id_speech = self.handles["ALTextToSpeech"].post.say("I win! You thought of " + self.animal.name)
             self.handles["ALMemory"].raiseEvent("EndGame", 1)
+            self.handles["ALTextToSpeech"].wait(id_speech, 1000)
             self.active_animals = dict()
             self.game_in_progress = False
             self.logger.info("Question Traceback: ")
@@ -177,14 +179,18 @@ class GameModule(NaoModule):
 
         # if maximum amount of questions asked loose
         if self.handles["parameter_server"].getParameter(self.name,"max_questions") <= self.num_asked:
-            self.handles["ALTextToSpeech"].say("Okay, I don't know the animal. You Win!")
+            self.handles["ALTextToSpeech"].post.say("Okay, I don't know the animal. You Win!")
             self.handles["ALMemory"].raiseEvent("EndGame", 0)
             self.game_in_progress = False
             return
 
         self.handles["ALMemory"].subscribeToEvent("nextMove",self.name, "nextMoveCallback")
+        time.sleep(0.7)
+        if self.game_in_progress:
+            self.handles["ALMemory"].raiseEvent("NextMoveSayText",1)
         
     def QuestionAskedCallback(self, eventName, value):
+        """ Say the guess question """
         if value != "guess":
             return
         self.handles["ALTextToSpeech"].say(self.text)

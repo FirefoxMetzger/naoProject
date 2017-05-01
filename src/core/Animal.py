@@ -8,8 +8,11 @@ class Animal:
         logging.basicConfig()
         self.logger = logging.getLogger(__name__)
         self.logger.info("Logging enabled for: " + __name__)
-        
-        animal_dict = util.loadYAML(self, path)
+
+        try:
+            animal_dict = util.loadYAML(self, path)
+        except AssertionError:
+            self.logger.error("There was a problem loading question from %s" % path)
 
         try:
             self.name = str(animal_dict["name"])

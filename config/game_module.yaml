@@ -52,3 +52,7 @@ questions:
   - carnivore.yaml
 - - questions
   - hard_body.yaml
+- - questions
+  - region_of_living.yaml
+- - questions
+  - number_of_legs.yaml

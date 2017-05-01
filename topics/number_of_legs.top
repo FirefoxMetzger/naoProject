@@ -4,12 +4,14 @@ language: enu
 include:answers.top
 
 #ask the question
-u:(e:QuestionAsked) ["Does it have 2 legs, 4 legs, 8 legs or none of those?"]
+u:(e:QuestionAsked) ["How many legs does it have?"]
 
 # catch the labels
 u:(2 {legs}) Haha, humans aren't animals \pau=150\ I think. \pau=300\ Anyways I will consider your answer. $two=1
 u:(4 {legs}) 4 legs. I already want to pet it. $four=1
 u:(8 {legs}) 8 legs.\pau=400\ That is frightening. $eight=1
+
+concept:(none) [1 3 5 6 7 9 10 11 12 13 14 15 none "It doesn't have legs"]
 u:(none {of those}) Damn. I thought I got you there. $none=1
 
 u:(["What was the question" "Can you repeat the question"]) $QuestionAsked="region_of_living"

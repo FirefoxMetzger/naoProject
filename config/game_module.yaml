@@ -62,3 +62,5 @@ questions:
   - horns.yaml
 - - questions
   - stripes.yaml
+- - questions
+  - bigger_than_this.yaml

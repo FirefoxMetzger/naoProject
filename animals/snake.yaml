@@ -16,3 +16,4 @@ answers:
     stripes: {"yes": 1, "no": 100}
     tail: {"yes": 100, "no": 1}
     horns: {"yes": 1, "no": 100}
+    bigger_than_this: {"yes": 100, "no":20}

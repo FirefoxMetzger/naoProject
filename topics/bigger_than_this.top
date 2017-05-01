@@ -1,0 +1,11 @@
+topic: ~bigger_than_this()
+language: enu
+#include possible answers topic
+include:answers.top
+
+u:(e:QuestionAsked) Is it bigger than this?
+
+u:(~yes) wow, it must be bigger than me $yes=1
+u:(~no) okay, it's only small $no=1
+
+u:(["What was the question" "Can you repeat the question"]) $QuestionAsked="this"

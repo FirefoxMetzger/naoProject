@@ -29,7 +29,7 @@ class Animations(NaoModule):
         self.logger.debug("Animation callback executed.")
         if value == "fly":
             self.flap()
-        elif value == "how_big":
+        elif value == "this":
             self.this_big()
 
     def end_game_cb(self, event_name, value):

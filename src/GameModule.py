@@ -91,11 +91,6 @@ class GameModule(NaoModule):
             self.logger.info("Overwriting a game in progress.")
             
         try:
-            self.handles["ALMemory"].unsubscribeToEvent("QuestionAsked",self.name)
-        except RuntimeError:
-            pass # just make sure we are not subscribed
-            
-        try:
             self.handles["ALMemory"].unsubscribeToEvent("nextMove",self.name)
         except RuntimeError:
             pass # just make sure we are not subscribed
@@ -138,8 +133,8 @@ class GameModule(NaoModule):
         self.logger.debug("Active Animals: " + str(len(self.active_animals)))
 
         if (len(self.active_animals) <= 0):
-            self.handles["ALTextToSpeech"].say("I concede, I don't know the animal.")
-            self.handles["ALTextToSpeech"].say("If you want to play again, say new game")
+            self.handles["ALTextToSpeech"].post.say("I concede, I don't know the animal.")
+            self.handles["ALTextToSpeech"].post.say("If you want to play again, say new game")
             self.handles["ALMemory"].raiseEvent("EndGame", 0)
             self.game_in_progress = False
             return

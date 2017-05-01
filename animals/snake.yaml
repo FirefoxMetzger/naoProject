@@ -1,15 +1,15 @@
 name: "snake"
 text: "Is it a snake?"
 answers:
-    live_in_house:  {"yes":2, "no":10}
-    carnivore:      {"yes":10, "no":1}
-    eggs_or_babies:  {"eggs":10, "babies":1}
-    fur:    {"yes":1, "no":10} #answers likely to be split on this
+    live_in_house:  {"yes":5, "no":10}
+    carnivore:      {"yes":100, "no":1}
+    eggs_or_babies:  {"eggs":100, "babies":1}
+    fur:    {"yes":1, "no":100} #answers likely to be split on this
     scales: {"yes":100, "no":1}
-    leash:  {"yes":1, "no":10}
-    horse:  {"yes":1, "no":1}
-    legs:  {"yes":1, "no":10}
-    fly:   {"yes":1, "no":10}
-    hard_body: {"yes":1, "no":1}
-    region_of_living: {"village":5,"city":5,"wilds":10}
-    number_of_legs: {"two":1,"four":1,"eight":1,"none":10}
+    leash:  {"yes":1, "no":100}
+    horse:  {"yes":1, "no":100}
+    legs:  {"yes":1, "no":100}
+    fly:   {"yes":1, "no":100}
+    hard_body: {"yes":1, "no":100}
+    region_of_living: {"village":5,"city":5,"wilds":100}
+    number_of_legs: {"two":1,"four":1,"eight":1,"none":100}

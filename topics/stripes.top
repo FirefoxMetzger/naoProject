@@ -3,7 +3,7 @@ language: enu
 #include possible answers topic
 include:answers.top
 
-u:(e:QuestionAsked) ["Is it stripped like a tiger?" "Does it have stripes?"]
+u:(e:QuestionAsked) ["Does it have stripes, like a tiger?" "Does it have stripes?"]
 
 u:(~yes) it has stripes $yes=1
 u:(~no) okay, it doesn't have stripes $no=1

@@ -148,7 +148,7 @@ class GameModule(NaoModule):
         self.handles["ALDialog"].deactivateTopic(self.question.topic_name)
 
         game_event = list()
-        game_event.append(self.text)
+        game_event.append(self.question.qid)
         game_event.append(label)
         self.handles["ALMemory"].raiseEvent("GameEvent", game_event)
 

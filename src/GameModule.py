@@ -89,7 +89,23 @@ class GameModule(NaoModule):
 
         if self.game_in_progress:
             self.logger.info("Overwriting a game in progress.")
-        
+            
+        try:
+            self.handles["ALMemory"].unsubscribeToEvent("QuestionAsked",self.name)
+        except RuntimeError:
+            pass # just make sure we are not subscribed
+            
+        try:
+            self.handles["ALMemory"].unsubscribeToEvent("nextMove",self.name)
+        except RuntimeError:
+            pass # just make sure we are not subscribed
+            
+        for topic in self.registered_topics:
+            try:
+                self.handles["ALDialog"].deactivateTopic(topic)
+            except RuntimeError:
+                pass # just make sure the topic is not loaded           
+     
         # load questions
         self.active_questions = list()
         question_list = self.handles["parameter_server"].getParameter(self.name,'questions')
@@ -112,6 +128,7 @@ class GameModule(NaoModule):
 
         # allow next move to start a new game
         self.handles["ALMemory"].subscribeToEvent("nextMove", self.name, "nextMoveCallback")
+        #self.handles["ALMemory"].raiseEvent("NextMoveSayText", 1)
 
     def nextMoveCallback(self, eventName, value):
         """ Prepare the next move (question or guess) """

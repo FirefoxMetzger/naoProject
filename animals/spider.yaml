@@ -12,4 +12,4 @@ answers:
     fly:   {"yes":1, "no":10}
     hard_body: {"yes":10, "no":1}
     region_of_living: {"village":5,"city":10,"wilds":5}
-    #number_of_legs:{"two":1,"four":1,"eight":10,"none":1}
+    number_of_legs: {"two":1,"four":1,"eight":10,"none":1}

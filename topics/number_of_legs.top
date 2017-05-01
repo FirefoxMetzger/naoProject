@@ -7,7 +7,7 @@ include:answers.top
 u:(e:QuestionAsked) ["Does it have 2 legs, 4 legs, 8 legs or none of those?"]
 
 # catch the labels
-u:(2 {legs}) Haha, humans aren't animals \pau=150\ I think. \pau=300\ Anyways I will consider your answer. $two=1
+u:(2 {legs}) Haha, humans do not count as animals \pau=150\ I think. \pau=300\ Anyways I will consider your answer. $two=1
 u:(4 {legs}) 4 legs. I already want to pet it. $four=1
 u:(8 {legs}) 8 legs.\pau=400\ That is frightening. $eight=1
 

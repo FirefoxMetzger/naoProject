@@ -20,8 +20,7 @@ u:(~new_game) Okay. Let's play a new game. Are you a new user?
     
 u:(help {[me please "me please"]}) Sure.\pau=300\ 
     Say new game to start a new game.\pau=500\
-    Say next to make me ask the next question \pau=500\
-    Say What's the time or What's the date for the obvious response\pau=500\
+    Say What's the time \pau=200\ or \pau=100\ What's the date \pau=200\ for the obvious response\pau=500\
     You can also set timers \pau=300\ saying \pau=500\ set a timer for \pau=500\ and then the amount.
 
 u:(~repeat) $Dialog/Answered

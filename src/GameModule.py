@@ -133,9 +133,8 @@ class GameModule(NaoModule):
         self.logger.debug("Active Animals: " + str(len(self.active_animals)))
 
         if (len(self.active_animals) <= 0):
-            self.handles["ALTextToSpeech"].post.say("I concede, I don't know the animal.")
-            self.handles["ALTextToSpeech"].post.say("If you want to play again, say new game")
             self.handles["ALMemory"].raiseEvent("EndGame", 0)
+            self.handles["ALTextToSpeech"].say("I ran out of ideas. \\pau=300\\ This is so annoying. I \\pau=200\\ give up.")
             self.game_in_progress = False
             return
 

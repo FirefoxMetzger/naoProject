@@ -188,6 +188,7 @@ class GameModule(NaoModule):
             self.handles["ALMemory"].raiseEvent("NextMoveSayText",1)
         
     def QuestionAskedCallback(self, eventName, value):
+        """ Say the guess question """
         if value != "guess":
             return
         self.handles["ALTextToSpeech"].say(self.text)

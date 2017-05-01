@@ -122,7 +122,7 @@ class GameModule(NaoModule):
         if (len(self.active_animals) <= 0):
             self.handles["ALTextToSpeech"].say("I concede, I don't know the animal.")
             self.handles["ALTextToSpeech"].say("If you want to play again, say new game")
-            self.handles("ALMemory").raiseEvent("EndGame", 0)
+            self.handles["ALMemory"].raiseEvent("EndGame", 0)
             self.game_in_progress = False
             return
 

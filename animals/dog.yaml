@@ -14,5 +14,5 @@ answers:
     region_of_living: {"village":1,"city":1,"wilds":1}
     number_of_legs: {"two":1,"four":100,"eight":1,"none":1}
     stripes: {"yes": 1, "no": 10}
-    tail:{"yes": 100, "no": 1}
-    horns:{"yes": 1, "no": 100}
+    tail: {"yes": 100, "no": 1}
+    horns: {"yes": 1, "no": 100}

@@ -9,6 +9,6 @@ u:(e:QuestionAsked) ["Would I rather find it in a village, city or the wilds?"]
 # catch the labels
 u:(village) Okay, a small village. $village=1
 u:(city) In a big city, that was unexpected. $city=1
-u:(wilds) Uuh, I like the wild ones. $wilds=1
+u:(wilds) I really like the wild ones. $wilds=1
 
 u:(["What was the question" "Can you repeat the question"]) $QuestionAsked="region_of_living"

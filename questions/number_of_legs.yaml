@@ -1,0 +1,7 @@
+text: "Does it have 2 legs, 4 legs, 8 legs or none of those?"
+labels: ['two', 'four', 'eight', 'none']
+topic: 
+- topics
+- number_of_legs.top
+topic_name: "number_of_legs"
+QID: number_of_legs

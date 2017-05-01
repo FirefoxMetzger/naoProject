@@ -56,3 +56,9 @@ questions:
   - region_of_living.yaml
 - - questions
   - number_of_legs.yaml
+- - questions
+  - tail.yaml
+- - questions
+  - horns.yaml
+- - questions
+  - stripes.yaml

@@ -1,0 +1,11 @@
+topic: ~tail()
+language: enu
+#include possible answers topic
+include:answers.top
+
+u:(e:QuestionAsked) ["Does it have a tail?"]
+
+u:(~yes) okay, it has a tail $yes=1
+u:(~no) oh, no tail, okay $no=1
+
+u:(["What was the question" "Can you repeat the question"]) $QuestionAsked="tail"

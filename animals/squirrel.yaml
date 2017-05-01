@@ -13,3 +13,6 @@ answers:
     hard_body: {"yes":1, "no":100}
     region_of_living: {"village":50,"city":10,"wilds":100}
     number_of_legs: {"two":50,"four":50,"eight":1,"none":1}
+    stripes: {"yes": 1, "no": 100}
+    tail:{"yes": 100, "no": 1}
+    horns:{"yes": 1, "no": 100}

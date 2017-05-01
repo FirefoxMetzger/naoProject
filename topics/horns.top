@@ -1,0 +1,11 @@
+topic: ~horns()
+language: enu
+#include possible answers topic
+include:answers.top
+
+u:(e:QuestionAsked) ["Does it have horns?" "Does it have horns like a bull?"]
+
+u:(~yes) it has horns, scary! $yes=1
+u:(~no) okay, it doesn't have horns $no=1
+
+u:(["What was the question" "Can you repeat the question"]) $QuestionAsked="horns"

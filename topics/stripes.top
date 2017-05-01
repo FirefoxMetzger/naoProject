@@ -1,0 +1,11 @@
+topic: ~stripes()
+language: enu
+#include possible answers topic
+include:answers.top
+
+u:(e:QuestionAsked) ["Is it stripped like a tiger?" "Does it have stripes?"]
+
+u:(~yes) it has stripes $yes=1
+u:(~no) okay, it doesn't have stripes $no=1
+
+u:(["What was the question" "Can you repeat the question"]) $QuestionAsked="stripes"

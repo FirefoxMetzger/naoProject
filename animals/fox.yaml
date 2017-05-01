@@ -4,7 +4,7 @@ answers:
     live_in_house:  {"yes":1, "no":100}
     carnivore:      {"yes":100, "no":1}
     eggs_or_babies:  {"eggs":1, "babies":100}
-    fur:    {"yes":1, "no":100} #answers likely to be split on this
+    fur:    {"yes":100, "no":1} #answers likely to be split on this
     scales: {"yes":1, "no":100}
     leash:  {"yes":1, "no":100}
     horse:  {"yes":1, "no":100}
@@ -13,3 +13,6 @@ answers:
     hard_body: {"yes":1, "no":100}
     region_of_living: {"village":5,"city":5,"wilds":10}
     number_of_legs: {"two":1,"four":100,"eight":1,"none":1}
+    stripes: {"yes": 1, "no": 10}
+    tail:{"yes": 100, "no": 1}
+    horns:{"yes": 1, "no": 100}

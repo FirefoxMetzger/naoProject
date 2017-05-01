@@ -1,0 +1,7 @@
+text: "Does it have a tail?"
+labels: ['yes', 'no']
+topic: 
+- topics
+- tail.top
+topic_name: "tail"
+QID: tail

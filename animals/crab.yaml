@@ -13,3 +13,6 @@ answers:
     hard_body: {"yes":100, "no":1} #crabs have soft bodies and hard shells, user answers may be split here
     region_of_living: {"village":1,"city":1,"wilds":100}
     number_of_legs: {"two":1,"four":10,"eight":100,"none":10}
+    stripes: {"yes": 1, "no": 100}
+    tail:{"yes": 1, "no": 100}
+    horns:{"yes": 1, "no": 100}

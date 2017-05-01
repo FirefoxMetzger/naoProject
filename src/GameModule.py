@@ -91,11 +91,6 @@ class GameModule(NaoModule):
             self.logger.info("Overwriting a game in progress.")
             
         try:
-            self.handles["ALMemory"].unsubscribeToEvent("QuestionAsked",self.name)
-        except RuntimeError:
-            pass # just make sure we are not subscribed
-            
-        try:
             self.handles["ALMemory"].unsubscribeToEvent("nextMove",self.name)
         except RuntimeError:
             pass # just make sure we are not subscribed

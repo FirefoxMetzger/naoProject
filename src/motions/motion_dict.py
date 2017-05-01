@@ -62,7 +62,7 @@ celebrate = {"type": "angleInterpolation",
                         [95, 88, 88, 88, 88, 68],
                         [70, 91, 91, 91, 91, -6],
                         [1, 0, 0, 0, 0, 0.45]],
-             "intervals": [[1, 0.5, 0.5, 0.5, 0.7, 1]] * 6,
+             "intervals": [[0.6, 0.5, 0.5, 0.5, 0.7, 1]] * 6,
              "is_absolute": True}
 
 face_palm = {"type": "angleInterpolation",

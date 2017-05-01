@@ -5,6 +5,7 @@ import copy
 from NaoModule import NaoModule
 
 class ParameterServer(NaoModule):
+
     def __init__(self, name, top_level_config):
         NaoModule.__init__(self, name)
 

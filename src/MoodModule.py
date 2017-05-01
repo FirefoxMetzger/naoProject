@@ -20,11 +20,13 @@ class MoodModule(NaoModule):
         self.getHandle("leds")
         self.getHandle("ALBasicAwareness")
         self.getHandle("ALSpeechRecognition")
+        self.getHandle("ALRobotPosture")
 
         #setup proxy dependant stuff
         self.setupMemory()
         self.setupASR()
         self.setupBasicAwareness()
+        self.posture = self.handles["ALRobotPosture"]
         
         self.blink_frequency = 500 #ms
         self.is_blinking = True
@@ -122,7 +124,7 @@ class MoodModule(NaoModule):
 
     def __enter__(self):
         if self.hasAllHandles(["ALBasicAwareness", "ALMotion"]):
-            self.handles["ALMotion"].wakeUp()
+            self.posture.goToPosture("Stand", 0.5)
             self.handles["ALBasicAwareness"].startAwareness()
 
         return self

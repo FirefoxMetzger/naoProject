@@ -60,7 +60,7 @@ def main(is_on_robot):
          
         trigger_finger = ALProxy("ALMemory")
         trigger_finger.raiseEvent("emoBlink", 3000)
-
+        animations.wave()
         # keep brooker alive
         try:
             while True:
@@ -76,8 +76,8 @@ if __name__ == "__main__":
     MAIN_BROKER_PORT = 9559
 
     parser = OptionParser()
-    parser.add_option("--IP",type="string",dest="MAIN_BROKER")
-    parser.add_option("-p","--PORT",type="int",dest="MAIN_BROKER_PORT")
+    parser.add_option("--IP", type="string", dest="MAIN_BROKER")
+    parser.add_option("-p", "--PORT", type="int", dest="MAIN_BROKER_PORT")
     parser.add_option("--on-robot", action="store_true", dest="IS_ON_ROBOT", default=False)
     (options, args) = parser.parse_args()
 

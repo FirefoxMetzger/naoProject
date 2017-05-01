@@ -4,7 +4,7 @@ language: enu
 include:answers.top
 
 #ask the question
-u:(e:QuestionAsked) ["How many legs does it have?"]
+u:(e:QuestionAsked) ["Does it have 2 legs, 4 legs, 8 legs or none of those?"]
 
 # catch the labels
 u:(2 {legs}) Haha, humans aren't animals \pau=150\ I think. \pau=300\ Anyways I will consider your answer. $two=1

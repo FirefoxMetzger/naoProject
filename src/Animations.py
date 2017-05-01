@@ -1,9 +1,8 @@
 # -*- encoding UTF-8 -*-
 
 import math
-import almath
 import random
-import motion as almotion
+import time
 from NaoModule import NaoModule
 import motions.motion_dict as motion_dict
 
@@ -19,30 +18,22 @@ class Animations(NaoModule):
         self.motion = self.handles["ALMotion"]
         self.posture = self.handles["ALRobotPosture"]
         self.leds = self.handles["leds"]
-        self.handles["ALMemory"].subscribeToEvent("QuestionAsked", self.name, "")
-        self.handles["ALMemory"].subscribeToEvent("NewGame", self.name, "")
-        self.handles["ALMemory"].subscribeToEvent("EndGame", self.name, "")
-        self.handles["ALMemory"].subscribeToEvent("GameEvent", self.name, "")
+        self.handles["ALMemory"].subscribeToEvent("QuestionAsked", self.name, "question_asked_cb")
+        self.handles["ALMemory"].subscribeToEvent("NewGame", self.name, "new_game_cb")
+        self.handles["ALMemory"].subscribeToEvent("EndGame", self.name, "end_game_cb")
+        self.handles["ALMemory"].subscribeToEvent("GameEvent", self.name, "game_event_cb")
 
     def question_asked_cb(self, event_name, value):
         """
-        :param event_name:
-        :param value:
-        :return:
         """
         self.logger.debug("Animation callback executed.")
-        if event_name == "QuestionAsked" and value == 1:
-            pass
-        elif event_name == "QuestionAsked" and value == 2:
-            pass
-        elif event_name == "QuestionAsked" and value == 3:
-            pass
+        if value == "fly":
+            self.flap()
+        elif value == "how_big":
+            self.this_big()
 
     def end_game_cb(self, event_name, value):
         """
-        :param event_name:
-        :param value:
-        :return:
         """
         if value == 0:
             chance = random.randrange(0, 2)
@@ -51,33 +42,45 @@ class Animations(NaoModule):
             elif chance == 1:
                 self.tantrum()
         elif value == 1:
-            self.celebrate()
+            chance = random.randrange(0, 2)
+            if chance == 0:
+                self.celebrate()
+            elif chance == 1:
+                self.arms_up()
 
     def new_game_cb(self, event_name, value):
         """
-        :param event_name:
-        :param value:
-        :return:
         """
         pass
 
     def game_event_cb(self, event_name, value):
         """
-        :param event_name:
-        :param value:
-        :return:
         """
-        chance = random.randrange(0, 3)
-        if chance == 0:
-            self.thinking_pose()
-        elif chance == 1:
-            self.scratch_head()
+        if value != "guess":
+            print value
+            chance = random.randrange(0, 3)
+            if chance == 0:
+                self.thinking_pose()
+            elif chance == 1:
+                self.scratch_head()
+
+    def this_big(self):
+        self.run(motion_dict.this_big)
+        self.posture.goToPosture("Stand", 0.5)
 
     def face_palm(self):
         self.run(motion_dict.face_palm)
 
+    def arms_up(self):
+        self.run(motion_dict.arms_up)
+        self.posture.goToPosture("Stand", 1)
+
     def scratch_bum(self):
         pass
+
+    def flap(self):
+        self.run(motion_dict.flap)
+        self.posture.goToPosture("Stand", 0.5)
 
     def tantrum(self):
         self.leds.set_eyes('r')
@@ -104,7 +107,7 @@ class Animations(NaoModule):
     def wave(self):
         self.run(motion_dict.raise_right_arm)
         self.run(motion_dict.wave_right_arm)
-        self.run(motion_dict.lower_right_arm)
+        self.posture.goToPosture("Stand", 1.0)
 
     def thinking_pose(self):
         self.run(motion_dict.thinking_pose)
@@ -123,28 +126,36 @@ class Animations(NaoModule):
         self.motion.setStiffnesses("RHand", 0.9)
         self.motion.angleInterpolation(["LHand", "RHand"], [pos] * 2, [time] * 2, True)
 
-    def run(self, motion, post=False, wait=False):
+    def run(self, motion, post=False):
         [self.motion.setStiffnesses(joint, 0.9) for joint in motion["joints"]]
         time_lists = [intervals2times(intervals) for intervals in motion["intervals"]]
         if motion["type"] == "angleInterpolation":
             angle_lists = deg2rad(motion["joints"], motion["angles"])
             if post:
-                task_id = self.motion.post.angleInterpolation(motion["joints"], angle_lists,
+                self.motion.post.angleInterpolation(motion["joints"], angle_lists,
                                                               time_lists, motion["is_absolute"])
             else:
                 self.motion.angleInterpolation(motion["joints"], angle_lists,
                                                time_lists, motion["is_absolute"])
         elif motion["type"] == "positionInterpolations":
             if post:
-                task_id = self.motion.post.positionInterpolations(motion["joints"], motion["space"], motion["path"],
+                self.motion.post.positionInterpolations(motion["joints"], motion["space"], motion["path"],
                                                                   motion["axis_mask"], time_lists, motion["is_absolute"])
             else:
                 self.motion.positionInterpolations(motion["joints"], motion["space"], motion["path"],
                                                    motion["axis_mask"], time_lists, motion["is_absolute"])
         else:
             print("Warning: unknown motion type: " + motion["type"])
-        if post and wait:
-            self.motion.wait(task_id, 0)
+
+    def demo(self):
+        self.flap()
+        self.face_palm()
+        self.arms_up()
+        self.this_big()
+        self.scratch_head()
+        self.tantrum()
+        self.wave()
+        self.thinking_pose()
 
 
 # Converts a lists of time intervals into a list of times

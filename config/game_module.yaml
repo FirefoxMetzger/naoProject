@@ -21,6 +21,14 @@ animals:
   - spider.yaml
 - - animals
   - squirrel.yaml
+- - animals
+  - goat.yaml
+- - animals
+  - mouse.yaml
+- - animals
+  - lizzard.yaml
+- - animals
+  - tiger.yaml
 confidence_for_certain: 0.95
 discard_propability: 0.05
 guess:

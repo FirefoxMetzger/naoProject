@@ -1,11 +1,18 @@
-topic: ~leash ()
+topic: ~leash()
 language: enu
-#include possible answers topic
-include:answers.top
+
+include:yes_it_does.top
+include:no_it_does_not.top
+include:i_think_it_does.top
+include:i_think_it_does_not.top
+include:maybe.top
+
+concept:(no)[~noItDoesNot ~iThinkItDoesNot never]
+concept:(yes)[~yesItDoes ~iThinkItDoes always definitely ~maybe]
 
 u:(e:QuestionAsked) Does it go on a leash?
 
-u:(~yes) it goes on a leash $yes=1
-u:(~no) it does not go on a leash $no=1
+u:(~yes) ^rand["I want to take it on a walk" "I would walk it but it might pull me away"] $yes=1
+u:(~no) ^rand["okay" "right, okay" "got it" "interesting"] $no=1
 
-u:(["What was the question" "Can you repeat the question"]) $QuestionAsked="leash"
+u:(["What was the question" "Can you repeat the question" "repeat the question"]) $QuestionAsked="leash"

@@ -1,0 +1,13 @@
+topic: ~repeat()
+language: enu
+#concept for "repeat last thing said" requests
+
+concept:(again)[again "once more" "another time"]
+
+concept:(canYou)["can you" "could you"]
+
+concept:(that)[it that this]
+
+concept:(repeat)["repeat {~that}" "say {~that} ~again"]
+
+concept:(repeatLastThing)["{~canYou} ~repeat {please}" "~again {please}"]

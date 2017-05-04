@@ -1,11 +1,21 @@
 topic: ~carnivore()
 language: enu
-#include possible answers topic
-include:answers.top
+
+include:yes_it_does.top
+include:no_it_does_not.top
+include:i_think_it_does.top
+include:i_think_it_does_not.top
+include:maybe.top
+
+concept:(meat)[meat "{other} animals"]
+
+concept:(no)[~noItDoesNot iThinkItDoesNot never]
+concept:(yes)[~yesItDoes ~iThinkItDoes "they [can could]" always definitely ~maybe "all the time"]
 
 u:(e:QuestionAsked) ["Does it eat other animals?" "Does it eat meat?" "Is it a carnivore?"]
 
-u:(~yes) it is a carnivore $yes=1
-u:(~no) it is not a carnivore $no=1
+u:(~yes) ^rand["I hope it doesn't eat me" "oh no, it sounds scary"] $yes=1
+u:(~no) ^rand["It's a vegetarian, like me" "It's a vegetarian" "I don't eat animals either"] $no=1
 
-u:(["What was the question" "Can you repeat the question"]) $QuestionAsked="carnivore"
+u:(["What was the question" "Can you repeat the question" "repeat the question"]) $QuestionAsked="carnivore"
+

@@ -1,0 +1,18 @@
+topic: ~bigger_than_this()
+language: enu
+
+include:yes_it_is.top
+include:no_it_is_not.top
+include:i_think_it_is.top
+include:i_think_it_is_not.top
+include:maybe.top
+
+u:(e:QuestionAsked) Is it bigger than this?
+
+concept:(no)[~noItIsNot ~iThinkItIsNot never]
+concept:(yes)[~yesItIs ~iThinkItIs always definitely ~maybe]
+
+u:(~yes) ^rand["wow, I wonder if it's bigger than me" "hmm, so it's pretty big" "Don't let it step on me"] $yes=1
+u:(~no) ^rand["okay, it's only small" "it sounds cute"] $no=1
+
+u:(["What was the question" "Can you repeat the question" "repeat the question"]) $QuestionAsked="this"

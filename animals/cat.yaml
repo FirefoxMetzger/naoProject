@@ -1,17 +1,20 @@
 name: "cat"
 text: "Is it a cat?"
 answers:
-    live_in_house:  {"yes":2, "no":1}
-    carnivore:      {"yes":5, "no":1}
+    live_in_house:  {"yes":10, "no":1}
+    carnivore:      {"yes":100, "no":1}
     eggs_or_babies:  {"eggs":1, "babies":100}
-    fur:    {"yes":10, "no":1}
-    scales: {"yes":1, "no":10}
-    leash:  {"yes":1, "no":10}
-    horse:  {"yes":1, "no":10}
-    legs:  {"yes":10, "no":1}
-    fly:   {"yes":1, "no":10}
+    fur:    {"yes":100, "no":1}
+    scales: {"yes":1, "no":100}
+    leash:  {"yes":1, "no":100}
+    horse:  {"yes":1, "no":100}
+    legs:  {"yes":100, "no":1}
+    fly:   {"yes":1, "no":100}
     hard_body: {"yes":1, "no":10}
     region_of_living: {"village":1,"city":1,"wilds":1}
-    number_of_legs: {"two":1,"four":10,"eight":1,"none":1}
-
-    
+    number_of_legs: {"two":1,"four":100,"eight":1,"none":1}
+    stripes: {"yes": 2, "no": 1}
+    tail: {"yes": 100, "no": 1}
+    horns: {"yes": 1, "no": 100}
+    bigger_than_this: {"yes": 100, "no":30}
+    swim: {"yes": 1, "no": 10}

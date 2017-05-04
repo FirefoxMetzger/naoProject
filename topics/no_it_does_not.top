@@ -4,8 +4,6 @@ language: enu
 include:subject_pronouns.top
 #include yes/no variations
 include:yes_no.top
+include:does_not.top
 
-concept:(doNot)[don't "do not"]
-concept:(doesNot)["does not" doesn't]
-
-concept:(noItDoesNot)["{~na} they ~doNot" "{~na} ~it ~doesNot" ~na]
+concept:(noItDoesNot)["{~na} they ~doNot" "{~na} it ~doesNot" ~na]

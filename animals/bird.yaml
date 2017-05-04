@@ -1,15 +1,20 @@
 name: "bird"
 text: "Is it a bird?"
 answers:
-    live_in_house:  {"yes":1, "no":10}
-    carnivore:      {"yes":10, "no":5}
+    live_in_house:  {"yes":1, "no":100}
+    carnivore:      {"yes":10, "no":10}
     eggs_or_babies:  {"eggs":10, "babies":1}
-    fur:    {"yes":1, "no":2} #answers likely to be split on this
-    scales: {"yes":1, "no":10}
-    leash:  {"yes":1, "no":10}
-    horse:  {"yes":1, "no":10}
-    legs:  {"yes":10, "no":1}
-    fly:   {"yes":10, "no":1}
-    hard_body: {"yes":1, "no":10}
+    fur:    {"yes":1, "no":100} #answers likely to be split on this
+    scales: {"yes":1, "no":100}
+    leash:  {"yes":1, "no":100}
+    horse:  {"yes":1, "no":100}
+    legs:  {"yes":100, "no":1}
+    fly:   {"yes":100, "no":1}
+    hard_body: {"yes":1, "no":100}
     region_of_living: {"village":1,"city":1,"wilds":1}
     number_of_legs: {"two":10,"four":1,"eight":1,"none":1}
+    stripes: {"yes": 1, "no": 50}
+    tail: {"yes": 100, "no": 1}
+    horns: {"yes": 1, "no": 100}
+    bigger_than_this: {"yes": 20, "no":100}
+    swim: {"yes": 1, "no": 10}

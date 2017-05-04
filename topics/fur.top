@@ -1,11 +1,18 @@
 topic: ~fur()
 language: enu
-#include possible answers topic
-include:answers.top
+
+include:yes_it_does.top
+include:no_it_does_not.top
+include:i_think_it_does.top
+include:i_think_it_does_not.top
+include:maybe.top
+
+concept:(no)[~noItDoesNot ~iThinkItDoesNot never]
+concept:(yes)[~yesItDoes ~iThinkItDoes always definitely ~maybe]
 
 u:(e:QuestionAsked) Does it have fur?
 
-u:(~yes) it has  fur $yes=1
-u:(~no) it does not have fur $no=1
+u:(~yes) ^rand["I'd like to pet it" "it sounds cute" "It must be nice and warm"] $yes=1
+u:(~no) ^rand["The ugliest animals don't have fur, excluding humans of course" "So it's bald" "I hope it doesn't get cold in winter"] $no=1
 
-u:(["What was the question" "Can you repeat the question"]) $QuestionAsked="fur"
+u:(["What was the question" "Can you repeat the question" "repeat the question"]) $QuestionAsked="fur"

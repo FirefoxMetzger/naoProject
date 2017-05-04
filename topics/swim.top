@@ -1,0 +1,18 @@
+topic: ~swim()
+language: enu
+
+include:yes_it_does.top
+include:no_it_does_not.top
+include:i_think_it_does.top
+include:i_think_it_does_not.top
+include:maybe.top
+
+concept:(no)[~noItDoesNot ~iThinkItDoesNot never]
+concept:(yes)[~yesItDoes ~iThinkItDoes always definitely ~maybe]
+
+u:(e:QuestionAsked) ^rand["Does it swim?" " Can it swim?" "Does it like swimming?"]
+
+u:(~yes) ^rand["hmm, this animal is not like me then" "okay"] $yes=1
+u:(~no) ^rand["it prefers to be dry, like me" "interesting, i don't like swimming either"] $no=1
+
+u:(["What was the question" "Can you repeat the question" "repeat the question"]) $QuestionAsked="swim"

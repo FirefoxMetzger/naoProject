@@ -1,0 +1,7 @@
+text: "Does it swim?"
+labels: ['yes', 'no']
+topic: 
+- topics
+- swim.top
+topic_name: "swim"
+QID: swim

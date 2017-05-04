@@ -2,12 +2,10 @@ topic: ~i_think_it_does_not()
 language: enu
 #include subjects pronouns "I, he etc." topic
 include:subject_pronouns.top
-
-concept:(doNot)["do not" "don't"]
-concept:(doesNot)["does not" "doesn't"]
+include:does_not.top
 
 concept:(itDoesNot)["~it ~doesNot" "they ~doNot"]
 
-concept:(someoneThinks)["~I ~think" "~it thinks"]
+concept:(someoneThinks)["~I think" "~it thinks"]
 
-concept:(iThinkItDoesNot)["~someoneThinks {that} it ~doesNot" "~I ~doNot think ["it does" so]"]
+concept:(iThinkItDoesNot)["~someoneThinks {that} ~itDoesNot" "~I ~doNot think it does" "~I ~doNot think they do" "~I ~doNot think so"]

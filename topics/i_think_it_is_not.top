@@ -1,0 +1,15 @@
+topic: ~i_think_it_is_not()
+language: enu
+#include subjects pronouns "I, he etc." topic
+include:subject_pronouns.top
+
+concept:(doNot)["do not" "don't"]
+
+concept:(areNot)["are not" "aren't"]
+concept:(isNot)["is not" "isn't"]
+
+concept:(itIsNot)["~it ~isNot" "they ~areNot"]
+
+concept:(someoneThinks)["~I think" "~it thinks"]
+
+concept:(iThinkItIsNot)["~someoneThinks {that} ~itIsNot" "~I ~doNot think ["it is" "they are" so]"]

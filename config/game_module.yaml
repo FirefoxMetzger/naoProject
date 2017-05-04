@@ -21,6 +21,48 @@ animals:
   - spider.yaml
 - - animals
   - squirrel.yaml
+- - animals
+  - goat.yaml
+- - animals
+  - mouse.yaml
+- - animals
+  - lizzard.yaml
+- - animals
+  - tiger.yaml
+- - animals
+  - monkey.yaml
+- - animals
+  - bat.yaml
+- - animals
+  - lion.yaml
+- - animals
+  - elephant.yaml
+- - animals
+  - crocodile.yaml
+- - animals
+  - horse.yaml
+- - animals
+  - zebra.yaml
+- - animals
+  - fly.yaml
+- - animals
+  - bear.yaml
+- - animals
+  - shark.yaml
+- - animals
+  - jellyfish.yaml
+- - animals
+  - hippo.yaml
+- - animals
+  - panda.yaml
+- - animals
+  - frog.yaml
+- - animals
+  - giraffe.yaml
+- - animals
+  - rabbit.yaml
+- - animals
+  - snail.yaml
 confidence_for_certain: 0.95
 discard_propability: 0.05
 guess:
@@ -56,3 +98,13 @@ questions:
   - region_of_living.yaml
 - - questions
   - number_of_legs.yaml
+- - questions
+  - tail.yaml
+- - questions
+  - horns.yaml
+- - questions
+  - stripes.yaml
+- - questions
+  - bigger_than_this.yaml
+- - questions
+  - swim.yaml

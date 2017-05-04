@@ -1,0 +1,20 @@
+name: "frog"
+text: "Is it a frog"
+answers:
+    live_in_house:  {"yes":1, "no":100}
+    carnivore:      {"yes":100, "no":1}
+    eggs_or_babies:  {"eggs":100, "babies":1} #eggs on abdomen, release larvae when hatched, unlikely user will know
+    fur:    {"yes":1, "no":100} #answers likely to be split on this
+    scales: {"yes":1, "no":100}
+    leash:  {"yes":1, "no":100}
+    horse:  {"yes":1, "no":100}
+    legs:  {"yes":100, "no":1}
+    fly:   {"yes":1, "no":100}
+    hard_body: {"yes":1, "no":100} #crabs have soft bodies and hard shells, user answers may be split here
+    region_of_living: {"village":1,"city":1,"wilds":100}
+    number_of_legs: {"two":1,"four":100,"eight":1,"none":1}
+    stripes: {"yes": 1, "no": 2}
+    tail: {"yes": 1, "no": 100}
+    horns: {"yes": 1, "no": 100}
+    bigger_than_this: {"yes": 1, "no":100}
+    swim: {"yes": 100, "no": 1}

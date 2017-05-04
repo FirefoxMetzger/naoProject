@@ -1,9 +1,9 @@
 topic: ~guess ()
 language:enu
-#include possible answers topic
-include:answers.top
+include:yes_it_is.top
+include:no_it_is_not.top
 
-u:(~yes) $yes=1
-u:(~no) damn $no=1
+u:([~ye ~yesItIs]) $yes=1
+u:([~na ~noItIsNot]) damn $no=1
 
 u:(["What was the question" "Can you repeat the question"]) $QuestionAsked="guess"

@@ -19,7 +19,6 @@ class Animations(NaoModule):
         self.posture = self.handles["ALRobotPosture"]
         self.leds = self.handles["leds"]
         self.handles["ALMemory"].subscribeToEvent("QuestionAsked", self.name, "question_asked_cb")
-        self.handles["ALMemory"].subscribeToEvent("NewGame", self.name, "new_game_cb")
         self.handles["ALMemory"].subscribeToEvent("EndGame", self.name, "end_game_cb")
         self.handles["ALMemory"].subscribeToEvent("GameEvent", self.name, "game_event_cb")
 
@@ -29,18 +28,19 @@ class Animations(NaoModule):
         self.logger.debug("Animation callback executed.")
         if value == "fly":
             self.flap()
-        elif value == "how_big":
+        elif value == "this":
             self.this_big()
 
     def end_game_cb(self, event_name, value):
         """
         """
         if value == 0:
-            chance = random.randrange(0, 2)
-            if chance == 0:
-                self.face_palm()
-            elif chance == 1:
-                self.tantrum()
+            self.tantrum()
+            # chance = random.randrange(0, 2)
+            # if chance == 0:
+            #     self.face_palm()
+            # elif chance == 1:
+            #     self.tantrum()
         elif value == 1:
             chance = random.randrange(0, 2)
             if chance == 0:
@@ -48,16 +48,10 @@ class Animations(NaoModule):
             elif chance == 1:
                 self.arms_up()
 
-    def new_game_cb(self, event_name, value):
-        """
-        """
-        pass
-
     def game_event_cb(self, event_name, value):
         """
         """
-        if value != "guess":
-            print value
+        if value[0] != "guess":
             chance = random.randrange(0, 3)
             if chance == 0:
                 self.thinking_pose()

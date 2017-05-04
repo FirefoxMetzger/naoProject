@@ -58,9 +58,13 @@ def main(is_on_robot):
          GameModule("game_module", is_on_robot) as game_module,\
          ExperimentLogger("experiment_logger") as experiment_logger:
          
+        tts = ALProxy("ALTextToSpeech")
+        tts.say("Hello. My name is Palin. \\pau=400\\ If you want to play"+\
+            " a game say new game.\\pau=300\\ If you want to know what " +\
+            "other things I can do, say help.")
+         
         trigger_finger = ALProxy("ALMemory")
         trigger_finger.raiseEvent("emoBlink", 3000)
-        animations.wave()
         # keep brooker alive
         try:
             while True:

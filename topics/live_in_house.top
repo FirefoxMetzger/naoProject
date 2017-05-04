@@ -1,13 +1,20 @@
 topic: ~live_in_house ()
 language: enu
-#include possible answers topic
-include:answers.top
+
+include:repeat.top
+include:yes_it_does.top
+include:no_it_does_not.top
+include:i_think_it_does.top
+include:i_think_it_does_not.top
+include:maybe.top
+
+concept:(no)[~noItDoesNot ~iThinkItDoesNot never]
+concept:(yes)[~yesItDoes ~iThinkItDoes always definitely ~maybe]
+ 
+u:(~yes) ^rand["it better not be dangerous then" "i hope it doesn't replace me"] $yes=1
+u:(~no) ^rand["it sounds wild" ""] $no=1
 
 #ask the question
 u:(e:QuestionAsked) Does it live in a house?
 
-# catch the labels
-u:(~yes) It is living in a house. $yes=1
-u:(~no) It does not live in a house $no=1
-
-u:(["What was the question" "Can you repeat the question"]) $QuestionAsked="live_in_house"
+u:(["What was the question" "Can you repeat the question" "repeat the question"]) $QuestionAsked="live_in_house"

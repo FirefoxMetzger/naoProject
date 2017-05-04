@@ -1,0 +1,7 @@
+text: "Does it have stripes?"
+labels: ['yes', 'no']
+topic: 
+- topics
+- stripes.top
+topic_name: "stripes"
+QID: stripes

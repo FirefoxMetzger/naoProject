@@ -1,11 +1,18 @@
 topic: ~bigger_than_horse()
 language: enu
-#include possible answers topic
-include:answers.top
+
+include:yes_it_is.top
+include:no_it_is_not.top
+include:i_think_it_is.top
+include:i_think_it_is_not.top
+include:maybe.top
+
+concept:(no)[~noItIsNot ~iThinkItIsNot never]
+concept:(yes)[~yesItIs ~iThinkItIs always definitely ~maybe]
 
 u:(e:QuestionAsked) Is it bigger than a horse?
 
-u:(~yes) it is bigger than a horse $yes=1
-u:(~no) it is not bigger than a horse $no=1
+u:(~yes) ^rand["Wow, that is one big animal" "it must be gigantic"] $yes=1
+u:(~no) ^rand["okay" "okay, got it" "sure"] $no=1
 
-u:(["What was the question" "Can you repeat the question"]) $QuestionAsked="horse"
+u:(["What was the question" "Can you repeat the question" "repeat the question"]) $QuestionAsked="horse"

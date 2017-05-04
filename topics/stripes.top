@@ -1,0 +1,18 @@
+topic: ~stripes()
+language: enu
+
+include:yes_it_does.top
+include:no_it_does_not.top
+include:i_think_it_does.top
+include:i_think_it_does_not.top
+include:maybe.top
+
+concept:(no)[~noItDoesNot ~iThinkItDoesNot never]
+concept:(yes)[~yesItDoes ~iThinkItDoes always definitely ~maybe]
+
+u:(e:QuestionAsked) ["Does it have stripes, like a tiger?" "Does it have stripes?"]
+
+u:(~yes) ^rand["stripes are pretty" "i wonder if stripes make it go faster"] $yes=1
+u:(~no) ^rand["okay" "hmm, I'm still not sure what it is"] $no=1
+
+u:(["What was the question" "Can you repeat the question" "repeat the question"]) $QuestionAsked="stripes"

@@ -1,0 +1,6 @@
+topic: ~yes_it_is()
+language: enu
+#include yes/no variations
+include:yes_no.top
+
+concept:(yesItIs)["they are" "~ye they are" "it is" "~ye it is" ~ye]

@@ -37,8 +37,8 @@ u:(e:timerUp) ^rand[    "The timer has finished. It was $timerUp seconds long."
                         "My subsecond timers are not very accurate, but here you go. The time is up. $timerHours==0 $timerMinutes==0 $timerSeconds<1"]
 
 # basic requirements                        
-u:(What's the time) time $sayTime=1
-u:(What's the date) date $sayDate=1
+u:(What's the time) I will check. \pau=500\ $sayTime=1
+u:(What's the date) Give me a second \pau=500\ $sayDate=1
 
 # easter eggs
 u:(shut up) Come on!.. You humans keep babbling for hours, yet I never complain.

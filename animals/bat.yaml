@@ -1,0 +1,20 @@
+name: "bat"
+text: "Is it a bat?"
+answers:
+    live_in_house:  {"yes":1, "no":100}
+    carnivore:      {"yes":100, "no":1}
+    eggs_or_babies:  {"eggs":10, "babies":100}
+    fur:    {"yes":100, "no":1} #answers likely to be split on this
+    scales: {"yes":1, "no":100}
+    leash:  {"yes":1, "no":100}
+    horse:  {"yes":1, "no":100}
+    legs:  {"yes":100, "no":1}
+    fly:   {"yes":100, "no":1}
+    hard_body: {"yes":1, "no":100}
+    region_of_living: {"village":5,"city":1,"wilds":100}
+    number_of_legs: {"two":100,"four":1,"eight":1,"none":1}
+    stripes: {"yes": 1, "no": 100}
+    tail: {"yes": 1, "no": 1}
+    horns: {"yes": 1, "no": 100}
+    bigger_than_this: {"yes": 1, "no":100}
+    swim: {"yes": 1, "no": 100}

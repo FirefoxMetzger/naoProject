@@ -1,0 +1,5 @@
+topic: ~does_not()
+language: enu
+
+concept:(doNot)["do not" "don't"]
+concept:(doesNot)["does not" "doesn't"]

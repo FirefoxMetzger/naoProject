@@ -1,11 +1,17 @@
 topic: ~fly()
 language: enu
-#include possible answers topic
-include:answers.top
+include:yes_it_does.top
+include:no_it_does_not.top
+include:i_think_it_does.top
+include:i_think_it_does_not.top
+include:maybe.top
 
-u:(e:QuestionAsked) ["Does it fly?" "Can it fly?" "Is it able to fly?"]
+concept:(no)[~noItDoesNot ~iThinkItDoesNot never]
+concept:(yes)[~yesItDoes ~iThinkItDoes always definitely ~maybe]
 
-u:(~yes) it can fly $yes=1
-u:(~no) it cannot fly $no=1
+u:(e:QuestionAsked) ^rand["Does it fly?" "Can it fly?" "Is it able to fly?"]
 
-u:(["What was the question" "Can you repeat the question"]) $QuestionAsked="fly"
+u:(~yes) ^rand["I wish I could fly too" "I'd like to fly too" "The only way I will fly is if I fall off a table" "I can't fly, I fall with style"] $yes=1
+u:(~no) ^rand["okay" "I wonder how it gets around"] $no=1
+
+u:(["What was the question" "Can you repeat the question" "repeat the question"]) $QuestionAsked="fly"

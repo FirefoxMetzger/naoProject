@@ -1,15 +1,19 @@
 topic: ~eggs_or_babies()
 language: enu
-#include possible answers topic
-include:answers.top
 
-#uses ~not concept from general_concepts
-concept:(eggs)["!"~not" eggs" "first one" "~not * babies"]
-concept:(babies)["!"~not" babies" "~not eggs" "second one"]
+include:yes_it_does.top
+include:no_it_does_not.top
+include:i_think_it_does.top
+include:i_think_it_does_not.top
+include:maybe.top
 
-u:(e:QuestionAsked) Does it lay eggs\pau=300\ or does it give birth?
+concept:(no)[~noItDoesNot ~iThinkItDoesNot never]
+concept:(yes)[~yesItDoes ~iThinkItDoes always definitely ~maybe]
 
-u:([~eggs ~yes]) it lays eggs $eggs=1
-u:([~babies ~no "{"it gives"} birth"]) it does not lay eggs $babies=1
+u:(~yes) ^rand["I like my eggs sunnny side up" "eggs are tasty" "the best eggs are cream eggs" "that narrows it down"] $eggs=1
+u:(~no) ^rand["okay" "I'm still not sure what it is"] $babies=1
 
-u:(["What was the question" "Can you repeat the question"]) $QuestionAsked="eggs_or_babies"
+u:(e:QuestionAsked) Does it lay eggs\pau=300\?
+
+u:(["What was the question" "Can you repeat the question" "repeat the question"]) $QuestionAsked="eggs_or_babies"
+

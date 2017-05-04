@@ -1,5 +1,5 @@
 topic: ~yes_no()
 language: enu
 
-concept:(ye)[ye yes yeh ya yup yep]
-concept:(na)[no na nah neh nuh nope]
+concept:(ye)[yes yeh ya yup yep]
+concept:(na)[no nah neh nuh nope]

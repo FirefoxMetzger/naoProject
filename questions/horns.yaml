@@ -1,0 +1,7 @@
+text: "Does it have horns?"
+labels: ['yes', 'no']
+topic: 
+- topics
+- horns.top
+topic_name: "horns"
+QID: horns

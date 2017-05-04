@@ -1,0 +1,20 @@
+name: "fly"
+text: "Is it a fly?"
+answers:
+    live_in_house:  {"yes":50, "no":50}
+    carnivore:      {"yes":1, "no":100}
+    eggs_or_babies:  {"eggs":100, "babies":1}
+    fur:    {"yes":1, "no":100} #answers likely to be split on this
+    scales: {"yes":1, "no":10}
+    leash:  {"yes":1, "no":100}
+    horse:  {"yes":1, "no":100}
+    legs:  {"yes":100, "no":1}
+    fly:   {"yes":1, "no":100}
+    hard_body: {"yes":10, "no":1}
+    region_of_living: {"village":1,"city":1,"wilds":1}
+    number_of_legs: {"two":1,"four":1,"eight":20,"none":100}
+    stripes: {"yes": 1, "no": 100}
+    tail: {"yes": 1, "no": 100}
+    horns: {"yes": 1, "no": 100}
+    bigger_than_this: {"yes": 1, "no":100}
+    swim: {"yes": 1, "no": 100}

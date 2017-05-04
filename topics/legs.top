@@ -1,21 +1,19 @@
 topic: ~legs()
 language: enu
-#include possible answers topic
-include:general_concepts.top
+
 include:yes_it_does.top
 include:no_it_does_not.top
 include:i_think_it_does.top
 include:i_think_it_does_not.top
+include:maybe.top
 
-concept:(hasLegs)["[~yesItDoes ~iThinkItDoes] {have legs}"]
-#concept:(doesNotHaveLegs)["[~noItDoesNot ~iThinkItDoesNot] {"have legs"}"]
+concept:(no)[~noItDoesNot ~iThinkItDoesNot never]
+concept:(yes)[~yesItDoes ~iThinkItDoes always definitely ~maybe]
 
 u:(e:QuestionAsked) Does it have legs?
 
-#u:(~hasLegs) it has legs $yes=1
-#u:(~doesNotHaveLegs) it does not have legs $no=1
+u:(~yes) ^rand["okay, so it can walk" "okay" "legs are my favourite form of transport"] $yes=1
+u:(~no) ^rand["I wonder how it gets around" "okay" "this animal sounds interesting"] $no=1
 
-u:(~yes) it has legs $yes=1
-u:(~no) it does not have legs $no=1
+u:(["What was the question" "Can you repeat the question" "repeat the question"]) $QuestionAsked="legs"
 
-u:(["What was the question" "Can you repeat the question"]) $QuestionAsked="legs"

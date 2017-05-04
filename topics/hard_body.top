@@ -1,11 +1,18 @@
 topic: ~hard_body()
 language: enu
-#include possible answers topic
-include:answers.top
+
+include:yes_it_does.top
+include:no_it_does_not.top
+include:i_think_it_does.top
+include:i_think_it_does_not.top
+include:maybe.top
+
+concept:(no)[~noItDoesNot ~iThinkItDoesNot never]
+concept:(yes)[~yesItDoes ~iThinkItDoes always definitely ~maybe]
 
 u:(e:QuestionAsked) Does it have a hard body like a crab or insect?
 
-u:(~yes) it has a hard body $yes=1
-u:(~no) it does not have a hard body $no=1
+u:(~yes) ^rand["I have a hard body too" "okay"] $yes=1
+u:(~no) ^rand["hmm, this isn't easy" "okay" "got it"] $no=1
 
-u:(["What was the question" "Can you repeat the question"]) $QuestionAsked="hard_body"
+u:(["What was the question" "Can you repeat the question" "repeat the question"]) $QuestionAsked="hard_body"

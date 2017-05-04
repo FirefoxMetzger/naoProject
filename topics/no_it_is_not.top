@@ -1,0 +1,11 @@
+topic: ~no_it_is_not()
+language: enu
+#include subjects pronouns "I, he etc." topic
+include:subject_pronouns.top
+#include yes/no variations
+include:yes_no.top
+
+concept:(isNot)[isn't "is not"]
+concept:(areNot)["are not" aren't]
+
+concept:(noItIsNot)["{~na} they ~areNot {~na}" "{~na} ~it ~isNot {~na}" ~na]

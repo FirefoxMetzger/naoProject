@@ -1,0 +1,18 @@
+topic: ~tail()
+language: enu
+
+include:yes_it_does.top
+include:no_it_does_not.top
+include:i_think_it_does.top
+include:i_think_it_does_not.top
+include:maybe.top
+
+u:(e:QuestionAsked) ["Does it have a tail?"]
+
+concept:(no)[~noItDoesNot ~iThinkItDoesNot never]
+concept:(yes)[~yesItDoes ~iThinkItDoes always definitely ~maybe]
+
+u:(~yes) ^rand["hmm, I wish I had a tail" "tails are funny" "I like tails" "tails are useful"] $yes=1
+u:(~no) ^rand["oh, no tail, okay" "oh, no tail, it's like me" "that narrows it down"] $no=1
+
+u:(["What was the question" "Can you repeat the question" "repeat the question"]) $QuestionAsked="tail"

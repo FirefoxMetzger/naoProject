@@ -10,7 +10,7 @@ It was deeloped by
 * Samuel Westlake
 * Michael Joannou
 
-# Installation
+## Installation
 1) Download the repository
 
     git clone https://github.com/FirefoxMetzger/naoProject.git
@@ -21,7 +21,10 @@ It was deeloped by
     
 3) copy the topic files onto the robot (preferred destination: /home/nao/naoProject)
 
-Brief Overview of the project:
+## License:
+At the moment, this code is copyrighted by us. Simply, because it is still being marked by the Uni. Once that is done licence will change to some open source license.
+
+## Brief Overview:
 
 - analysis -- code used to do the study
 - animals -- animals known to the game and their answer distribution
